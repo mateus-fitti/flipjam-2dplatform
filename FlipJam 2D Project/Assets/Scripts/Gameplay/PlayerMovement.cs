@@ -72,7 +72,7 @@ public class PlayerMovement : MonoBehaviour
 	[Range(0.01f, 0.5f)] public float jumpInputBufferTime; //Grace period after pressing jump where a jump will be automatically performed once the requirements (eg. being grounded) are met.
 
 	[Header("Weights")]
-	[Range(0f, 1f)] public float weightModifier; //Weight modifier value
+	[Range(0.01f, 1f)] public float weightModifier; //Weight modifier value
 
 	#region Variables
 	//Components

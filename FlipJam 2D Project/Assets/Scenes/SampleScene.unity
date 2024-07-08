@@ -709,7 +709,7 @@ MonoBehaviour:
   slideAccel: 0.8
   coyoteTime: 0.15
   jumpInputBufferTime: 0.15
-  weightValue: 0
+  weightModifier: 0.6
   canMove: 1
   _groundCheckPoint: {fileID: 1897994791}
   _groundCheckSize: {x: 0.49, y: 0.03}

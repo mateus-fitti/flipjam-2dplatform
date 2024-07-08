@@ -44,6 +44,7 @@ public class CharacterItemInteractions : MonoBehaviour
         if (holdingItem)
         {
             item.transform.position = transform.position;
+            item.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 
             if(Input.GetButtonDown("Fire1"))
             {
