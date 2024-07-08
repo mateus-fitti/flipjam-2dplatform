@@ -12,8 +12,6 @@ public class CharacterItemInteractions : MonoBehaviour
     GameObject item;
     CharacterMovement charMovement;
 
-    [SerializeField] private Transform projectilePrefab;
-    [SerializeField] private Transform spawPoint;
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private float launchForce = 1.5f;
     [SerializeField] private float trajactoryTimeStep = 0.05f;
@@ -35,7 +33,7 @@ public class CharacterItemInteractions : MonoBehaviour
             {
                 PickItem();
             } else {
-                ReleaseItem();
+                ReleaseItem(Vector2.zero);
             }
         }
 
@@ -47,8 +45,6 @@ public class CharacterItemInteractions : MonoBehaviour
             {
                 charMovement.canMove = false;
                 startPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                
-                
             }
 
             if(Input.GetButton("Fire1"))
@@ -63,7 +59,6 @@ public class CharacterItemInteractions : MonoBehaviour
             {
                 charMovement.canMove = true;
                 FireProjectile();
-                DeleteItem();
                 ClearTrajectory();
             }
         }
@@ -81,11 +76,13 @@ public class CharacterItemInteractions : MonoBehaviour
         }
     }
 
-    void ReleaseItem()
+    // Solta o item com a velocidade do parametro, que precisa alterar o Y da velocidade do item para evitar a aceleracao continua da gravidade
+    void ReleaseItem(Vector2 itemVelocity)
     {
+        holdingItem = false;
+        item.GetComponent<Rigidbody2D>().velocity = itemVelocity;
         charMovement.DefaultMovement();
         item = null;
-        holdingItem = false;
     }
 
     void DeleteItem()
@@ -103,7 +100,7 @@ public class CharacterItemInteractions : MonoBehaviour
         for (int i = 0; i < trajactoryStepCount;i++)
         {
             float t = i * trajactoryTimeStep;
-            Vector3 pos = (Vector2)spawPoint.position + velocity * t + 0.5f * Physics2D.gravity * t * t;
+            Vector3 pos = (Vector2)item.transform.position + velocity * t + 0.5f * Physics2D.gravity * t * t;
 
             positions[i] = pos;
         }
@@ -118,7 +115,11 @@ public class CharacterItemInteractions : MonoBehaviour
     }
     void FireProjectile()
     {
-        Transform pr = Instantiate(projectilePrefab, spawPoint.position, Quaternion.identity);
-        pr.GetComponent<Rigidbody2D>().velocity = velocity;
+        Rigidbody2D rg = item.GetComponent<Rigidbody2D>();
+        //rg.velocity = Vector2.zero;
+        //rg.AddForce(velocity, ForceMode2D.Impulse);
+        rg.velocity = velocity;
+
+        ReleaseItem(rg.velocity);
     }
 }

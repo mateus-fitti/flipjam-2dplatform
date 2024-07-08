@@ -572,8 +572,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   holdingItem: 0
-  projectilePrefab: {fileID: 1957961243}
-  spawPoint: {fileID: 599684317}
   lineRenderer: {fileID: 548211152}
   launchForce: 1.5
   trajactoryTimeStep: 0.05
