@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,6 +27,11 @@ public class CharacterMovement : MonoBehaviour
     
     [SerializeField] private float weightValue = .5f;
 
+    [SerializeField] private float gravityScale = 10;
+    [SerializeField] private float fallingGravityScale = 40;
+
+    public Boolean canMove = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,8 +43,11 @@ public class CharacterMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (canMove)
+        {
         MovementHorizontal();
         Jump();
+        }
     }
 
     void MovementHorizontal()
@@ -92,16 +101,12 @@ public class CharacterMovement : MonoBehaviour
 
             if (jumpBufferCounter > 0f && (isGrounded || hangCounter > 0f))
             {
-                rig2D.velocity = new Vector2(rig2D.velocity.x, jumpForce);
+                rig2D.velocity = new Vector2(rig2D.velocity.y, jumpForce);
                 jumpBufferCounter = 0f;
-                if (!isGrounded)
-                {
-                    canDoubleJump = false; // Allow double jump after the initial jump
-                }
             }
             else if (Input.GetButtonDown("Jump") && !isGrounded && canDoubleJump)
             {
-                rig2D.velocity = new Vector2(rig2D.velocity.x, jumpForce);
+                rig2D.velocity = new Vector2(rig2D.velocity.y, jumpForce);
                 canDoubleJump = false; // Disable double jump after using it
             }
 
@@ -110,6 +115,16 @@ public class CharacterMovement : MonoBehaviour
                 Vector2 slowFall = new Vector2(rig2D.velocity.x, rig2D.velocity.y * .5f);
                 rig2D.velocity = slowFall;
             }
+
+            if(rig2D.velocity.y >= 0)
+            {
+                rig2D.gravityScale = gravityScale;
+            }else if(rig2D.velocity.y < 0)
+            {
+                rig2D.gravityScale = fallingGravityScale;
+            }
+
+
         }
     }
 
