@@ -10,7 +10,7 @@ public class CharacterItemInteractions : MonoBehaviour
     [SerializeField] private LayerMask itemLayer;
     public bool holdingItem = false;
     GameObject item;
-    CharacterMovement charMovement;
+    PlayerMovement charMovement;
 
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private float launchForce = 1.5f;
@@ -18,10 +18,14 @@ public class CharacterItemInteractions : MonoBehaviour
     [SerializeField] private int trajactoryStepCount = 15;
     Vector2 velocity, startPosition, currentPosition;
 
+    void Awake()
+    {
+        charMovement = GetComponent<PlayerMovement>();
+    }
     // Start is called before the first frame update
     void Start()
     {
-        charMovement = GetComponent<CharacterMovement>();
+        
     }
 
     // Update is called once per frame
@@ -57,9 +61,7 @@ public class CharacterItemInteractions : MonoBehaviour
 
             if(Input.GetButtonUp("Fire1"))
             {
-                charMovement.canMove = true;
                 FireProjectile();
-                ClearTrajectory();
             }
         }
     }
@@ -79,20 +81,22 @@ public class CharacterItemInteractions : MonoBehaviour
     // Solta o item com a velocidade do parametro, que precisa alterar o Y da velocidade do item para evitar a aceleracao continua da gravidade
     void ReleaseItem(Vector2 itemVelocity)
     {
+        charMovement.canMove = true;
         holdingItem = false;
         item.GetComponent<Rigidbody2D>().velocity = itemVelocity;
         charMovement.DefaultMovement();
         item = null;
+        ClearTrajectory();
     }
 
-    void DeleteItem()
-    {
-        if(item != null)
-        {
-            Destroy(item);
-            holdingItem = false;
-        }
-    }
+    // void DeleteItem()
+    // {
+    //     if(item != null)
+    //     {
+    //         Destroy(item);
+    //         holdingItem = false;
+    //     }
+    // }
 
     void DrawTrajectory()
     {
@@ -116,9 +120,9 @@ public class CharacterItemInteractions : MonoBehaviour
     void FireProjectile()
     {
         Rigidbody2D rg = item.GetComponent<Rigidbody2D>();
-        //rg.velocity = Vector2.zero;
-        //rg.AddForce(velocity, ForceMode2D.Impulse);
-        rg.velocity = velocity;
+        rg.velocity = Vector2.zero;
+        rg.AddForce(velocity, ForceMode2D.Impulse);
+        //rg.velocity = velocity;
 
         ReleaseItem(rg.velocity);
     }
