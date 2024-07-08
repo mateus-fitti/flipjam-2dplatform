@@ -4,39 +4,71 @@ using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
 {
-    public float speed = 5;
-    public float jumpForce = 5;
-    public float dashSpeed = 20f;
-    public float dashTime = 0.2f;
+    [SerializeField] private float defaultSpeed = 5;
+    private float speed;
+    [SerializeField] private float defaultJumpForce = 5;
+    private float jumpForce;
+    [SerializeField] private float dashSpeed = 20f;
+    [SerializeField] private float dashTime = 0.2f;
     private bool canDoubleJump = true;
     private bool isDashing = false;
     private float dashTimeLeft;
 
     Rigidbody2D rig2D;
-    public Transform groundCheckPoint;
-    public LayerMask groundLayer;
+    [SerializeField] private Transform groundCheckPoint;
+    [SerializeField] private LayerMask groundLayer;
     bool isGrounded = false;
 
-    public float hangTime = .3f;
+    [SerializeField] private float hangTime = .3f;
     float hangCounter = 0f;
-    public float jumpBufferLength = .3f;
+    [SerializeField] private float jumpBufferLength = .3f;
     float jumpBufferCounter = 0f;
+    
+    [SerializeField] private float weightValue = .5f;
 
     // Start is called before the first frame update
     void Start()
     {
         rig2D = GetComponent<Rigidbody2D>();
+
+        DefaultMovement();
     }
 
     // Update is called once per frame
     void Update()
     {
+        MovementHorizontal();
+        Jump();
+    }
+
+    void MovementHorizontal()
+    {
         if (!isDashing)
         {
             float horizontal = Input.GetAxisRaw("Horizontal");
+
             Vector2 movement = new Vector2(horizontal * speed, rig2D.velocity.y);
             rig2D.velocity = movement;
 
+            if (Input.GetButtonDown("Dash"))
+            {
+                isDashing = true;
+                dashTimeLeft = dashTime;
+                rig2D.velocity = new Vector2(horizontal * dashSpeed, rig2D.velocity.y);
+            }
+        } else {
+            dashTimeLeft -= Time.deltaTime;
+            if (dashTimeLeft <= 0)
+            {
+                isDashing = false;
+            }
+        }
+    }
+
+    void Jump()
+    {
+        if (!isDashing)
+        {
             isGrounded = Physics2D.Raycast(groundCheckPoint.position, Vector2.down, .1f, groundLayer);
 
             if (isGrounded)
@@ -78,21 +110,18 @@ public class CharacterMovement : MonoBehaviour
                 Vector2 slowFall = new Vector2(rig2D.velocity.x, rig2D.velocity.y * .5f);
                 rig2D.velocity = slowFall;
             }
+        }
+    }
 
-            if (Input.GetButtonDown("Dash"))
-            {
-                isDashing = true;
-                dashTimeLeft = dashTime;
-                rig2D.velocity = new Vector2(horizontal * dashSpeed, rig2D.velocity.y);
-            }
-        }
-        else
-        {
-            dashTimeLeft -= Time.deltaTime;
-            if (dashTimeLeft <= 0)
-            {
-                isDashing = false;
-            }
-        }
+    public void HeavyMovement()
+    {
+        speed *= weightValue;
+        jumpForce *= weightValue;
+    }
+
+    public void DefaultMovement()
+    {
+        speed = defaultSpeed;
+        jumpForce = defaultJumpForce;
     }
 }
