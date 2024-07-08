@@ -413,6 +413,7 @@ MonoBehaviour:
   weightValue: 0.8
   gravityScale: 2.5
   fallingGravityScale: 7.5
+  canMove: 1
 --- !u!61 &548211147
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -473,7 +474,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 2.5
   m_Material: {fileID: 6200000, guid: cd3e0bc51d9b47f4bae15f5976600ce3, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
@@ -573,7 +574,7 @@ MonoBehaviour:
   holdingItem: 0
   projectilePrefab: {fileID: 1957961243}
   spawPoint: {fileID: 599684317}
-  lineRenderer: {fileID: 0}
+  lineRenderer: {fileID: 548211152}
   launchForce: 1.5
   trajactoryTimeStep: 0.05
   trajactoryStepCount: 15
@@ -598,7 +599,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -630,19 +631,28 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 0.23333168
         inSlope: 0
         outSlope: 0
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.9956012
+        value: 0.045834072
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 0.4254004, b: 0.39811313, a: 1}
+      key0: {r: 1, g: 0.7803922, b: 0, a: 1}
       key1: {r: 1, g: 1, b: 1, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
