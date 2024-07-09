@@ -721,7 +721,7 @@ MonoBehaviour:
   _wallCheckSize: {x: 0.5, y: 1}
   _groundLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 320
 --- !u!1 &599684316
 GameObject:
   m_ObjectHideFlags: 0
@@ -965,7 +965,7 @@ GameObject:
   - component: {fileID: 1024036784}
   - component: {fileID: 1024036783}
   - component: {fileID: 1024036782}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Platform (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1355,7 +1355,7 @@ GameObject:
   - component: {fileID: 1225839491}
   - component: {fileID: 1225839490}
   - component: {fileID: 1225839489}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Platform (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1875,7 +1875,7 @@ GameObject:
   - component: {fileID: 1549348470}
   - component: {fileID: 1549348469}
   - component: {fileID: 1549348468}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Platform (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

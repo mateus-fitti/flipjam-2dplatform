@@ -6,14 +6,15 @@
 	Feel free to use this in your own games, and I'd love to see anything you make!
  */
 
+using System.Collections;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Gravity")]
+	[Header("Gravity")]
 	[HideInInspector] public float gravityStrength; //Downwards force (gravity) needed for the desired jumpHeight and jumpTimeToApex.
 	[HideInInspector] public float gravityScale; //Strength of the player's gravity as a multiplier of gravity (set in ProjectSettings/Physics2D).
-										  //Also the value the player's rigidbody2D.gravityScale is set to.
+												 //Also the value the player's rigidbody2D.gravityScale is set to.
 	[Space(5)]
 	public float fallGravityMult; //Multiplier to the player's gravityScale when falling.
 	public float maxFallSpeed; //Maximum fall speed (terminal velocity) of the player when falling.
@@ -21,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
 	public float fastFallGravityMult; //Larger multiplier to the player's gravityScale when they are falling and a downwards input is pressed.
 									  //Seen in games such as Celeste, lets the player fall extra fast if they wish.
 	public float maxFastFallSpeed; //Maximum fall speed(terminal velocity) of the player when performing a faster fall.
-	
+
 	[Space(20)]
 
 	[Header("Run")]
@@ -41,21 +42,20 @@ public class PlayerMovement : MonoBehaviour
 
 	[Header("Jump")]
 	public float jumpHeight; //Height of the player's jump
-	public float jumpForce; //The actual force applied (upwards) to the player when they jump.
-	public float deafaultJumpForce; //Default force applied (upwards) to the player when they jump.
+	public float deafaultJumpHeight; //Default Height of the player's jump
 	public float jumpTimeToApex; //Time between applying the jump force and reaching the desired jump height. These values also control the player's gravity and jump force.
+	[HideInInspector] public float jumpForce; //The actual force applied (upwards) to the player when they jump.
 
 	[Header("Both Jumps")]
 	public float jumpCutGravityMult; //Multiplier to increase gravity if the player releases thje jump button while still jumping
 	[Range(0f, 1)] public float jumpHangGravityMult; //Reduces gravity while close to the apex (desired max height) of the jump
 	public float jumpHangTimeThreshold; //Speeds (close to 0) where the player will experience extra "jump hang". The player's velocity.y is closest to 0 at the jump's apex (think of the gradient of a parabola or quadratic function)
 	[Space(0.5f)]
-	public float jumpHangAccelerationMult; 
-	public float jumpHangMaxSpeedMult; 				
+	public float jumpHangAccelerationMult;
+	public float jumpHangMaxSpeedMult;
 
 	[Header("Wall Jump")]
 	public Vector2 wallJumpForce; //The actual force (this time set by us) applied to the player when wall jumping.
-	public Vector2 deafaultWallJumpForce; // The deafault force applied to the player when wall jumping.
 	[Space(5)]
 	[Range(0f, 1f)] public float wallJumpRunLerp; //Reduces the effect of player's movement while wall jumping.
 	[Range(0f, 1.5f)] public float wallJumpTime; //Time after wall jumping the player's movement is slowed for.
@@ -65,10 +65,9 @@ public class PlayerMovement : MonoBehaviour
 
 	[Header("Slide")]
 	public float slideSpeed;
-	public float deafaultSlideSpeed;
 	public float slideAccel;
 
-    [Header("Assists")]
+	[Header("Assists")]
 	[Range(0.01f, 0.5f)] public float coyoteTime; //Grace period after falling off a platform, where you can still jump
 	[Range(0.01f, 0.5f)] public float jumpInputBufferTime; //Grace period after pressing jump where a jump will be automatically performed once the requirements (eg. being grounded) are met.
 
@@ -77,8 +76,10 @@ public class PlayerMovement : MonoBehaviour
 
 	#region Variables
 	//Components
-    public Rigidbody2D RB { get; private set; }
+	public Rigidbody2D RB { get; private set; }
 
+	private Animator animator;
+	public bool isCrouching = false;
 	//Variables control the various actions the player can perform at any time.
 	//These are fields which can are public allowing for other sctipts to read them
 	//but can only be privately written to.
@@ -108,7 +109,7 @@ public class PlayerMovement : MonoBehaviour
 	public float LastPressedJumpTime { get; private set; }
 
 	//Set all of these up in the inspector
-	[Header("Checks")] 
+	[Header("Checks")]
 	[SerializeField] private Transform _groundCheckPoint;
 	//Size of groundCheck depends on the size of your character generally you want them slightly small than width (for ground) and height (for the wall check)
 	[SerializeField] private Vector2 _groundCheckSize = new Vector2(0.49f, 0.03f);
@@ -117,13 +118,14 @@ public class PlayerMovement : MonoBehaviour
 	[SerializeField] private Transform _backWallCheckPoint;
 	[SerializeField] private Vector2 _wallCheckSize = new Vector2(0.5f, 1f);
 
-    [Header("Layers & Tags")]
+	[Header("Layers & Tags")]
 	[SerializeField] private LayerMask _groundLayer;
 	#endregion
 
-    private void Awake()
+	private void Awake()
 	{
 		RB = GetComponent<Rigidbody2D>();
+		animator = GetComponent<Animator>();
 	}
 
 	private void Start()
@@ -131,16 +133,14 @@ public class PlayerMovement : MonoBehaviour
 		SetGravityScale(gravityScale);
 		IsFacingRight = true;
 
-		deafaultJumpForce = jumpForce;
+		deafaultJumpHeight = jumpHeight;
 		deafaultMaxSpeed = runMaxSpeed;
-		deafaultWallJumpForce = wallJumpForce;
-		deafaultSlideSpeed = slideSpeed;
 	}
 
 	private void Update()
 	{
-        #region TIMERS
-        LastOnGroundTime -= Time.deltaTime;
+		#region TIMERS
+		LastOnGroundTime -= Time.deltaTime;
 		LastOnWallTime -= Time.deltaTime;
 		LastOnWallRightTime -= Time.deltaTime;
 		LastOnWallLeftTime -= Time.deltaTime;
@@ -151,25 +151,43 @@ public class PlayerMovement : MonoBehaviour
 		#region INPUT HANDLER
 		_moveInput.x = 0;
 		_moveInput.y = 0;
-
-		if(canMove)
+		if (canMove)
 		{
 			_moveInput.x = Input.GetAxisRaw("Horizontal");
 			_moveInput.y = Input.GetAxisRaw("Vertical");
-
 			if (_moveInput.x != 0)
 				CheckDirectionToFace(_moveInput.x > 0);
-
-			if(Input.GetKeyDown(KeyCode.Space))
+			if (!isCrouching && Input.GetKeyDown(KeyCode.Space))
 			{
 				OnJumpInput();
 			}
-
 			if (Input.GetKeyUp(KeyCode.Space))
 			{
 				OnJumpUpInput();
 			}
+			if (Input.GetKeyDown(KeyCode.S))
+			{
+				HeavyMovement();
+				isCrouching = true;
+				animator.SetBool("IsCrouching", isCrouching);
+			}
+			else if (Input.GetKeyUp(KeyCode.S))
+			{
+				DefaultMovement();
+				isCrouching = false;
+				animator.SetBool("IsCrouching", isCrouching);
+			}
+
+			// Adjust collision ignoring based on crouching and pressing space
+			int platformLayer = LayerMask.NameToLayer("Platform");
+			int playerLayer = gameObject.layer;
+			if (isCrouching && Input.GetKey(KeyCode.Space))
+			{
+				Physics2D.IgnoreLayerCollision(playerLayer, platformLayer, true);
+				StartCoroutine(ReactivateCollisionAfterDelay(0.5f));
+			}
 		}
+
 		#endregion
 
 		#region COLLISION CHECKS
@@ -179,7 +197,7 @@ public class PlayerMovement : MonoBehaviour
 			if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer) && !IsJumping) //checks if set box overlaps with ground
 			{
 				LastOnGroundTime = coyoteTime; //if so sets the lastGrounded to coyoteTime
-            }		
+			}
 
 			//Right Wall Check
 			if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)
@@ -194,6 +212,21 @@ public class PlayerMovement : MonoBehaviour
 			//Two checks needed for both left and right walls since whenever the play turns the wall checkPoints swap sides
 			LastOnWallTime = Mathf.Max(LastOnWallLeftTime, LastOnWallRightTime);
 		}
+
+
+		IEnumerator ReactivateCollisionAfterDelay(float delay)
+		{
+			yield return new WaitForSeconds(delay);
+
+			// Assuming the platform layer is named "platform"
+			int platformLayer = LayerMask.NameToLayer("Platform");
+			int playerLayer = gameObject.layer;
+
+			// Reactivate collisions between the player layer and the platform layer
+			Physics2D.IgnoreLayerCollision(playerLayer, platformLayer, false);
+		}
+
+
 		#endregion
 
 		#region JUMP CHECKS
@@ -201,7 +234,7 @@ public class PlayerMovement : MonoBehaviour
 		{
 			IsJumping = false;
 
-			if(!IsWallJumping)
+			if (!IsWallJumping)
 				_isJumpFalling = true;
 		}
 
@@ -211,10 +244,10 @@ public class PlayerMovement : MonoBehaviour
 		}
 
 		if (LastOnGroundTime > 0 && !IsJumping && !IsWallJumping)
-        {
+		{
 			_isJumpCut = false;
 
-			if(!IsJumping)
+			if (!IsJumping)
 				_isJumpFalling = false;
 		}
 
@@ -236,7 +269,7 @@ public class PlayerMovement : MonoBehaviour
 			_isJumpFalling = false;
 			_wallJumpStartTime = Time.time;
 			_lastWallJumpDir = (LastOnWallRightTime > 0) ? -1 : 1;
-			
+
 			WallJump(_lastWallJumpDir);
 		}
 		#endregion
@@ -284,9 +317,9 @@ public class PlayerMovement : MonoBehaviour
 			SetGravityScale(gravityScale);
 		}
 		#endregion
-    }
+	}
 
-    private void FixedUpdate()
+	private void FixedUpdate()
 	{
 		//Handle Run
 		if (IsWallJumping)
@@ -297,11 +330,11 @@ public class PlayerMovement : MonoBehaviour
 		//Handle Slide
 		if (IsSliding)
 			Slide();
-    }
+	}
 
-    #region INPUT CALLBACKS
+	#region INPUT CALLBACKS
 	//Methods which whandle input detected in Update()
-    public void OnJumpInput()
+	public void OnJumpInput()
 	{
 		LastPressedJumpTime = jumpInputBufferTime;
 	}
@@ -311,18 +344,18 @@ public class PlayerMovement : MonoBehaviour
 		if (CanJumpCut() || CanWallJumpCut())
 			_isJumpCut = true;
 	}
-    #endregion
+	#endregion
 
-    #region GENERAL METHODS
-    public void SetGravityScale(float scale)
+	#region GENERAL METHODS
+	public void SetGravityScale(float scale)
 	{
 		RB.gravityScale = scale;
 	}
-    #endregion
+	#endregion
 
 	//MOVEMENT METHODS
-    #region RUN METHODS
-    private void Run(float lerpAmount)
+	#region RUN METHODS
+	private void Run(float lerpAmount)
 	{
 		//Calculate the direction we want to move in and our desired velocity
 		float targetSpeed = _moveInput.x * runMaxSpeed;
@@ -351,11 +384,11 @@ public class PlayerMovement : MonoBehaviour
 
 		#region Conserve Momentum
 		//We won't slow the player down if they are moving in their desired direction but at a greater speed than their maxSpeed
-		if(doConserveMomentum && Mathf.Abs(RB.velocity.x) > Mathf.Abs(targetSpeed) && Mathf.Sign(RB.velocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f && LastOnGroundTime < 0)
+		if (doConserveMomentum && Mathf.Abs(RB.velocity.x) > Mathf.Abs(targetSpeed) && Mathf.Sign(RB.velocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f && LastOnGroundTime < 0)
 		{
 			//Prevent any deceleration from happening, or in other words conserve are current momentum
 			//You could experiment with allowing for the player to slightly increae their speed whilst in this "state"
-			accelRate = 0; 
+			accelRate = 0;
 		}
 		#endregion
 
@@ -378,16 +411,16 @@ public class PlayerMovement : MonoBehaviour
 	private void Turn()
 	{
 		//stores scale and flips the player along the x axis, 
-		Vector3 scale = transform.localScale; 
+		Vector3 scale = transform.localScale;
 		scale.x *= -1;
 		transform.localScale = scale;
 
 		IsFacingRight = !IsFacingRight;
 	}
-    #endregion
+	#endregion
 
-    #region JUMP METHODS
-    private void Jump()
+	#region JUMP METHODS
+	private void Jump()
 	{
 		//Ensures we can't call Jump multiple times from one press
 		LastPressedJumpTime = 0;
@@ -421,7 +454,7 @@ public class PlayerMovement : MonoBehaviour
 			force.x -= RB.velocity.x;
 
 		if (RB.velocity.y < 0) //checks whether player is falling, if so we subtract the velocity.y (counteracting force of gravity). This ensures the player always reaches our desired jump force or greater
-	        force.y -= RB.velocity.y;
+			force.y -= RB.velocity.y;
 
 		//Unlike in the run we want to use the Impulse mode.
 		//The default mode will apply are force instantly ignoring masss
@@ -435,40 +468,40 @@ public class PlayerMovement : MonoBehaviour
 	{
 		//Works the same as the Run but only in the y-axis
 		//THis seems to work fine, buit maybe you'll find a better way to implement a slide into this system
-		float speedDif = slideSpeed - RB.velocity.y;	
+		float speedDif = slideSpeed - RB.velocity.y;
 		float movement = speedDif * slideAccel;
 		//So, we clamp the movement here to prevent any over corrections (these aren't noticeable in the Run)
 		//The force applied can't be greater than the (negative) speedDifference * by how many times a second FixedUpdate() is called. For more info research how force are applied to rigidbodies.
-		movement = Mathf.Clamp(movement, -Mathf.Abs(speedDif)  * (1 / Time.fixedDeltaTime), Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime));
-        
+		movement = Mathf.Clamp(movement, -Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime), Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime));
+
 
 		RB.AddForce(movement * Vector2.up);
 	}
-    #endregion
+	#endregion
 
 
-    #region CHECK METHODS
-    public void CheckDirectionToFace(bool isMovingRight)
+	#region CHECK METHODS
+	public void CheckDirectionToFace(bool isMovingRight)
 	{
 		if (isMovingRight != IsFacingRight)
 			Turn();
 	}
 
-    private bool CanJump()
-    {
+	private bool CanJump()
+	{
 		return LastOnGroundTime > 0 && !IsJumping;
-    }
+	}
 
 	private bool CanWallJump()
-    {
+	{
 		return LastPressedJumpTime > 0 && LastOnWallTime > 0 && LastOnGroundTime <= 0 && (!IsWallJumping ||
 			 (LastOnWallRightTime > 0 && _lastWallJumpDir == 1) || (LastOnWallLeftTime > 0 && _lastWallJumpDir == -1));
 	}
 
 	private bool CanJumpCut()
-    {
+	{
 		return IsJumping && RB.velocity.y > 0;
-    }
+	}
 
 	private bool CanWallJumpCut()
 	{
@@ -476,20 +509,20 @@ public class PlayerMovement : MonoBehaviour
 	}
 
 	public bool CanSlide()
-    {
+	{
 		if (LastOnWallTime > 0 && !IsJumping && !IsWallJumping && LastOnGroundTime <= 0)
 			return true;
 		else
 			return false;
 	}
-    #endregion
+	#endregion
 
-    //Unity Callback, called when the inspector updates
-    private void OnValidate()
-    {
+	//Unity Callback, called when the inspector updates
+	private void OnValidate()
+	{
 		//Calculate gravity strength using the formula (gravity = 2 * jumpHeight / timeToJumpApex^2) 
 		gravityStrength = -(2 * jumpHeight) / (jumpTimeToApex * jumpTimeToApex);
-		
+
 		//Calculate the rigidbody's gravity scale (ie: gravity strength relative to unity's gravity value, see project settings/Physics2D)
 		gravityScale = gravityStrength / Physics2D.gravity.y;
 
@@ -508,20 +541,16 @@ public class PlayerMovement : MonoBehaviour
 
 	#region Weight
 	public void HeavyMovement()
-    {
-        runMaxSpeed *= weightModifier;
-        jumpForce *= weightModifier;
-		wallJumpForce *= weightModifier;
-		slideSpeed /= weightModifier;
-    }
+	{
+		runMaxSpeed *= weightModifier;
+		jumpHeight *= weightModifier;
+	}
 
-    public void DefaultMovement()
-    {
-        runMaxSpeed = deafaultMaxSpeed;
-        jumpForce = deafaultJumpForce;
-		wallJumpForce = deafaultWallJumpForce;
-		slideSpeed = deafaultSlideSpeed;
-    }
+	public void DefaultMovement()
+	{
+		runMaxSpeed = deafaultMaxSpeed;
+		jumpHeight = deafaultJumpHeight;
+	}
 	#endregion
 }
 
