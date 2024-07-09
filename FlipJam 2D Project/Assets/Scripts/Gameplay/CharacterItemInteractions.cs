@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class CharacterItemInteractions : MonoBehaviour
 {
+    public CharacterScriptableObject characterScriptableObject;
     [SerializeField] private float pickupRange = 1f;
     [SerializeField] private LayerMask itemLayer;
     public bool holdingItem = false;
@@ -9,7 +10,6 @@ public class CharacterItemInteractions : MonoBehaviour
     PlayerMovement charMovement;
 
     [SerializeField] private LineRenderer lineRenderer;
-    [SerializeField] private float launchForce;
     [SerializeField] private float trajactoryTimeStep = 0.05f;
     [SerializeField] private int trajactoryStepCount = 15;
     Vector2 startPosition, currentPosition;
@@ -130,11 +130,11 @@ public class CharacterItemInteractions : MonoBehaviour
         {
             if (vertical > 0)
             {
-                velocity = new Vector2(launchForce, 15);
+                velocity = new Vector2(characterScriptableObject.launchForce, 15);
             }
             else
             {
-                velocity = new Vector2(launchForce, 7);
+                velocity = new Vector2(characterScriptableObject.launchForce, 7);
             }
 
 
@@ -143,11 +143,11 @@ public class CharacterItemInteractions : MonoBehaviour
         {
             if (vertical > 0)
             {
-                velocity = new Vector2(-launchForce, 15);
+                velocity = new Vector2(-characterScriptableObject.launchForce, 15);
             }
             else
             {
-                velocity = new Vector2(-launchForce, 7);
+                velocity = new Vector2(-characterScriptableObject.launchForce, 7);
             }
         }
 
