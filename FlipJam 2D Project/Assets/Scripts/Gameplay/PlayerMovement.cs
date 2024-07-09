@@ -440,11 +440,10 @@ public class PlayerMovement : MonoBehaviour
 	private void Turn()
 	{
 		//stores scale and flips the player along the x axis,
-		IsFacingRight = !IsFacingRight;
 		Vector3 scale = transform.localScale;
 		scale.x *= -1;
 		transform.localScale = scale;
-
+		IsFacingRight = !IsFacingRight;
 	}
 	#endregion
 
@@ -512,11 +511,7 @@ public class PlayerMovement : MonoBehaviour
 	#region CHECK METHODS
 	public void CheckDirectionToFace(bool isMovingRight)
 	{
-		if (isMovingRight && !IsFacingRight)
-		{
-			Turn();
-		}
-		else if (!isMovingRight && IsFacingRight)
+		if (isMovingRight != IsFacingRight)
 		{
 			Turn();
 		}

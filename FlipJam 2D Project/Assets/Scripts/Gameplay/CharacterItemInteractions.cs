@@ -125,9 +125,8 @@ public class CharacterItemInteractions : MonoBehaviour
         Rigidbody2D rg = item.GetComponent<Rigidbody2D>();
         rg.velocity = Vector2.zero;
 
-        float horinzontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
-        if (horinzontal > 0)
+        if (transform.localScale.x > 0)
         {
             if (vertical > 0)
             {
