@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 
 public class CharacterItemInteractions : MonoBehaviour
 {
@@ -13,10 +9,11 @@ public class CharacterItemInteractions : MonoBehaviour
     PlayerMovement charMovement;
 
     [SerializeField] private LineRenderer lineRenderer;
-    [SerializeField] private float launchForce = 1.5f;
+    [SerializeField] private float launchForce;
     [SerializeField] private float trajactoryTimeStep = 0.05f;
     [SerializeField] private int trajactoryStepCount = 15;
-    Vector2 velocity, startPosition, currentPosition;
+    Vector2 startPosition, currentPosition;
+    [SerializeField] private Vector2 velocity;
 
     void Awake()
     {
@@ -48,21 +45,19 @@ public class CharacterItemInteractions : MonoBehaviour
 
             if(Input.GetButtonDown("Fire1"))
             {
-                charMovement.canMove = false;
-                startPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                //charMovement.canMove = false;
+                FireProjectile();
+
             }
 
             if(Input.GetButton("Fire1"))
             {
-                currentPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                velocity = (startPosition - currentPosition) * launchForce;
-
-                DrawTrajectory();
+            
             }
 
             if(Input.GetButtonUp("Fire1"))
             {
-                FireProjectile();
+                
             }
         }
     }
@@ -122,6 +117,32 @@ public class CharacterItemInteractions : MonoBehaviour
     {
         Rigidbody2D rg = item.GetComponent<Rigidbody2D>();
         rg.velocity = Vector2.zero;
+
+        float horinzontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+        if(horinzontal > 0)
+        {   
+            if(vertical > 0)
+            {
+                velocity = new Vector2(launchForce, 15);
+            }else
+            {
+                velocity = new Vector2(launchForce, 7);
+            }
+
+            
+        }else
+        {
+            if(vertical > 0)
+            {
+                velocity = new Vector2(-launchForce, 15);
+            }else
+            {
+                velocity = new Vector2(-launchForce, 7);
+            }
+        }
+
+
         rg.AddForce(velocity, ForceMode2D.Impulse);
         //rg.velocity = velocity;
 
