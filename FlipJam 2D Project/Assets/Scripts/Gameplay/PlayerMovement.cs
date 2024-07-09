@@ -178,7 +178,7 @@ public class PlayerMovement : MonoBehaviour
 			{
 				OnJumpUpInput();
 			}
-			if (Input.GetKeyDown(KeyCode.S))
+			if (Input.GetKeyDown(KeyCode.S) && !IsJumping && !IsSliding)
 			{
 				if (itemInteractions.holdingItem)
 				{
@@ -194,7 +194,7 @@ public class PlayerMovement : MonoBehaviour
 				transform.localScale = new Vector3(transform.localScale.x, 0.8f, transform.localScale.z); // Set scale Y to 0.75
 
 			}
-			else if (Input.GetKeyUp(KeyCode.S))
+			else if (Input.GetKeyUp(KeyCode.S) && !IsJumping && !IsSliding)
 			{
 				if (itemInteractions.holdingItem)
 				{
