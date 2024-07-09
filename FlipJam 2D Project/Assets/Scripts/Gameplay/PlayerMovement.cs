@@ -43,8 +43,9 @@ public class PlayerMovement : MonoBehaviour
 	[Header("Jump")]
 	public float jumpHeight; //Height of the player's jump
 	public float deafaultJumpHeight; //Default Height of the player's jump
+	public float jumpForce; //The actual force applied (upwards) to the player when they jump.
+	public float deafaultJumpForce; //Default force applied (upwards) to the player when they jump.
 	public float jumpTimeToApex; //Time between applying the jump force and reaching the desired jump height. These values also control the player's gravity and jump force.
-	[HideInInspector] public float jumpForce; //The actual force applied (upwards) to the player when they jump.
 
 	[Header("Both Jumps")]
 	public float jumpCutGravityMult; //Multiplier to increase gravity if the player releases thje jump button while still jumping
@@ -56,6 +57,7 @@ public class PlayerMovement : MonoBehaviour
 
 	[Header("Wall Jump")]
 	public Vector2 wallJumpForce; //The actual force (this time set by us) applied to the player when wall jumping.
+	public Vector2 deafaultWallJumpForce; // The deafault force applied to the player when wall jumping.
 	[Space(5)]
 	[Range(0f, 1f)] public float wallJumpRunLerp; //Reduces the effect of player's movement while wall jumping.
 	[Range(0f, 1.5f)] public float wallJumpTime; //Time after wall jumping the player's movement is slowed for.
@@ -65,6 +67,7 @@ public class PlayerMovement : MonoBehaviour
 
 	[Header("Slide")]
 	public float slideSpeed;
+	public float deafaultSlideSpeed;
 	public float slideAccel;
 
 	[Header("Assists")]
@@ -79,6 +82,7 @@ public class PlayerMovement : MonoBehaviour
 	public Rigidbody2D RB { get; private set; }
 
 	private Animator animator;
+	private CharacterItemInteractions itemInteractions;
 	public bool isCrouching = false;
 	//Variables control the various actions the player can perform at any time.
 	//These are fields which can are public allowing for other sctipts to read them
@@ -126,6 +130,7 @@ public class PlayerMovement : MonoBehaviour
 	{
 		RB = GetComponent<Rigidbody2D>();
 		animator = GetComponent<Animator>();
+		itemInteractions = GetComponent<CharacterItemInteractions>();
 	}
 
 	private void Start()
@@ -133,8 +138,10 @@ public class PlayerMovement : MonoBehaviour
 		SetGravityScale(gravityScale);
 		IsFacingRight = true;
 
-		deafaultJumpHeight = jumpHeight;
+		deafaultJumpForce = jumpForce;
 		deafaultMaxSpeed = runMaxSpeed;
+		deafaultWallJumpForce = wallJumpForce;
+		deafaultSlideSpeed = slideSpeed;
 	}
 
 	private void Update()
@@ -167,15 +174,29 @@ public class PlayerMovement : MonoBehaviour
 			}
 			if (Input.GetKeyDown(KeyCode.S))
 			{
-				HeavyMovement();
-				isCrouching = true;
-				animator.SetBool("IsCrouching", isCrouching);
+				if(itemInteractions.holdingItem)
+				{
+					isCrouching = true;
+					animator.SetBool("IsCrouching", isCrouching);
+				}else
+				{
+					HeavyMovement();
+					isCrouching = true;
+					animator.SetBool("IsCrouching", isCrouching);
+				}
 			}
 			else if (Input.GetKeyUp(KeyCode.S))
 			{
-				DefaultMovement();
-				isCrouching = false;
-				animator.SetBool("IsCrouching", isCrouching);
+				if(itemInteractions.holdingItem)
+				{	
+					isCrouching = false;
+					animator.SetBool("IsCrouching", isCrouching);
+				}else
+				{
+					DefaultMovement();
+					isCrouching = false;
+					animator.SetBool("IsCrouching", isCrouching);
+				}
 			}
 
 			// Adjust collision ignoring based on crouching and pressing space
@@ -410,8 +431,8 @@ public class PlayerMovement : MonoBehaviour
 
 	private void Turn()
 	{
-		//stores scale and flips the player along the x axis, 
-		Vector3 scale = transform.localScale;
+		//stores scale and flips the player along the x axis,
+		Vector3 scale = transform.localScale; 
 		scale.x *= -1;
 		transform.localScale = scale;
 
@@ -542,15 +563,19 @@ public class PlayerMovement : MonoBehaviour
 	#region Weight
 	public void HeavyMovement()
 	{
-		runMaxSpeed *= weightModifier;
-		jumpHeight *= weightModifier;
-	}
+        runMaxSpeed *= weightModifier;
+        jumpForce *= weightModifier;
+		wallJumpForce *= weightModifier;
+		slideSpeed /= weightModifier;
+    }
 
-	public void DefaultMovement()
-	{
-		runMaxSpeed = deafaultMaxSpeed;
-		jumpHeight = deafaultJumpHeight;
-	}
+    public void DefaultMovement()
+    {
+        runMaxSpeed = deafaultMaxSpeed;
+        jumpForce = deafaultJumpForce;
+		wallJumpForce = deafaultWallJumpForce;
+		slideSpeed = deafaultSlideSpeed;
+    }
 	#endregion
 }
 
