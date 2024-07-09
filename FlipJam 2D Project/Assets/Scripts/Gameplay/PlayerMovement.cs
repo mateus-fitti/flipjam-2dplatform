@@ -191,6 +191,8 @@ public class PlayerMovement : MonoBehaviour
 					isCrouching = true;
 					animator.SetBool("IsCrouching", isCrouching);
 				}
+				transform.localScale = new Vector3(transform.localScale.x, 0.8f, transform.localScale.z); // Set scale Y to 0.75
+
 			}
 			else if (Input.GetKeyUp(KeyCode.S))
 			{
@@ -205,6 +207,8 @@ public class PlayerMovement : MonoBehaviour
 					isCrouching = false;
 					animator.SetBool("IsCrouching", isCrouching);
 				}
+				transform.localScale = new Vector3(transform.localScale.x, 1f, transform.localScale.z); // Reset scale Y to 1
+
 			}
 
 			// Adjust collision ignoring based on crouching and pressing space
