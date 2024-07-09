@@ -184,7 +184,7 @@ public class PlayerMovement : MonoBehaviour
 			if (isCrouching && Input.GetKey(KeyCode.Space))
 			{
 				Physics2D.IgnoreLayerCollision(playerLayer, platformLayer, true);
-				StartCoroutine(ReactivateCollisionAfterDelay(0.5f));
+				StartCoroutine(ReactivateCollisionAfterDelay(0.3f));
 			}
 		}
 
