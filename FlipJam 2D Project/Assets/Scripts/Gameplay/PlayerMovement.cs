@@ -6,7 +6,6 @@
 	Feel free to use this in your own games, and I'd love to see anything you make!
  */
 
-using System.Collections;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -42,9 +41,9 @@ public class PlayerMovement : MonoBehaviour
 
 	[Header("Jump")]
 	public float jumpHeight; //Height of the player's jump
-	public float deafaultJumpHeight; //Default Height of the player's jump
+	public float jumpForce; //The actual force applied (upwards) to the player when they jump.
+	public float deafaultJumpForce; //Default force applied (upwards) to the player when they jump.
 	public float jumpTimeToApex; //Time between applying the jump force and reaching the desired jump height. These values also control the player's gravity and jump force.
-	[HideInInspector] public float jumpForce; //The actual force applied (upwards) to the player when they jump.
 
 	[Header("Both Jumps")]
 	public float jumpCutGravityMult; //Multiplier to increase gravity if the player releases thje jump button while still jumping
@@ -56,6 +55,7 @@ public class PlayerMovement : MonoBehaviour
 
 	[Header("Wall Jump")]
 	public Vector2 wallJumpForce; //The actual force (this time set by us) applied to the player when wall jumping.
+	public Vector2 deafaultWallJumpForce; // The deafault force applied to the player when wall jumping.
 	[Space(5)]
 	[Range(0f, 1f)] public float wallJumpRunLerp; //Reduces the effect of player's movement while wall jumping.
 	[Range(0f, 1.5f)] public float wallJumpTime; //Time after wall jumping the player's movement is slowed for.
@@ -65,6 +65,7 @@ public class PlayerMovement : MonoBehaviour
 
 	[Header("Slide")]
 	public float slideSpeed;
+	public float deafaultSlideSpeed;
 	public float slideAccel;
 
     [Header("Assists")]
@@ -130,8 +131,10 @@ public class PlayerMovement : MonoBehaviour
 		SetGravityScale(gravityScale);
 		IsFacingRight = true;
 
-		deafaultJumpHeight = jumpHeight;
+		deafaultJumpForce = jumpForce;
 		deafaultMaxSpeed = runMaxSpeed;
+		deafaultWallJumpForce = wallJumpForce;
+		deafaultSlideSpeed = slideSpeed;
 	}
 
 	private void Update()
@@ -507,13 +510,17 @@ public class PlayerMovement : MonoBehaviour
 	public void HeavyMovement()
     {
         runMaxSpeed *= weightModifier;
-        jumpHeight *= weightModifier;
+        jumpForce *= weightModifier;
+		wallJumpForce *= weightModifier;
+		slideSpeed /= weightModifier;
     }
 
     public void DefaultMovement()
     {
         runMaxSpeed = deafaultMaxSpeed;
-        jumpHeight = deafaultJumpHeight;
+        jumpForce = deafaultJumpForce;
+		wallJumpForce = deafaultWallJumpForce;
+		slideSpeed = deafaultSlideSpeed;
     }
 	#endregion
 }
