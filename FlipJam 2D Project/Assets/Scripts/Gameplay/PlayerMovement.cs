@@ -491,6 +491,11 @@ public class PlayerMovement : MonoBehaviour
 		//Unlike in the run we want to use the Impulse mode.
 		//The default mode will apply are force instantly ignoring masss
 		RB.AddForce(force, ForceMode2D.Impulse);
+
+		if(doTurnOnWallJump)
+		{
+			Turn(); //turn the player to not face the wall they just hit
+		}
 		#endregion
 	}
 	#endregion
@@ -590,6 +595,8 @@ public class PlayerMovement : MonoBehaviour
 		slideSpeed = deafaultSlideSpeed;
 	}
 	#endregion
+
+
 }
 
 // created by Dawnosaur :D

@@ -382,6 +382,7 @@ GameObject:
   - component: {fileID: 548211151}
   - component: {fileID: 548211152}
   - component: {fileID: 548211154}
+  - component: {fileID: 548211155}
   m_Layer: 3
   m_Name: Character
   m_TagString: Player
@@ -708,7 +709,7 @@ MonoBehaviour:
   deafaultWallJumpForce: {x: 0, y: 0}
   wallJumpRunLerp: 0.075
   wallJumpTime: 0.3
-  doTurnOnWallJump: 0
+  doTurnOnWallJump: 1
   slideSpeed: -5
   deafaultSlideSpeed: 0
   slideAccel: 0.8
@@ -717,6 +718,7 @@ MonoBehaviour:
   weightModifier: 0.6
   isCrouching: 0
   canMove: 1
+  grabbingLedge: 0
   _groundCheckPoint: {fileID: 1897994791}
   _groundCheckSize: {x: 0.49, y: 0.03}
   _frontWallCheckPoint: {fileID: 1799326091}
@@ -746,6 +748,21 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &548211155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 548211145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ad68527bd4447c49bfa54af691cdb76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: {fileID: 0}
+  climbingHorizontalOffset: 0.5
+  GrabbingLedge: 0
 --- !u!1 &599684316
 GameObject:
   m_ObjectHideFlags: 0
@@ -1899,6 +1916,7 @@ GameObject:
   - component: {fileID: 1549348470}
   - component: {fileID: 1549348469}
   - component: {fileID: 1549348468}
+  - component: {fileID: 1549348471}
   m_Layer: 8
   m_Name: Platform (6)
   m_TagString: Untagged
@@ -2018,6 +2036,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1549348471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1549348467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53ddabb7dedb7ce48963fbd49b3bad80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hangingHorizontalOffset: 0.5
+  hangingVerticalOffset: 0.5
 --- !u!1 &1799326090
 GameObject:
   m_ObjectHideFlags: 0
