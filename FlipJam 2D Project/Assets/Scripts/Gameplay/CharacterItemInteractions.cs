@@ -22,7 +22,7 @@ public class CharacterItemInteractions : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -33,7 +33,9 @@ public class CharacterItemInteractions : MonoBehaviour
             if (!holdingItem)
             {
                 PickItem();
-            } else {
+            }
+            else
+            {
                 ReleaseItem(Vector2.zero);
             }
         }
@@ -43,21 +45,21 @@ public class CharacterItemInteractions : MonoBehaviour
             item.transform.position = transform.position;
             item.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 
-            if(Input.GetButtonDown("Fire1"))
+            if (Input.GetButtonDown("Fire1"))
             {
                 //charMovement.canMove = false;
                 FireProjectile();
 
             }
 
-            if(Input.GetButton("Fire1"))
+            if (Input.GetButton("Fire1"))
             {
-            
+
             }
 
-            if(Input.GetButtonUp("Fire1"))
+            if (Input.GetButtonUp("Fire1"))
             {
-                
+
             }
         }
     }
@@ -70,6 +72,7 @@ public class CharacterItemInteractions : MonoBehaviour
         {
             charMovement.HeavyMovement();
             item = itemCol.gameObject;
+            item.GetComponent<Renderer>().enabled = false;
             holdingItem = true;
         }
     }
@@ -79,7 +82,11 @@ public class CharacterItemInteractions : MonoBehaviour
     {
         charMovement.canMove = true;
         holdingItem = false;
-        item.GetComponent<Rigidbody2D>().velocity = itemVelocity;
+        if (item != null)
+        {
+            item.GetComponent<Renderer>().enabled = true;
+            item.GetComponent<Rigidbody2D>().velocity = itemVelocity;
+        }
         charMovement.DefaultMovement();
         item = null;
         ClearTrajectory();
@@ -97,7 +104,7 @@ public class CharacterItemInteractions : MonoBehaviour
     void DrawTrajectory()
     {
         Vector3[] positions = new Vector3[trajactoryStepCount];
-        for (int i = 0; i < trajactoryStepCount;i++)
+        for (int i = 0; i < trajactoryStepCount; i++)
         {
             float t = i * trajactoryTimeStep;
             Vector3 pos = (Vector2)item.transform.position + velocity * t + 0.5f * Physics2D.gravity * t * t;
@@ -120,23 +127,26 @@ public class CharacterItemInteractions : MonoBehaviour
 
         float horinzontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
-        if(horinzontal > 0)
-        {   
-            if(vertical > 0)
+        if (horinzontal > 0)
+        {
+            if (vertical > 0)
             {
                 velocity = new Vector2(launchForce, 15);
-            }else
+            }
+            else
             {
                 velocity = new Vector2(launchForce, 7);
             }
 
-            
-        }else
+
+        }
+        else
         {
-            if(vertical > 0)
+            if (vertical > 0)
             {
                 velocity = new Vector2(-launchForce, 15);
-            }else
+            }
+            else
             {
                 velocity = new Vector2(-launchForce, 7);
             }

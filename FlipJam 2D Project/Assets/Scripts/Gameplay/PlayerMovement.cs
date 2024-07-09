@@ -163,7 +163,13 @@ public class PlayerMovement : MonoBehaviour
 			_moveInput.x = Input.GetAxisRaw("Horizontal");
 			_moveInput.y = Input.GetAxisRaw("Vertical");
 			if (_moveInput.x != 0)
+			{
 				CheckDirectionToFace(_moveInput.x > 0);
+			}
+			if (itemInteractions)
+			{
+				animator.SetBool("EggPicked", itemInteractions.holdingItem);
+			}
 			if (!isCrouching && Input.GetKeyDown(KeyCode.Space))
 			{
 				OnJumpInput();
@@ -174,11 +180,12 @@ public class PlayerMovement : MonoBehaviour
 			}
 			if (Input.GetKeyDown(KeyCode.S))
 			{
-				if(itemInteractions.holdingItem)
+				if (itemInteractions.holdingItem)
 				{
 					isCrouching = true;
 					animator.SetBool("IsCrouching", isCrouching);
-				}else
+				}
+				else
 				{
 					HeavyMovement();
 					isCrouching = true;
@@ -187,11 +194,12 @@ public class PlayerMovement : MonoBehaviour
 			}
 			else if (Input.GetKeyUp(KeyCode.S))
 			{
-				if(itemInteractions.holdingItem)
-				{	
+				if (itemInteractions.holdingItem)
+				{
 					isCrouching = false;
 					animator.SetBool("IsCrouching", isCrouching);
-				}else
+				}
+				else
 				{
 					DefaultMovement();
 					isCrouching = false;
@@ -432,11 +440,11 @@ public class PlayerMovement : MonoBehaviour
 	private void Turn()
 	{
 		//stores scale and flips the player along the x axis,
-		Vector3 scale = transform.localScale; 
+		IsFacingRight = !IsFacingRight;
+		Vector3 scale = transform.localScale;
 		scale.x *= -1;
 		transform.localScale = scale;
 
-		IsFacingRight = !IsFacingRight;
 	}
 	#endregion
 
@@ -504,8 +512,14 @@ public class PlayerMovement : MonoBehaviour
 	#region CHECK METHODS
 	public void CheckDirectionToFace(bool isMovingRight)
 	{
-		if (isMovingRight != IsFacingRight)
+		if (isMovingRight && !IsFacingRight)
+		{
 			Turn();
+		}
+		else if (!isMovingRight && IsFacingRight)
+		{
+			Turn();
+		}
 	}
 
 	private bool CanJump()
@@ -563,19 +577,19 @@ public class PlayerMovement : MonoBehaviour
 	#region Weight
 	public void HeavyMovement()
 	{
-        runMaxSpeed *= weightModifier;
-        jumpForce *= weightModifier;
+		runMaxSpeed *= weightModifier;
+		jumpForce *= weightModifier;
 		wallJumpForce *= weightModifier;
 		slideSpeed /= weightModifier;
-    }
+	}
 
-    public void DefaultMovement()
-    {
-        runMaxSpeed = deafaultMaxSpeed;
-        jumpForce = deafaultJumpForce;
+	public void DefaultMovement()
+	{
+		runMaxSpeed = deafaultMaxSpeed;
+		jumpForce = deafaultJumpForce;
 		wallJumpForce = deafaultWallJumpForce;
 		slideSpeed = deafaultSlideSpeed;
-    }
+	}
 	#endregion
 }
 
