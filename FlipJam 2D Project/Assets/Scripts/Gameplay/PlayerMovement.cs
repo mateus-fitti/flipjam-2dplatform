@@ -249,7 +249,6 @@ public class PlayerMovement : MonoBehaviour
 		//Jump
 		if (CanJump() && LastPressedJumpTime > 0)
 		{
-			animator.SetBool("IsJumping", true);
 			IsJumping = true;
 			IsWallJumping = false;
 			_isJumpCut = false;
@@ -276,7 +275,6 @@ public class PlayerMovement : MonoBehaviour
         #region SLIDE CHECKS
         if (CanSlide() && ((LastOnWallLeftTime > 0 && _moveInput.x < 0) || (LastOnWallRightTime > 0 && _moveInput.x > 0)))
 			IsSliding = true;
-		}
 		else
 		{
 			IsSliding = false;
@@ -339,14 +337,14 @@ public class PlayerMovement : MonoBehaviour
 			Run(1);
 
 		//Handle Slide
-		if (IsSliding)
-			Slide();
+		if (IsSliding){
+			animator.SetBool("IsSliding", true);
+			characterSpecialHabilities.Slide(RB);
+		}
 			else
 			{
 				animator.SetBool("IsSliding", false);
 			}
-			animator.SetBool("IsWallJumping", true);
-			characterSpecialHabilities.Slide(RB);
 	}
 
 	#region INPUT CALLBACKS
@@ -438,6 +436,7 @@ public class PlayerMovement : MonoBehaviour
 	#region JUMP METHODS
 	private void Jump()
 	{
+		animator.SetBool("IsJumping", true);
 		//Ensures we can't call Jump multiple times from one press
 		LastPressedJumpTime = 0;
 		LastOnGroundTime = 0;
@@ -466,9 +465,6 @@ public class PlayerMovement : MonoBehaviour
 	// 	//So, we clamp the movement here to prevent any over corrections (these aren't noticeable in the Run)
 	// 	//The force applied can't be greater than the (negative) speedDifference * by how many times a second FixedUpdate() is called. For more info research how force are applied to rigidbodies.
 	// 	movement = Mathf.Clamp(movement, -Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime), Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime));
-
-		animator.SetBool("IsSliding", true);
-
 	// 	RB.AddForce(movement * Vector2.up);
 	// }
 	#endregion
@@ -552,7 +548,6 @@ public class PlayerMovement : MonoBehaviour
 		characterScriptableObject.slideSpeed = characterScriptableObject.deafaultSlideSpeed;
 	}
 	#endregion
-
 
 }
 
