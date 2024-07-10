@@ -56,5 +56,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "FlipJam 2D Project.sln"
+    "dotnet.defaultSolution": "FlipJam 2D Project.sln",
+    "dotnet.preferCSharpExtension": true
 }
