@@ -164,7 +164,10 @@ public class PlayerMovement : MonoBehaviour
 			_moveInput.y = Input.GetAxisRaw("Vertical");
 			if (_moveInput.x != 0)
 			{
+				animator.SetBool("IsWalking", true);
 				CheckDirectionToFace(_moveInput.x > 0);
+			} else{
+				animator.SetBool("IsWalking", false);
 			}
 			if (itemInteractions)
 			{

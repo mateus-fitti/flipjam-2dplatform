@@ -14,6 +14,7 @@ public class HeatMeasurementSystem : MonoBehaviour
     public Sprite coldEggImage;
     public Sprite frozenEggImage;
 
+    public bool heatSystemActive = false; // Flag para indicar se o sistema de calor está ativo
 
     private bool isGameOver = false; // Flag para indicar se o jogo acabou
 
@@ -38,14 +39,18 @@ public class HeatMeasurementSystem : MonoBehaviour
     }
     void Update()
     {
-        // Diminuir a temperatura com o tempo
-        if (temperature > 0) temperature -= decreaseRate * Time.deltaTime;
+        if (heatSystemActive)
+        {
+            // Diminuir a temperatura com o tempo
+            if (temperature > 0) temperature -= decreaseRate * Time.deltaTime;
 
-        // Atualizar a cor do Egg com base na temperatura
-        UpdateEggColor();
+            // Atualizar a cor do Egg com base na temperatura
+            UpdateEggColor();
 
-        // Atualizar o UI do termômetro
-        UpdateThermometerUI();
+            // Atualizar o UI do termômetro
+            UpdateThermometerUI();
+        }
+
     }
 
     void UpdateEggColor()
