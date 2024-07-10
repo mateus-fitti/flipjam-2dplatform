@@ -545,13 +545,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af46bf1a82cbe044d84847315cc9a7d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterScriptableObject: {fileID: 11400000, guid: 3a47be0a2339d1f45b6a9e66bcb7fbf9, type: 2}
   pickupRange: 1
   itemLayer:
     serializedVersion: 2
     m_Bits: 128
   holdingItem: 0
   lineRenderer: {fileID: 548211152}
-  launchForce: 10
   trajactoryTimeStep: 0.05
   trajactoryStepCount: 15
   velocity: {x: 5, y: 0}
@@ -680,45 +680,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cabdb994fd55ac459358394cbe816ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravityStrength: -36
-  gravityScale: 1.8
-  fallGravityMult: 2
-  maxFallSpeed: 22
-  fastFallGravityMult: 2
-  maxFastFallSpeed: 22
-  runMaxSpeed: 9.5
-  deafaultMaxSpeed: 0
-  runAcceleration: 9.5
-  runAccelAmount: 50
-  runDecceleration: 9.5
-  runDeccelAmount: 50
-  accelInAir: 0.1
-  deccelInAir: 0.1
-  doConserveMomentum: 0
-  jumpHeight: 4.5
-  deafaultJumpHeight: 0
-  jumpForce: 18
-  deafaultJumpForce: 0
-  jumpTimeToApex: 0.5
-  jumpCutGravityMult: 3.5
-  jumpHangGravityMult: 1
-  jumpHangTimeThreshold: 0
-  jumpHangAccelerationMult: 1
-  jumpHangMaxSpeedMult: 1
-  wallJumpForce: {x: 8.5, y: 15}
-  deafaultWallJumpForce: {x: 0, y: 0}
-  wallJumpRunLerp: 0.075
-  wallJumpTime: 0.3
-  doTurnOnWallJump: 1
-  slideSpeed: -5
-  deafaultSlideSpeed: 0
-  slideAccel: 0.8
-  coyoteTime: 0.15
-  jumpInputBufferTime: 0.15
-  weightModifier: 0.6
+  characterScriptableObject: {fileID: 11400000, guid: 3a47be0a2339d1f45b6a9e66bcb7fbf9, type: 2}
+  gravityStrength: NaN
+  gravityScale: NaN
+  runAccelAmount: Infinity
+  runDeccelAmount: Infinity
   isCrouching: 0
   canMove: 1
-  grabbingLedge: 0
   _groundCheckPoint: {fileID: 1897994791}
   _groundCheckSize: {x: 0.49, y: 0.03}
   _frontWallCheckPoint: {fileID: 1799326091}

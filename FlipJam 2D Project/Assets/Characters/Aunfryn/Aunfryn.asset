@@ -12,35 +12,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3f20bf2207727746a20207ac9570a68, type: 3}
   m_Name: Aunfryn
   m_EditorClassIdentifier: 
-  fallGravityMult: 0
-  maxFallSpeed: 0
-  fastFallGravityMult: 0
-  maxFastFallSpeed: 0
-  runMaxSpeed: 0
-  deafaultMaxSpeed: 0
-  runAcceleration: 0
-  runDecceleration: 0
-  accelInAir: 0
-  deccelInAir: 0
-  doConserveMomentum: 1
-  jumpHeight: 0
+  launchForce: 10
+  fallGravityMult: 2
+  maxFallSpeed: 22
+  fastFallGravityMult: 2
+  maxFastFallSpeed: 22
+  runMaxSpeed: 9.5
+  deafaultMaxSpeed: 9.5
+  runAcceleration: 9.5
+  runDecceleration: 9.5
+  accelInAir: 0.1
+  deccelInAir: 0.1
+  doConserveMomentum: 0
+  jumpHeight: 4.5
   deafaultJumpHeight: 0
-  jumpForce: 0
-  deafaultJumpForce: 0
-  jumpTimeToApex: 0
-  jumpCutGravityMult: 0
-  jumpHangGravityMult: 0
+  jumpForce: 18
+  deafaultJumpForce: 18
+  jumpTimeToApex: 0.5
+  jumpCutGravityMult: 3.5
+  jumpHangGravityMult: 1
   jumpHangTimeThreshold: 0
-  jumpHangAccelerationMult: 0
-  jumpHangMaxSpeedMult: 0
-  wallJumpForce: {x: 0, y: 0}
-  deafaultWallJumpForce: {x: 0, y: 0}
-  wallJumpRunLerp: 0
-  wallJumpTime: 0
-  doTurnOnWallJump: 0
-  slideSpeed: 0
-  deafaultSlideSpeed: 0
-  slideAccel: 0
-  coyoteTime: 0.01
-  jumpInputBufferTime: 0.01
-  weightModifier: 0.01
+  jumpHangAccelerationMult: 1
+  jumpHangMaxSpeedMult: 1
+  wallJumpForce: {x: 8.5, y: 15}
+  deafaultWallJumpForce: {x: 8.5, y: 15}
+  wallJumpRunLerp: 0.075
+  wallJumpTime: 0.3
+  doTurnOnWallJump: 1
+  slideSpeed: -5
+  deafaultSlideSpeed: -5
+  slideAccel: 0.8
+  coyoteTime: 0.15
+  jumpInputBufferTime: 0.15
+  weightModifier: 0.6

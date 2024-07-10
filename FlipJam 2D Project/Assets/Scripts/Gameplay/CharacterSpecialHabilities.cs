@@ -1,26 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterSpecialHabilities 
+public class CharacterSpecialHabilities : MonoBehaviour
 {
     public CharacterScriptableObject characterScriptableObject;
 
-    private void EnhancedLaunchForce(){
-        characterScriptableObject.launchForce = characterScriptableObject.launchForce * 1.5;
-    }
-    private void EnhancedLaunchForce(){
-        characterScriptableObject.jumpForce = characterScriptableObject.jumpForce * 1.5;
-    }
-    private void WallJump(int dir, Rigidbody2D RB)
-	{
-		//Ensures we can't call Wall Jump multiple times from one press
-		LastPressedJumpTime = 0;
-		LastOnGroundTime = 0;
-		LastOnWallRightTime = 0;
-		LastOnWallLeftTime = 0;
+    void Start()
+    {
 
-		#region Perform Wall Jump
+    }
+
+    void Update()
+    {
+
+    }
+
+    public void EnhancedLaunchForce(){
+        // characterScriptableObject.launchForce = characterScriptableObject.launchForce * 1.5;
+    }
+    public void EnhancedJumpForce(){
+        // characterScriptableObject.jumpForce = characterScriptableObject.jumpForce * 1.5;
+    }
+    public void WallJump(int dir, Rigidbody2D RB)
+	{
 		Vector2 force = new Vector2(characterScriptableObject.wallJumpForce.x, characterScriptableObject.wallJumpForce.y);
 		force.x *= dir; //apply force in opposite direction of wall
 

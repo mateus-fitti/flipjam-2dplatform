@@ -13,8 +13,9 @@ public class PlayerMovement : MonoBehaviour
 {
 	[Header("Data")]	
 	public CharacterScriptableObject characterScriptableObject;
-	[Header("Special Habilities")]
-	public CharacterSpecialHabilities characterSpecialHabilities;
+	
+	private CharacterSpecialHabilities characterSpecialHabilities;
+
 	[Header("Gravity")]
 	[HideInInspector] public float gravityStrength; //Downwards force (gravity) needed for the desired jumpHeight and jumpTimeToApex.
 	[HideInInspector] public float gravityScale; //Strength of the player's gravity as a multiplier of gravity (set in ProjectSettings/Physics2D).
@@ -81,6 +82,7 @@ public class PlayerMovement : MonoBehaviour
 		RB = GetComponent<Rigidbody2D>();
 		animator = GetComponent<Animator>();
 		itemInteractions = GetComponent<CharacterItemInteractions>();
+		characterSpecialHabilities = GetComponent<CharacterSpecialHabilities>();
 	}
 
 	private void Start()
@@ -245,21 +247,22 @@ public class PlayerMovement : MonoBehaviour
 		}
 		//WALL JUMP
 		else if (CanWallJump() && LastPressedJumpTime > 0)
-		{
-			IsWallJumping = true;
-			IsJumping = false;
-			_isJumpCut = false;
-			_isJumpFalling = false;
-			_wallJumpStartTime = Time.time;
-			_lastWallJumpDir = (LastOnWallRightTime > 0) ? -1 : 1;
+        {
+            IsWallJumping = true;
+            IsJumping = false;
+            _isJumpCut = false;
+            _isJumpFalling = false;
+            _wallJumpStartTime = Time.time;
+            _lastWallJumpDir = (LastOnWallRightTime > 0) ? -1 : 1;
 
-			characterSpecialHabilities.WallJump(_lastWallJumpDir, RB);
-			Turn();
-		}
-		#endregion
+            LimitWallJumpUses();
+            WallJump(_lastWallJumpDir);
+            Turn();
+        }
+        #endregion
 
-		#region SLIDE CHECKS
-		if (CanSlide() && ((LastOnWallLeftTime > 0 && _moveInput.x < 0) || (LastOnWallRightTime > 0 && _moveInput.x > 0)))
+        #region SLIDE CHECKS
+        if (CanSlide() && ((LastOnWallLeftTime > 0 && _moveInput.x < 0) || (LastOnWallRightTime > 0 && _moveInput.x > 0)))
 			IsSliding = true;
 		else
 			IsSliding = false;
@@ -303,7 +306,16 @@ public class PlayerMovement : MonoBehaviour
 		#endregion
 	}
 
-	private void FixedUpdate()
+    private void LimitWallJumpUses()
+    {
+        //Ensures we can't call Wall Jump multiple times from one press
+        LastPressedJumpTime = 0;
+        LastOnGroundTime = 0;
+        LastOnWallRightTime = 0;
+        LastOnWallLeftTime = 0;
+    }
+
+    private void FixedUpdate()
 	{
 		//Handle Run
 		if (IsWallJumping)
@@ -419,6 +431,22 @@ public class PlayerMovement : MonoBehaviour
 
 		RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
 		#endregion
+	}
+
+	public void WallJump(int dir)
+	{
+		Vector2 force = new Vector2(characterScriptableObject.wallJumpForce.x, characterScriptableObject.wallJumpForce.y);
+		force.x *= dir; //apply force in opposite direction of wall
+
+		if (Mathf.Sign(RB.velocity.x) != Mathf.Sign(force.x))
+			force.x -= RB.velocity.x;
+
+		if (RB.velocity.y < 0) //checks whether player is falling, if so we subtract the velocity.y (counteracting force of gravity). This ensures the player always reaches our desired jump force or greater
+			force.y -= RB.velocity.y;
+
+		//Unlike in the run we want to use the Impulse mode.
+		//The default mode will apply are force instantly ignoring masss
+		RB.AddForce(force, ForceMode2D.Impulse);
 	}
 
 	#endregion
