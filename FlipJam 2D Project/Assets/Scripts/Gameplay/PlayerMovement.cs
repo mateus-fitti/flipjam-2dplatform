@@ -127,11 +127,11 @@ public class PlayerMovement : MonoBehaviour
 			{
 				animator.SetBool("EggPicked", itemInteractions.holdingItem);
 			}
-			if (!isCrouching && Input.GetKeyDown(KeyCode.Space))
+			if (!isCrouching && Input.GetButtonDown("Jump"))
 			{
 				OnJumpInput();
 			}
-			if (Input.GetKeyUp(KeyCode.Space))
+			if (Input.GetButtonDown("Jump"))
 			{
 				OnJumpUpInput();
 			}
@@ -171,7 +171,7 @@ public class PlayerMovement : MonoBehaviour
 			// Adjust collision ignoring based on crouching and pressing space
 			int platformLayer = LayerMask.NameToLayer("Platform");
 			int playerLayer = gameObject.layer;
-			if (isCrouching && Input.GetKey(KeyCode.Space))
+			if (isCrouching && Input.GetButtonDown("Jump"))
 			{
 				Physics2D.IgnoreLayerCollision(playerLayer, platformLayer, true);
 				StartCoroutine(ReactivateCollisionAfterDelay(0.3f));
