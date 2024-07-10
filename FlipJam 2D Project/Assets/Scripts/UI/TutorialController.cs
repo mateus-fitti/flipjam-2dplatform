@@ -31,7 +31,7 @@ public class TutorialController : MonoBehaviour
         {
             if (mensageCounter < mensageTime - .1f)
             {
-                if (Input.GetButtonDown("Fire1"))
+                if (Input.GetButtonDown("Jump"))
                 {
                     if (panelCounter < tutorialPanels.Length)
                     {
@@ -43,7 +43,7 @@ public class TutorialController : MonoBehaviour
                         GameController.instance.OnSceneChange(nextScene);
                     }
                 }
-                if (Input.GetButtonDown("Fire2"))
+                if (Input.GetButtonDown("Fire1"))
                 {
                     GameController.instance.OnSceneChange(nextScene);
                 }

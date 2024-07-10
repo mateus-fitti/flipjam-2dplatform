@@ -275,7 +275,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: <Pressione Start>
+  m_text: "<Pressione qualquer bot\xE3o>"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 739f764a959d2f44bbac35cc8b9d4797, type: 2}
   m_sharedMaterial: {fileID: 4079439908081562748, guid: 739f764a959d2f44bbac35cc8b9d4797, type: 2}
@@ -369,7 +369,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 150}
-  m_SizeDelta: {x: 955.0984, y: 128.9315}
+  m_SizeDelta: {x: 1539.0061, y: 128.9315}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1833765754
 GameObject:

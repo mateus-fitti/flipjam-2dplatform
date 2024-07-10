@@ -20,7 +20,7 @@ public class StartController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Submit"))
+        if (Input.anyKeyDown)
         {
             GameController.instance.OnSceneChange(firstScene);
         }
