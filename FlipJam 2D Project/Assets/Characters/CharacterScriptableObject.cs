@@ -52,7 +52,6 @@ public class CharacterScriptableObject : ScriptableObject
 	[Space(5)]
 	[Range(0f, 1f)] public float wallJumpRunLerp; //Reduces the effect of player's movement while wall jumping.
 	[Range(0f, 1.5f)] public float wallJumpTime; //Time after wall jumping the player's movement is slowed for.
-	public bool doTurnOnWallJump; //Player will rotate to face wall jumping direction
 
 	[Space(20)]
 

@@ -256,7 +256,7 @@ public class PlayerMovement : MonoBehaviour
             _lastWallJumpDir = (LastOnWallRightTime > 0) ? -1 : 1;
 
             LimitWallJumpUses();
-            WallJump(_lastWallJumpDir);
+            characterSpecialHabilities.WallJump(_lastWallJumpDir, RB);
             Turn();
         }
         #endregion
@@ -431,22 +431,6 @@ public class PlayerMovement : MonoBehaviour
 
 		RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
 		#endregion
-	}
-
-	public void WallJump(int dir)
-	{
-		Vector2 force = new Vector2(characterScriptableObject.wallJumpForce.x, characterScriptableObject.wallJumpForce.y);
-		force.x *= dir; //apply force in opposite direction of wall
-
-		if (Mathf.Sign(RB.velocity.x) != Mathf.Sign(force.x))
-			force.x -= RB.velocity.x;
-
-		if (RB.velocity.y < 0) //checks whether player is falling, if so we subtract the velocity.y (counteracting force of gravity). This ensures the player always reaches our desired jump force or greater
-			force.y -= RB.velocity.y;
-
-		//Unlike in the run we want to use the Impulse mode.
-		//The default mode will apply are force instantly ignoring masss
-		RB.AddForce(force, ForceMode2D.Impulse);
 	}
 
 	#endregion

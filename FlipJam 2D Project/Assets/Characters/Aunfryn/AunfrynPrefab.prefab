@@ -78,6 +78,7 @@ GameObject:
   - component: {fileID: 6747889841299008848}
   - component: {fileID: 8351521343813166407}
   - component: {fileID: 1103845216507161463}
+  - component: {fileID: 4693325089612122748}
   m_Layer: 3
   m_Name: AunfrynPrefab
   m_TagString: Player
@@ -267,13 +268,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af46bf1a82cbe044d84847315cc9a7d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterScriptableObject: {fileID: 0}
   pickupRange: 1
   itemLayer:
     serializedVersion: 2
     m_Bits: 128
   holdingItem: 0
   lineRenderer: {fileID: 8351521343813166407}
-  launchForce: 10
   trajactoryTimeStep: 0.05
   trajactoryStepCount: 15
   velocity: {x: 5, y: 0}
@@ -411,6 +412,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4693325089612122748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3704641008782404539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be47f17f264c065418d05b9d6da783ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterScriptableObject: {fileID: 11400000, guid: 3a47be0a2339d1f45b6a9e66bcb7fbf9, type: 2}
 --- !u!1 &5679929743491255734
 GameObject:
   m_ObjectHideFlags: 0

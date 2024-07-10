@@ -383,6 +383,7 @@ GameObject:
   - component: {fileID: 548211152}
   - component: {fileID: 548211154}
   - component: {fileID: 548211155}
+  - component: {fileID: 548211156}
   m_Layer: 3
   m_Name: Character
   m_TagString: Player
@@ -681,10 +682,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterScriptableObject: {fileID: 11400000, guid: 3a47be0a2339d1f45b6a9e66bcb7fbf9, type: 2}
-  gravityStrength: NaN
-  gravityScale: NaN
-  runAccelAmount: Infinity
-  runDeccelAmount: Infinity
+  gravityStrength: -36
+  gravityScale: 1.8
+  runAccelAmount: 50
+  runDeccelAmount: 50
   isCrouching: 0
   canMove: 1
   _groundCheckPoint: {fileID: 1897994791}
@@ -731,6 +732,19 @@ MonoBehaviour:
   clip: {fileID: 0}
   climbingHorizontalOffset: 0.5
   GrabbingLedge: 0
+--- !u!114 &548211156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 548211145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be47f17f264c065418d05b9d6da783ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterScriptableObject: {fileID: 11400000, guid: 3a47be0a2339d1f45b6a9e66bcb7fbf9, type: 2}
 --- !u!1 &599684316
 GameObject:
   m_ObjectHideFlags: 0
