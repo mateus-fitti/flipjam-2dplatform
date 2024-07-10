@@ -9,15 +9,15 @@ public class HeatMeasurementSystem : MonoBehaviour
     public float temperature = 100f; // Temperatura inicial
 
     // Cores para os estados do Egg
-    public Color heatedColor = Color.red;
-    public Color balancedColor = Color.yellow;
-    public Color coldColor = Color.blue;
-    public Color frozenColor = Color.cyan;
+    public Sprite heatedEggImage;
+    public Sprite balancedEggImage;
+    public Sprite coldEggImage;
+    public Sprite frozenEggImage;
+
 
     private bool isGameOver = false; // Flag para indicar se o jogo acabou
 
     public float decreaseRate = 1f; // Taxa de diminuição da temperatura por segundo
-
     private Image sliderFill;
 
     void Awake()
@@ -60,22 +60,22 @@ public class HeatMeasurementSystem : MonoBehaviour
         // Update the egg color and slider fill color based on the temperature
         if (temperature > 75)
         {
-            egg.GetComponent<Renderer>().material.color = heatedColor;
+            egg.GetComponent<SpriteRenderer>().sprite = heatedEggImage;
             sliderFill.color = Color.red;
         }
         else if (temperature > 50)
         {
-            egg.GetComponent<Renderer>().material.color = balancedColor;
+            egg.GetComponent<SpriteRenderer>().sprite = balancedEggImage;
             sliderFill.color = Color.yellow; // Change slider color to balancedColor
         }
         else if (temperature > 25)
         {
-            egg.GetComponent<Renderer>().material.color = coldColor;
-            sliderFill.color = Color.blue; // Change slider color to coldColor
+            egg.GetComponent<SpriteRenderer>().sprite = coldEggImage;
+            sliderFill.color = Color.grey; // Change slider color to coldColor
         }
         else
         {
-            egg.GetComponent<Renderer>().material.color = frozenColor;
+            egg.GetComponent<SpriteRenderer>().sprite = frozenEggImage;
             sliderFill.color = Color.cyan; // Change slider color to frozenColor
             GameOver(); // Trigger Game Over when temperature is 25 or below
         }
