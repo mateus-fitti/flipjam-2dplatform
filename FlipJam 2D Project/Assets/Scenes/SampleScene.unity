@@ -148,14 +148,14 @@ Transform:
   m_GameObject: {fileID: 135536763}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 548211150}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &135536765
-CircleCollider2D:
+--- !u!68 &135536765
+EdgeCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -186,9 +186,22 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 5
+  m_Offset: {x: -0.5, y: -0.5}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -1.9468851, y: 4.148624}
+  - {x: -2.9500842, y: 3.1487818}
+  - {x: -2.9513907, y: -1.8480117}
+  - {x: -1.9560852, y: -2.855922}
+  - {x: 3.042599, y: -2.8522651}
+  - {x: 4.0556602, y: -1.8473749}
+  - {x: 4.05365, y: 3.1456118}
+  - {x: 3.0543609, y: 4.1524563}
+  - {x: -1.9489121, y: 4.149745}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
 --- !u!1 &518068656
 GameObject:
   m_ObjectHideFlags: 0
