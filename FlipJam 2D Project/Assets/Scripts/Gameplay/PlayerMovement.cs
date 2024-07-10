@@ -166,7 +166,9 @@ public class PlayerMovement : MonoBehaviour
 			{
 				animator.SetBool("IsWalking", true);
 				CheckDirectionToFace(_moveInput.x > 0);
-			} else{
+			}
+			else
+			{
 				animator.SetBool("IsWalking", false);
 			}
 			if (itemInteractions)
@@ -270,8 +272,13 @@ public class PlayerMovement : MonoBehaviour
 		{
 			IsJumping = false;
 
+			animator.SetBool("IsJumping", false);
+
 			if (!IsWallJumping)
+			{
+				animator.SetBool("IsWallJumping", false); // Ensure wall jump animation is stopped when not wall jumping
 				_isJumpFalling = true;
+			}
 		}
 
 		if (IsWallJumping && Time.time - _wallJumpStartTime > wallJumpTime)
@@ -290,6 +297,7 @@ public class PlayerMovement : MonoBehaviour
 		//Jump
 		if (CanJump() && LastPressedJumpTime > 0)
 		{
+			animator.SetBool("IsJumping", true);
 			IsJumping = true;
 			IsWallJumping = false;
 			_isJumpCut = false;
@@ -305,16 +313,20 @@ public class PlayerMovement : MonoBehaviour
 			_isJumpFalling = false;
 			_wallJumpStartTime = Time.time;
 			_lastWallJumpDir = (LastOnWallRightTime > 0) ? -1 : 1;
-
+			animator.SetBool("IsWallJumping", true); // Correctly set the wall jump animation
 			WallJump(_lastWallJumpDir);
 		}
 		#endregion
 
 		#region SLIDE CHECKS
 		if (CanSlide() && ((LastOnWallLeftTime > 0 && _moveInput.x < 0) || (LastOnWallRightTime > 0 && _moveInput.x > 0)))
+		{
 			IsSliding = true;
+		}
 		else
+		{
 			IsSliding = false;
+		}
 		#endregion
 
 		#region GRAVITY
@@ -366,6 +378,10 @@ public class PlayerMovement : MonoBehaviour
 		//Handle Slide
 		if (IsSliding)
 			Slide();
+			else
+			{
+				animator.SetBool("IsSliding", false);
+			}
 	}
 
 	#region INPUT CALLBACKS
@@ -475,6 +491,7 @@ public class PlayerMovement : MonoBehaviour
 
 	private void WallJump(int dir)
 	{
+		animator.SetBool("IsWallJumping", true);
 		//Ensures we can't call Wall Jump multiple times from one press
 		LastPressedJumpTime = 0;
 		LastOnGroundTime = 0;
@@ -509,6 +526,7 @@ public class PlayerMovement : MonoBehaviour
 		//The force applied can't be greater than the (negative) speedDifference * by how many times a second FixedUpdate() is called. For more info research how force are applied to rigidbodies.
 		movement = Mathf.Clamp(movement, -Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime), Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime));
 
+		animator.SetBool("IsSliding", true);
 
 		RB.AddForce(movement * Vector2.up);
 	}
