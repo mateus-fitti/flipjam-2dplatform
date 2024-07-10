@@ -220,7 +220,6 @@ RectTransform:
   - {fileID: 1853805611}
   - {fileID: 518014564}
   - {fileID: 364499451}
-  - {fileID: 1633534930}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -247,7 +246,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &364499451
 RectTransform:
   m_ObjectHideFlags: 0
@@ -261,6 +260,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 776219813}
+  - {fileID: 1633534930}
   m_Father: {fileID: 326878310}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -408,7 +408,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -180}
+  m_AnchoredPosition: {x: 0, y: -325}
   m_SizeDelta: {x: 487.93, y: 136.0668}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &518014565
@@ -450,7 +450,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 518014566}
   m_OnClick:
     m_PersistentCalls:
@@ -1188,16 +1188,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1633534929}
-  m_LocalRotation: {x: -0, y: -0, z: 0.14838798, w: 0.9889292}
+  m_LocalRotation: {x: -0, y: -0, z: 0.148388, w: 0.9889293}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 326878310}
+  m_Father: {fileID: 364499451}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 17.067}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 295, y: -335}
+  m_AnchoredPosition: {x: 295, y: 25}
   m_SizeDelta: {x: 375.6637, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1633534931
@@ -1334,7 +1334,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -75}
   m_SizeDelta: {x: 487.93, y: 136.0668}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &1853805612
@@ -1411,7 +1411,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: SampleScene
+          m_StringArgument: TutorialScene
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1853805614
