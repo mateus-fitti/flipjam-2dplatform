@@ -11,9 +11,9 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-	[Header("Data")]	
+	[Header("Data")]
 	public CharacterScriptableObject characterScriptableObject;
-	
+
 	private CharacterSpecialHabilities characterSpecialHabilities;
 
 	[Header("Gravity")]
@@ -116,8 +116,8 @@ public class PlayerMovement : MonoBehaviour
 			_moveInput.y = Input.GetAxisRaw("Vertical");
 			if (_moveInput.x != 0)
 			{
-				animator.SetBool("IsWalking", true);
 				CheckDirectionToFace(_moveInput.x > 0);
+				animator.SetBool("IsWalking", true);
 			}
 			else
 			{
@@ -228,7 +228,6 @@ public class PlayerMovement : MonoBehaviour
 
 			if (!IsWallJumping)
 			{
-				animator.SetBool("IsWallJumping", false); // Ensure wall jump animation is stopped when not wall jumping
 				_isJumpFalling = true;
 			}
 		}
@@ -249,6 +248,7 @@ public class PlayerMovement : MonoBehaviour
 		//Jump
 		if (CanJump() && LastPressedJumpTime > 0)
 		{
+			animator.SetBool("IsJumping", true);
 			IsJumping = true;
 			IsWallJumping = false;
 			_isJumpCut = false;
@@ -257,23 +257,23 @@ public class PlayerMovement : MonoBehaviour
 		}
 		//WALL JUMP
 		else if (CanWallJump() && LastPressedJumpTime > 0)
-        {
-			animator.SetBool("IsWallJumping", true);
-            IsWallJumping = true;
-            IsJumping = false;
-            _isJumpCut = false;
-            _isJumpFalling = false;
-            _wallJumpStartTime = Time.time;
-            _lastWallJumpDir = (LastOnWallRightTime > 0) ? -1 : 1;
+		{
+			IsWallJumping = true;
+			animator.SetBool("IsJumping", false);
+			IsJumping = false;
+			_isJumpCut = false;
+			_isJumpFalling = false;
+			_wallJumpStartTime = Time.time;
+			_lastWallJumpDir = (LastOnWallRightTime > 0) ? -1 : 1;
 
-            LimitWallJumpUses();
-            characterSpecialHabilities.WallJump(_lastWallJumpDir, RB);
-            Turn();
-        }
-        #endregion
+			LimitWallJumpUses();
+			characterSpecialHabilities.WallJump(_lastWallJumpDir, RB);
+			Turn();
+		}
+		#endregion
 
-        #region SLIDE CHECKS
-        if (CanSlide() && ((LastOnWallLeftTime > 0 && _moveInput.x < 0) || (LastOnWallRightTime > 0 && _moveInput.x > 0)))
+		#region SLIDE CHECKS
+		if (CanSlide() && ((LastOnWallLeftTime > 0 && _moveInput.x < 0) || (LastOnWallRightTime > 0 && _moveInput.x > 0)))
 			IsSliding = true;
 		else
 		{
@@ -319,32 +319,39 @@ public class PlayerMovement : MonoBehaviour
 		#endregion
 	}
 
-    private void LimitWallJumpUses()
-    {
-        //Ensures we can't call Wall Jump multiple times from one press
-        LastPressedJumpTime = 0;
-        LastOnGroundTime = 0;
-        LastOnWallRightTime = 0;
-        LastOnWallLeftTime = 0;
-    }
+	private void LimitWallJumpUses()
+	{
+		//Ensures we can't call Wall Jump multiple times from one press
+		LastPressedJumpTime = 0;
+		LastOnGroundTime = 0;
+		LastOnWallRightTime = 0;
+		LastOnWallLeftTime = 0;
+	}
 
-    private void FixedUpdate()
+	private void FixedUpdate()
 	{
 		//Handle Run
 		if (IsWallJumping)
+		{
+			animator.SetBool("IsWallJumping", true);
 			Run(characterScriptableObject.wallJumpRunLerp);
+		}
 		else
+		{
+			animator.SetBool("IsWallJumping", false);
 			Run(1);
+		}
 
 		//Handle Slide
-		if (IsSliding){
+		if (IsSliding)
+		{
 			animator.SetBool("IsSliding", true);
 			characterSpecialHabilities.Slide(RB);
 		}
-			else
-			{
-				animator.SetBool("IsSliding", false);
-			}
+		else
+		{
+			animator.SetBool("IsSliding", false);
+		}
 	}
 
 	#region INPUT CALLBACKS
@@ -425,7 +432,6 @@ public class PlayerMovement : MonoBehaviour
 
 	private void Turn()
 	{
-		//stores scale and flips the player along the x axis,
 		Vector3 scale = transform.localScale;
 		scale.x *= -1;
 		transform.localScale = scale;
@@ -436,7 +442,6 @@ public class PlayerMovement : MonoBehaviour
 	#region JUMP METHODS
 	private void Jump()
 	{
-		animator.SetBool("IsJumping", true);
 		//Ensures we can't call Jump multiple times from one press
 		LastPressedJumpTime = 0;
 		LastOnGroundTime = 0;

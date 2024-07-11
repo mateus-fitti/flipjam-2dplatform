@@ -8,10 +8,6 @@ public class CharacterItemInteractions : MonoBehaviour
     public bool holdingItem = false;
     GameObject item;
     PlayerMovement charMovement;
-
-    [SerializeField] private LineRenderer lineRenderer;
-    [SerializeField] private float trajactoryTimeStep = 0.05f;
-    [SerializeField] private int trajactoryStepCount = 15;
     Vector2 startPosition, currentPosition;
     [SerializeField] private Vector2 velocity;
 
@@ -89,7 +85,6 @@ public class CharacterItemInteractions : MonoBehaviour
         }
         charMovement.DefaultMovement();
         item = null;
-        ClearTrajectory();
     }
 
     // void DeleteItem()
@@ -101,25 +96,6 @@ public class CharacterItemInteractions : MonoBehaviour
     //     }
     // }
 
-    void DrawTrajectory()
-    {
-        Vector3[] positions = new Vector3[trajactoryStepCount];
-        for (int i = 0; i < trajactoryStepCount; i++)
-        {
-            float t = i * trajactoryTimeStep;
-            Vector3 pos = (Vector2)item.transform.position + velocity * t + 0.5f * Physics2D.gravity * t * t;
-
-            positions[i] = pos;
-        }
-
-        lineRenderer.positionCount = trajactoryStepCount;
-        lineRenderer.SetPositions(positions);
-    }
-
-    void ClearTrajectory()
-    {
-        lineRenderer.positionCount = 0;
-    }
     void FireProjectile()
     {
         Rigidbody2D rg = item.GetComponent<Rigidbody2D>();

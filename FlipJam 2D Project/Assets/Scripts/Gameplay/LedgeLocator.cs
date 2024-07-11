@@ -28,7 +28,7 @@ public class LedgeLocator : MonoBehaviour
     //A variable to help this script know whatever GameObject is currently the ledge the Character is hanging from
     private GameObject ledge;
     //A quick float value that will get overriden by the clip variable if there is no AnimationClip selected; this value is setup as a failsafe so the script can still run if you forget to attach an animation
-    private float animationTime = .5f;
+    private float animationTime = .3f;
     //Bool that determines if the Character is falling off a platform and no longer hanging; needs to be set so there is a tiny delay after falling so the Character doesn't grab onto the platform again
     private bool falling;
     //Bool that stops character from grabbing the same ledge they just dropped from
@@ -36,7 +36,7 @@ public class LedgeLocator : MonoBehaviour
     //Bool that makes sure the LedgeClimbing animation doesn't play too much
     private bool climbing;
 
-    
+
     //These are extra variables that are setup in the Character script that this script inherits from; if you are using your own solution and don't want to use a Character script, then these variables will need to be established in order to get the logic in this script to work
     [HideInInspector]
     public bool GrabbingLedge;
@@ -52,10 +52,10 @@ public class LedgeLocator : MonoBehaviour
         anim = GetComponent<Animator>();
         if (clip != null)
         {
-            animationTime = clip.length;
+            //animationTime = clip.length;
         }
     }
-    
+
 
     //Using the FixedUpdate because it works better with Rigidbody values so it's collision is accurate with whatever calculations are performed by Rigidbody
     protected virtual void FixedUpdate()
@@ -129,15 +129,15 @@ public class LedgeLocator : MonoBehaviour
                 rb.velocity = Vector2.zero;
                 //Turns off gravity for the Character while hanging from platform
                 rb.bodyType = RigidbodyType2D.Kinematic;
-                //I've set up my HorizontalMovement script to not run the movement logic if true, but if you're not sure how to set that up, use the line below
-                //GetComponent<HorizontalMovement>().enabled = false;
+                //I've set up my PlayerMovement script to not run the movement logic if true, but if you're not sure how to set that up, use the line below
+                GetComponent<PlayerMovement>().enabled = false;
             }
             else
             {
                 //Turns on the gravity again if the Character is no longer hanging from ledge
                 rb.bodyType = RigidbodyType2D.Dynamic;
-                //I've set up my HorizontalMovement script to not run the movement logic if true, but if you're not sure how to set that up, use the line below
-                //GetComponent<HorizontalMovement>().enabled = true;
+                //I've set up my PlayerMovement script to not run the movement logic if true, but if you're not sure how to set that up, use the line below
+                GetComponent<PlayerMovement>().enabled = true;
             }
         }
     }
@@ -180,8 +180,8 @@ public class LedgeLocator : MonoBehaviour
             falling = true;
             //Turns gravity back on for the Character
             rb.bodyType = RigidbodyType2D.Dynamic;
-            //I've set up my HorizontalMovement script to not run the movement logic if true, but if you're not sure how to set that up, use the line below
-            //GetComponent<HorizontalMovement>().enabled = true;
+            //I've set up my PlayerMovement script to not run the movement logic if true, but if you're not sure how to set that up, use the line below
+            GetComponent<PlayerMovement>().enabled = true;
             //Runs the NotFalling method half a second later to make sure the falling bool gets set back to false quickly
             Invoke("NotFalling", .5f);
         }

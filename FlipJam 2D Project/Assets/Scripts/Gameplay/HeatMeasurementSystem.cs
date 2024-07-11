@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections; // Required for IEnumerator
 
 public class HeatMeasurementSystem : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class HeatMeasurementSystem : MonoBehaviour
 
     public float decreaseRate = 1f; // Taxa de diminuição da temperatura por segundo
     private Image sliderFill;
+    private Animator characterAnimator; // Add this field
 
     void Awake()
     {
@@ -28,7 +30,8 @@ public class HeatMeasurementSystem : MonoBehaviour
 
     void Start()
     {
-        Time.timeScale = 1; // Unpause the game
+        characterAnimator = GameObject.Find("Character").GetComponent<Animator>();
+        GameController.instance.UnPauseGame(); // Use GameController to unpause
         GameOverObj.SetActive(false); // Hide the Game Over screen
 
         if (temperatureSlider != null)
@@ -95,10 +98,36 @@ public class HeatMeasurementSystem : MonoBehaviour
     }
     void GameOver()
     {
-        if (isGameOver) return; // Return if the game is already over (to avoid calling this method multiple times
-        isGameOver = true;
-        Debug.Log("Game Over! The egg is frozen!");
-        GameOverObj.SetActive(true); // Show the Game Over screen
-        Time.timeScale = 0; // Pause the game
+        if (isGameOver) return;
+
+        StartCoroutine(WaitForAnimation("Dead")); // Wait for the animation to finish before pausing
     }
+
+    IEnumerator WaitForAnimation(string animationName)
+    {
+       // Play the animation
+    characterAnimator.Play(animationName);
+
+    // Wait until the animation starts
+    while (!characterAnimator.GetCurrentAnimatorStateInfo(0).IsName(animationName))
+    {
+        yield return null;
+    }
+
+    // Wait for one frame to ensure the animation has started
+    yield return null;
+
+    // Then wait until the animation is no longer playing
+    while (characterAnimator.GetCurrentAnimatorStateInfo(0).IsName(animationName) &&
+           characterAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+    {
+        yield return null;
+    }
+
+    isGameOver = true;
+    Debug.Log("Game Over! The egg is frozen!");
+    GameOverObj.SetActive(true);
+    // Finally, pause the game
+    GameController.instance.PauseGame();
+}
 }
