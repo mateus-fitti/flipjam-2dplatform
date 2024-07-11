@@ -14,14 +14,19 @@ public class HeatMeasurementSystem : MonoBehaviour
     public Sprite balancedEggImage;
     public Sprite coldEggImage;
     public Sprite frozenEggImage;
+    public LayerMask heatLayer;
 
     public bool heatSystemActive = false; // Flag para indicar se o sistema de calor está ativo
 
     private bool isGameOver = false; // Flag para indicar se o jogo acabou
 
-    public float decreaseRate = 1f; // Taxa de diminuição da temperatura por segundo
+    private float decreaseRate;
+    private float reducedDreceasedRate;
+    public float defaultDecreasedRate = 2f; // Taxa de diminuição da temperatura por segundo
+    public float defaultIncreasedRate = 6f; // Taxa de ganho da temperatura por segundo
     private Image sliderFill;
     private Animator characterAnimator; // Add this field
+
 
     void Awake()
     {
@@ -34,6 +39,9 @@ public class HeatMeasurementSystem : MonoBehaviour
         GameController.instance.UnPauseGame(); // Use GameController to unpause
         GameOverObj.SetActive(false); // Hide the Game Over screen
 
+        decreaseRate = defaultDecreasedRate;
+        reducedDreceasedRate = defaultDecreasedRate/2;
+
         if (temperatureSlider != null)
         {
             temperatureSlider.maxValue = 100f; // Assuming 100 is the max temperature
@@ -44,9 +52,26 @@ public class HeatMeasurementSystem : MonoBehaviour
     {
         if (heatSystemActive)
         {
-            // Diminuir a temperatura com o tempo
-            if (temperature > 0) temperature -= decreaseRate * Time.deltaTime;
+            Collider2D collider = Physics2D.OverlapCircle(egg.transform.position, 1, heatLayer);
 
+            if(collider == null)
+            {
+                // Diminuir a temperatura com o tempo
+                if(!egg.GetComponent<SpriteRenderer>().enabled)
+                {
+                    decreaseRate = reducedDreceasedRate;
+                    if (temperature > 0) temperature -= decreaseRate * Time.deltaTime;
+                }
+                else
+                {
+                    decreaseRate = defaultDecreasedRate;
+                    if (temperature > 0) temperature -= decreaseRate * Time.deltaTime;
+                }
+            }
+            else
+            {
+                if (temperature > 0 && temperature < 100) temperature += defaultIncreasedRate * Time.deltaTime;
+            }
             // Atualizar a cor do Egg com base na temperatura
             UpdateEggColor();
 
