@@ -915,6 +915,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7264642c2c273d947955a0b1d63ee91f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreText: {fileID: 1114657483}
+  highScoreText: {fileID: 1296932964}
+  restartButton: {fileID: 1947939393}
+  timerText: {fileID: 1868158266}
 --- !u!4 &502551620
 Transform:
   m_ObjectHideFlags: 0
