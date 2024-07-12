@@ -118,6 +118,22 @@ public class HeatMeasurementSystem : MonoBehaviour
             temperatureSlider.value = temperature;
         }
     }
+
+    public void ResetHeatSystem()
+    {
+        temperature = 100f; // Reset to initial temperature
+        heatSystemActive = true; // Reactivate the heat system
+        isGameOver = false; // Reset game over flag
+        GameOverObj.SetActive(false); // Hide the Game Over screen
+
+        // Reset UI elements
+        if (temperatureSlider != null)
+        {
+            temperatureSlider.value = temperature;
+        }
+        // Reset egg color and slider fill color
+        UpdateEggColor();
+    }
     void GameOver()
     {
         if (isGameOver) return;
