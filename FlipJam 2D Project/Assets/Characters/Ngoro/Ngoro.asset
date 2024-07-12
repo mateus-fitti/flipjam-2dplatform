@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3f20bf2207727746a20207ac9570a68, type: 3}
+  m_Name: Ngoro
+  m_EditorClassIdentifier: 
+  launchForce: 10
+  fallGravityMult: 2
+  maxFallSpeed: 22
+  fastFallGravityMult: 2
+  maxFastFallSpeed: 22
+  runMaxSpeed: 3.4200003
+  deafaultMaxSpeed: 3.4200003
+  runAcceleration: 3.4200003
+  runDecceleration: 3.4200003
+  accelInAir: 0.1
+  deccelInAir: 0.1
+  doConserveMomentum: 0
+  jumpHeight: 4.5
+  deafaultJumpHeight: 0
+  jumpForce: 18
+  deafaultJumpForce: 18
+  jumpTimeToApex: 0.5
+  jumpCutGravityMult: 3.5
+  jumpHangGravityMult: 1
+  jumpHangTimeThreshold: 0
+  jumpHangAccelerationMult: 1
+  jumpHangMaxSpeedMult: 1
+  wallJumpForce: {x: 3.0600004, y: 5.4}
+  deafaultWallJumpForce: {x: 3.0600004, y: 5.4}
+  wallJumpRunLerp: 0.075
+  wallJumpTime: 0.3
+  slideSpeed: -13.888887
+  deafaultSlideSpeed: -13.888887
+  slideAccel: 0.8
+  coyoteTime: 0.15
+  jumpInputBufferTime: 0.15
+  weightModifier: 0.6
+  animations:
+  - animationType: 0
+    animationClip: {fileID: 7400000, guid: a2193b9f1dba8114e84c7efa89fd7567, type: 2}
+  - animationType: 1
+    animationClip: {fileID: 7400000, guid: 4d080592520cf244a9fdd1e2e3b1e475, type: 2}
+  - animationType: 2
+    animationClip: {fileID: 7400000, guid: 306020aef6acccc4e9938cf056bb1306, type: 2}
+  - animationType: 3
+    animationClip: {fileID: 7400000, guid: 5232a9c4b2a572e4899a37b2a164a705, type: 2}
+  - animationType: 4
+    animationClip: {fileID: 7400000, guid: 5232a9c4b2a572e4899a37b2a164a705, type: 2}
+  - animationType: 5
+    animationClip: {fileID: 7400000, guid: 5232a9c4b2a572e4899a37b2a164a705, type: 2}
+  - animationType: 6
+    animationClip: {fileID: 7400000, guid: 8898da344112bb24892037e7d64056f4, type: 2}
+  - animationType: 7
+    animationClip: {fileID: 7400000, guid: f6e874f2bee16b644ad0d8a46521fdb8, type: 2}
+  - animationType: 8
+    animationClip: {fileID: 7400000, guid: 5c360abd0416ee9448018dacfe8bf962, type: 2}
+  - animationType: 9
+    animationClip: {fileID: 7400000, guid: 065fa3b17f0bbce4ebc00b445c592702, type: 2}
+  - animationType: 10
+    animationClip: {fileID: 7400000, guid: 20c4384f465b4d545900ca34202a72d4, type: 2}
+  - animationType: 11
+    animationClip: {fileID: 7400000, guid: 8dc072842ed83d844b946d456e1c568e, type: 2}
+  - animationType: 12
+    animationClip: {fileID: 7400000, guid: 88df942b3fdd3994ca575bfeeaf46f67, type: 2}

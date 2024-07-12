@@ -39,9 +39,11 @@ public class PlayerMovement : MonoBehaviour
 	//These are fields which can are public allowing for other sctipts to read them
 	//but can only be privately written to.
 	public bool IsFacingRight { get; private set; }
+
 	public bool IsJumping { get; private set; }
 	public bool IsWallJumping { get; private set; }
 	public bool IsSliding { get; private set; }
+	public bool isGrounded { get; private set; }
 
 	//Timers (also all fields, could be private and a method returning a bool could be used)
 	public float LastOnGroundTime { get; private set; }
@@ -75,6 +77,27 @@ public class PlayerMovement : MonoBehaviour
 
 	[Header("Layers & Tags")]
 	[SerializeField] private LayerMask _groundLayer;
+
+
+	[Header("Animations")]
+	private string currentAnimaton;
+
+
+	// Animation States
+	const string PLAYER_IDLE = "Idle";
+	const string PLAYER_WALK = "Walk";
+	const string PLAYER_JUMP = "Jump";
+	const string PLAYER_CLIMB = "Climb";
+	const string PLAYER_SLIDE = "Slide";
+	const string PLAYER_WALLJUMP = "WallJump";
+	const string PLAYER_CROUCH = "Crouch";
+	const string PLAYER_EGGIDLE = "EggIdle";
+	const string PLAYER_EGGWALK = "EggWalk";
+	const string PLAYER_EGGJUMP = "EggJump";
+	const string PLAYER_EGGCROUCH = "EggCrouch";
+	const string PLAYER_EGGCLIMB = "EggClimb";
+	const string PLAYER_DEAD = "Dead";
+
 	#endregion
 
 	private void Awake()
@@ -117,15 +140,10 @@ public class PlayerMovement : MonoBehaviour
 			if (_moveInput.x != 0)
 			{
 				CheckDirectionToFace(_moveInput.x > 0);
-				animator.SetBool("IsWalking", true);
-			}
-			else
-			{
-				animator.SetBool("IsWalking", false);
 			}
 			if (itemInteractions)
 			{
-				animator.SetBool("EggPicked", itemInteractions.holdingItem);
+				//animator.SetBool("holdingItem", itemInteractions.holdingItem);
 			}
 			if (!isCrouching && Input.GetButtonDown("Jump"))
 			{
@@ -135,36 +153,34 @@ public class PlayerMovement : MonoBehaviour
 			{
 				OnJumpUpInput();
 			}
-			if (Input.GetKeyDown(KeyCode.S) && !IsJumping && !IsSliding)
+			if (_moveInput.y<0 && !IsJumping && !IsSliding)
 			{
 				if (itemInteractions.holdingItem)
 				{
 					isCrouching = true;
-					animator.SetBool("IsCrouching", isCrouching);
+					//animator.SetBool("IsCrouching", isCrouching);
 				}
 				else
 				{
 					HeavyMovement();
 					isCrouching = true;
-					animator.SetBool("IsCrouching", isCrouching);
+					//animator.SetBool("IsCrouching", isCrouching);
 				}
-				transform.localScale = new Vector3(transform.localScale.x, 0.8f, transform.localScale.z); // Set scale Y to 0.75
 
 			}
-			else if (Input.GetKeyUp(KeyCode.S) && !IsJumping && !IsSliding)
+			else
 			{
 				if (itemInteractions.holdingItem)
 				{
 					isCrouching = false;
-					animator.SetBool("IsCrouching", isCrouching);
+					//animator.SetBool("IsCrouching", isCrouching);
 				}
 				else
 				{
 					DefaultMovement();
 					isCrouching = false;
-					animator.SetBool("IsCrouching", isCrouching);
+					//animator.SetBool("IsCrouching", isCrouching);
 				}
-				transform.localScale = new Vector3(transform.localScale.x, 1f, transform.localScale.z); // Reset scale Y to 1
 
 			}
 
@@ -181,6 +197,17 @@ public class PlayerMovement : MonoBehaviour
 		#endregion
 
 		#region COLLISION CHECKS
+		//Ground
+
+		if (RB.velocity.y == 0)
+		{
+			isGrounded = true;
+		}
+		else
+		{
+			isGrounded = false;
+		}
+
 		if (!IsJumping)
 		{
 			//Ground Check
@@ -224,7 +251,7 @@ public class PlayerMovement : MonoBehaviour
 		{
 			IsJumping = false;
 
-			animator.SetBool("IsJumping", false);
+			//animator.SetBool("IsJumping", false);
 
 			if (!IsWallJumping)
 			{
@@ -248,7 +275,7 @@ public class PlayerMovement : MonoBehaviour
 		//Jump
 		if (CanJump() && LastPressedJumpTime > 0)
 		{
-			animator.SetBool("IsJumping", true);
+			//animator.SetBool("IsJumping", true);
 			IsJumping = true;
 			IsWallJumping = false;
 			_isJumpCut = false;
@@ -259,7 +286,7 @@ public class PlayerMovement : MonoBehaviour
 		else if (CanWallJump() && LastPressedJumpTime > 0)
 		{
 			IsWallJumping = true;
-			animator.SetBool("IsJumping", false);
+			//animator.SetBool("IsJumping", false);
 			IsJumping = false;
 			_isJumpCut = false;
 			_isJumpFalling = false;
@@ -330,27 +357,42 @@ public class PlayerMovement : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		if(currentAnimaton == null) PlayEggIdleJumpAnimation();
 		//Handle Run
 		if (IsWallJumping)
 		{
-			animator.SetBool("IsWallJumping", true);
+			if (!itemInteractions.holdingItem) ChangeAnimationState(PLAYER_WALLJUMP);
+			else ChangeAnimationState(PLAYER_EGGCLIMB);
+
 			Run(characterScriptableObject.wallJumpRunLerp);
 		}
 		else
 		{
-			animator.SetBool("IsWallJumping", false);
+			PlayEggIdleJumpAnimation();
 			Run(1);
 		}
 
 		//Handle Slide
 		if (IsSliding)
 		{
-			animator.SetBool("IsSliding", true);
+			if (!itemInteractions.holdingItem) ChangeAnimationState(PLAYER_SLIDE);
+			else ChangeAnimationState(PLAYER_EGGCLIMB);
+
 			characterSpecialHabilities.Slide(RB);
 		}
 		else
 		{
-			animator.SetBool("IsSliding", false);
+			PlayEggIdleJumpAnimation();
+		}
+
+		if (isCrouching)
+		{
+			if (!itemInteractions.holdingItem) ChangeAnimationState(PLAYER_CROUCH);
+			else ChangeAnimationState(PLAYER_EGGCROUCH);
+		}
+		else
+		{
+			PlayEggIdleJumpAnimation();
 		}
 	}
 
@@ -554,6 +596,53 @@ public class PlayerMovement : MonoBehaviour
 	}
 	#endregion
 
+	#region Animation
+	//=====================================================
+	// mini animation manager
+	//=====================================================
+	void ChangeAnimationState(string newAnimation)
+	{
+		if (currentAnimaton == newAnimation) return;
+
+		foreach (var animation in characterScriptableObject.animations)
+		{
+			Debug.Log(animation.animationType.ToString());
+			if (animation.animationType.ToString() == newAnimation)
+			{
+				animator.Play(animation.animationName);
+				currentAnimaton = newAnimation;
+				return;
+			}
+		}
+		#endregion
+
+
+	}
+
+	void PlayEggIdleJumpAnimation()
+	{
+		if (!itemInteractions.holdingItem)
+		{
+			if (RB.velocity.y == 0 && RB.velocity.x == 0 && !isCrouching) ChangeAnimationState(PLAYER_IDLE);
+			else if (RB.velocity.y == 0 && RB.velocity.x != 0 && !isCrouching) ChangeAnimationState(PLAYER_WALK);
+			else if (RB.velocity.y != 0 && !IsWallJumping && !IsSliding && !isCrouching) ChangeAnimationState(PLAYER_JUMP);
+			else if (isCrouching) ChangeAnimationState(PLAYER_CROUCH);
+			else ChangeAnimationState(PLAYER_CLIMB);
+		}
+		else
+		{
+			if (RB.velocity.y == 0 && RB.velocity.x == 0 && !isCrouching) ChangeAnimationState(PLAYER_EGGIDLE);
+			else if (RB.velocity.y == 0 && RB.velocity.x != 0 && !isCrouching) ChangeAnimationState(PLAYER_EGGWALK);
+			else if (RB.velocity.y != 0 && !IsWallJumping && !IsSliding && !isCrouching) ChangeAnimationState(PLAYER_EGGJUMP);
+			else if (isCrouching) ChangeAnimationState(PLAYER_EGGCROUCH);
+			else ChangeAnimationState(PLAYER_EGGCLIMB);
+		}
+	}
+
+	public void PlayDeadAnimation()
+	{
+		animator.Play("Dead");
+	}
 }
 
 // created by Dawnosaur :D

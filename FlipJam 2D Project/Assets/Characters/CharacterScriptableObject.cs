@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 [CreateAssetMenu(fileName = "NewCharacter", menuName = "Characters", order = 1)]
 public class CharacterScriptableObject : ScriptableObject
@@ -67,4 +68,77 @@ public class CharacterScriptableObject : ScriptableObject
 	[Header("Weights")]
 	[Range(0.01f, 1f)] public float weightModifier; //Weight modifier value
 
+	[System.Serializable]
+    public class AnimationClipData
+    {
+        public AnimationType animationType;
+        public AnimationClip animationClip;
+        public string animationName => animationClip != null ? animationClip.name : string.Empty;
+    }
+
+    public enum AnimationType
+    {
+        Idle,
+        Walk,
+        Jump,
+        Climb,
+        Slide,
+        WallJump,
+        Crouch,
+        EggIdle,
+        EggWalk,
+        EggJump,
+		EggCrouch,
+        EggClimb,
+		Dead
+    }
+
+	[Header("Animations")]
+    public List<AnimationClipData> animations = new List<AnimationClipData>();
+
+    private void OnEnable()
+    {
+        // Ensure the animations list matches the enum size
+        if (animations.Count != System.Enum.GetNames(typeof(AnimationType)).Length)
+        {
+            animations.Clear();
+            foreach (AnimationType type in System.Enum.GetValues(typeof(AnimationType)))
+            {
+                animations.Add(new AnimationClipData { animationType = type });
+            }
+        }
+    }
+
+	[CustomEditor(typeof(CharacterScriptableObject))]
+	public class CharacterScriptableObjectEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        // Cast the target object to the correct type
+        CharacterScriptableObject scriptableObject = (CharacterScriptableObject)target;
+
+        // Draw the default inspector options
+        DrawDefaultInspector();
+
+        // Custom GUI for the animations list
+        EditorGUILayout.LabelField("Animations");
+        if (scriptableObject.animations != null)
+        {
+            for (int i = 0; i < scriptableObject.animations.Count; i++)
+            {
+                // Use the animation type as the label for each list item
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField(scriptableObject.animations[i].animationType.ToString());
+                scriptableObject.animations[i].animationClip = (AnimationClip)EditorGUILayout.ObjectField(scriptableObject.animations[i].animationClip, typeof(AnimationClip), false);
+                EditorGUILayout.EndHorizontal();
+            }
+        }
+
+        // Apply changes
+        if (GUI.changed)
+        {
+            EditorUtility.SetDirty(target);
+        }
+    }
+}
 }

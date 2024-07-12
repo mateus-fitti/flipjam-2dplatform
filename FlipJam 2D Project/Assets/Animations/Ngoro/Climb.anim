@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: EggJump
+  m_Name: Climb
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,15 +21,7 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 21300000, guid: df2873929fade254390bb66d698a5bff, type: 3}
-    - time: 0.083333336
-      value: {fileID: 21300000, guid: 181d55971f6548f4b98794d86c38d88d, type: 3}
-    - time: 0.16666667
-      value: {fileID: 21300000, guid: 6d0af53956e8f2942a2e36fadecd31ca, type: 3}
-    - time: 0.25
-      value: {fileID: 21300000, guid: 686b3d370473c7c49a129ea84ce82236, type: 3}
-    - time: 0.41666666
-      value: {fileID: 21300000, guid: b4c254303e94a6b429d53151839d80bb, type: 3}
+      value: {fileID: 21300000, guid: 66c020fe3b75e8941b9bf44ff9815833, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -52,17 +44,13 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 21300000, guid: df2873929fade254390bb66d698a5bff, type: 3}
-    - {fileID: 21300000, guid: 181d55971f6548f4b98794d86c38d88d, type: 3}
-    - {fileID: 21300000, guid: 6d0af53956e8f2942a2e36fadecd31ca, type: 3}
-    - {fileID: 21300000, guid: 686b3d370473c7c49a129ea84ce82236, type: 3}
-    - {fileID: 21300000, guid: b4c254303e94a6b429d53151839d80bb, type: 3}
+    - {fileID: 21300000, guid: 66c020fe3b75e8941b9bf44ff9815833, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.43333334
+    m_StopTime: 0.016666668
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0

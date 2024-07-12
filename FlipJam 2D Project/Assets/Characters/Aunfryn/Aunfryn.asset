@@ -17,10 +17,10 @@ MonoBehaviour:
   maxFallSpeed: 22
   fastFallGravityMult: 2
   maxFastFallSpeed: 22
-  runMaxSpeed: 9.5
-  deafaultMaxSpeed: 9.5
-  runAcceleration: 9.5
-  runDecceleration: 9.5
+  runMaxSpeed: 0.7387202
+  deafaultMaxSpeed: 1.2312002
+  runAcceleration: 0.7387202
+  runDecceleration: 0.7387202
   accelInAir: 0.1
   deccelInAir: 0.1
   doConserveMomentum: 0
@@ -34,13 +34,40 @@ MonoBehaviour:
   jumpHangTimeThreshold: 0
   jumpHangAccelerationMult: 1
   jumpHangMaxSpeedMult: 1
-  wallJumpForce: {x: 8.5, y: 15}
-  deafaultWallJumpForce: {x: 8.5, y: 15}
+  wallJumpForce: {x: 0.6609602, y: 1.1664002}
+  deafaultWallJumpForce: {x: 1.1016003, y: 1.9440002}
   wallJumpRunLerp: 0.075
   wallJumpTime: 0.3
-  slideSpeed: -5
-  deafaultSlideSpeed: -5
+  slideSpeed: -64.3004
+  deafaultSlideSpeed: -38.580242
   slideAccel: 0.8
   coyoteTime: 0.15
   jumpInputBufferTime: 0.15
   weightModifier: 0.6
+  animations:
+  - animationType: 0
+    animationClip: {fileID: 7400000, guid: db2597347574653459cb2c96ec865024, type: 2}
+  - animationType: 1
+    animationClip: {fileID: 7400000, guid: 21b90380c74b6634996fc78cabfdb460, type: 2}
+  - animationType: 2
+    animationClip: {fileID: 7400000, guid: 306020aef6acccc4e9938cf056bb1306, type: 2}
+  - animationType: 3
+    animationClip: {fileID: 7400000, guid: 40f7d38371b882747bc73cbe040ad765, type: 2}
+  - animationType: 4
+    animationClip: {fileID: 7400000, guid: 74af84c069159504f86620a8f82fc8dc, type: 2}
+  - animationType: 5
+    animationClip: {fileID: 7400000, guid: e9f85d42cd3a9e24fb4f8a010b6dd803, type: 2}
+  - animationType: 6
+    animationClip: {fileID: 7400000, guid: 17070bbd22e2c714b9fdfe8d7f634ab0, type: 2}
+  - animationType: 7
+    animationClip: {fileID: 7400000, guid: 5f7054a5a8a88a244a64918ba9bffb63, type: 2}
+  - animationType: 8
+    animationClip: {fileID: 7400000, guid: 25cc12f66e318e743b618ca800fa66e1, type: 2}
+  - animationType: 9
+    animationClip: {fileID: 7400000, guid: f4f482753d265a04191e501a641ad5ba, type: 2}
+  - animationType: 10
+    animationClip: {fileID: 7400000, guid: 770fffa1d3710c944ade16ef7c1a2fb7, type: 2}
+  - animationType: 11
+    animationClip: {fileID: 7400000, guid: 4696ca7474977c649a4a95fc3f9ccf87, type: 2}
+  - animationType: 12
+    animationClip: {fileID: 7400000, guid: c78de3ddac4045d4ea65eb3b58624ec6, type: 2}

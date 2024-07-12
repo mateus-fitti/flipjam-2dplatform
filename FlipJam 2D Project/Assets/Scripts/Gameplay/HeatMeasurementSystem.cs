@@ -25,8 +25,6 @@ public class HeatMeasurementSystem : MonoBehaviour
     public float defaultDecreasedRate = 2f; // Taxa de diminuição da temperatura por segundo
     public float defaultIncreasedRate = 6f; // Taxa de ganho da temperatura por segundo
     private Image sliderFill;
-    private Animator characterAnimator; // Add this field
-
 
     void Awake()
     {
@@ -35,12 +33,11 @@ public class HeatMeasurementSystem : MonoBehaviour
 
     void Start()
     {
-        characterAnimator = GameObject.Find("Character").GetComponent<Animator>();
         GameController.instance.UnPauseGame(); // Use GameController to unpause
         GameOverObj.SetActive(false); // Hide the Game Over screen
 
         decreaseRate = defaultDecreasedRate;
-        reducedDreceasedRate = defaultDecreasedRate/2;
+        reducedDreceasedRate = defaultDecreasedRate / 2;
 
         if (temperatureSlider != null)
         {
@@ -54,10 +51,10 @@ public class HeatMeasurementSystem : MonoBehaviour
         {
             Collider2D collider = Physics2D.OverlapCircle(egg.transform.position, 1, heatLayer);
 
-            if(collider == null)
+            if (collider == null)
             {
                 // Diminuir a temperatura com o tempo
-                if(!egg.GetComponent<SpriteRenderer>().enabled)
+                if (!egg.GetComponent<SpriteRenderer>().enabled)
                 {
                     decreaseRate = reducedDreceasedRate;
                     if (temperature > 0) temperature -= decreaseRate * Time.deltaTime;
@@ -125,34 +122,36 @@ public class HeatMeasurementSystem : MonoBehaviour
     {
         if (isGameOver) return;
 
-        StartCoroutine(WaitForAnimation("Dead")); // Wait for the animation to finish before pausing
+        StartCoroutine(PlayDeadAnimationOnAllCharacters());
     }
 
-    IEnumerator WaitForAnimation(string animationName)
+    IEnumerator PlayDeadAnimationOnAllCharacters()
     {
-       // Play the animation
-    characterAnimator.Play(animationName);
+        GameObject[] characters = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject character in characters)
+        {
+            PlayerMovement characterMovement = character.GetComponent<PlayerMovement>();
+            if (characterMovement != null)
+            {
+                characterMovement.PlayDeadAnimation(); // Trigger the "Dead" animation
+            }
+        }
 
-    // Wait until the animation starts
-    while (!characterAnimator.GetCurrentAnimatorStateInfo(0).IsName(animationName))
-    {
-        yield return null;
+        // Wait for each character's "Dead" animation to finish
+        foreach (GameObject character in characters)
+        {
+            Animator characterAnimator = character.GetComponent<Animator>();
+            if (characterAnimator != null)
+            {
+                yield return new WaitUntil(() => characterAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1.0f && !characterAnimator.IsInTransition(0));
+            }
+        }
+
+        // After all characters' animations have finished, execute the following
+        isGameOver = true;
+        Debug.Log("Game Over! The egg is frozen!");
+        GameOverObj.SetActive(true); // Show the Game Over screen
+                                     // Finally, pause the game
+        GameController.instance.PauseGame();
     }
-
-    // Wait for one frame to ensure the animation has started
-    yield return null;
-
-    // Then wait until the animation is no longer playing
-    while (characterAnimator.GetCurrentAnimatorStateInfo(0).IsName(animationName) &&
-           characterAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
-    {
-        yield return null;
-    }
-
-    isGameOver = true;
-    Debug.Log("Game Over! The egg is frozen!");
-    GameOverObj.SetActive(true);
-    // Finally, pause the game
-    GameController.instance.PauseGame();
-}
 }

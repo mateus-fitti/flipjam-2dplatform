@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: EggIdle
+  m_Name: Walk
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,11 +21,13 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 21300000, guid: 337f35769a3f5f34892a48506810ad99, type: 3}
-    - time: 1.5
-      value: {fileID: 21300000, guid: dad757151f397b04591909f5007af35d, type: 3}
-    - time: 1.7333333
-      value: {fileID: 21300000, guid: 337f35769a3f5f34892a48506810ad99, type: 3}
+      value: {fileID: 21300000, guid: 33715e2a75b2ce4438f7f3fd47eb1667, type: 3}
+    - time: 0.16666667
+      value: {fileID: 21300000, guid: cdb3eb9ae1c2d614e820bf7f3e171d51, type: 3}
+    - time: 0.33333334
+      value: {fileID: 21300000, guid: 9d3ec4483eaf4c5478fed29df61b4c9f, type: 3}
+    - time: 0.5
+      value: {fileID: 21300000, guid: 1d2cd4d4765936547932b2d053cdecf5, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -48,15 +50,16 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 21300000, guid: 337f35769a3f5f34892a48506810ad99, type: 3}
-    - {fileID: 21300000, guid: dad757151f397b04591909f5007af35d, type: 3}
-    - {fileID: 21300000, guid: 337f35769a3f5f34892a48506810ad99, type: 3}
+    - {fileID: 21300000, guid: 33715e2a75b2ce4438f7f3fd47eb1667, type: 3}
+    - {fileID: 21300000, guid: cdb3eb9ae1c2d614e820bf7f3e171d51, type: 3}
+    - {fileID: 21300000, guid: 9d3ec4483eaf4c5478fed29df61b4c9f, type: 3}
+    - {fileID: 21300000, guid: 1d2cd4d4765936547932b2d053cdecf5, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.75
+    m_StopTime: 0.51666665
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
