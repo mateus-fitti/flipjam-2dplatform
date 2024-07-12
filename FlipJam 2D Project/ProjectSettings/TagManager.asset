@@ -6,6 +6,13 @@ TagManager:
   tags:
   - Egg
   - OneWayPlatform
+  - ground
+  - Obstacle
+  - BombPickup
+  - Enemy
+  - ExplosionFX
+  - Bullet
+  - HealthBar
   layers:
   - Default
   - TransparentFX
@@ -17,7 +24,7 @@ TagManager:
   - Pickup
   - Platform
   - HeatLayer
-  - 
+  - BackGround
   - 
   - 
   - 
