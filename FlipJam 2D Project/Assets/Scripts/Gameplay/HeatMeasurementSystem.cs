@@ -14,6 +14,7 @@ public class HeatMeasurementSystem : MonoBehaviour
     public Sprite balancedEggImage;
     public Sprite coldEggImage;
     public Sprite frozenEggImage;
+    public Sprite[] temperatureStateSprites; // Array of sprites for each temperature state
     public LayerMask heatLayer;
 
     public bool heatSystemActive = false; // Flag para indicar se o sistema de calor está ativo
@@ -80,43 +81,47 @@ public class HeatMeasurementSystem : MonoBehaviour
 
     void UpdateEggColor()
     {
-        // Dynamically find the Slider's Fill component if not already cached
-        if (sliderFill == null)
-        {
-            // Assuming the Slider's Fill GameObject is named "Fill", and it's the first child of the second child of the Slider
-            sliderFill = temperatureSlider.transform.GetChild(1).GetChild(0).GetComponent<Image>();
-        }
+        UpdateThermometerUI(); // Update the thermometer UI
 
         // Update the egg color and slider fill color based on the temperature
+        // This part remains for compatibility with other game logic, might be adjusted or removed depending on specific needs
         if (temperature > 75)
         {
             egg.GetComponent<SpriteRenderer>().sprite = heatedEggImage;
-            sliderFill.color = Color.red;
         }
         else if (temperature > 50)
         {
             egg.GetComponent<SpriteRenderer>().sprite = balancedEggImage;
-            sliderFill.color = Color.yellow; // Change slider color to balancedColor
         }
         else if (temperature > 25)
         {
             egg.GetComponent<SpriteRenderer>().sprite = coldEggImage;
-            sliderFill.color = Color.grey; // Change slider color to coldColor
         }
         else
         {
             egg.GetComponent<SpriteRenderer>().sprite = frozenEggImage;
-            sliderFill.color = Color.cyan; // Change slider color to frozenColor
             GameOver(); // Trigger Game Over when temperature is 25 or below
         }
     }
 
     void UpdateThermometerUI()
     {
-        if (temperatureSlider != null)
+        if (sliderFill == null)
         {
-            temperatureSlider.value = temperature;
+            // Assuming the Slider's Fill GameObject is named "Fill", and it's the first child of the second child of the Slider
+            sliderFill = temperatureSlider.transform.GetChild(1).GetChild(0).GetComponent<Image>();
         }
+
+        // Calculate the index for the sprite based on the temperature
+        int spriteIndex = Mathf.FloorToInt((100f - temperature) / 10f);
+        spriteIndex = Mathf.Clamp(spriteIndex, 0, 8);
+
+        Debug.Log("Sprite Index: " + spriteIndex);
+
+        // Update the slider background sprite
+        // Assuming the background child GameObject is named "Background" and it's the first child of the slider
+        Image background = temperatureSlider.transform.GetChild(0).GetComponent<Image>();
+        background.sprite = temperatureStateSprites[spriteIndex];
     }
 
     public void ResetHeatSystem()
@@ -152,7 +157,9 @@ public class HeatMeasurementSystem : MonoBehaviour
                 Animator characterAnimator = character.GetComponent<Animator>();
                 characterMovement.PlayDeadAnimation();  // Trigger the "Dead" animation
 
-                yield return new WaitUntil(() => characterAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1.0f && !characterAnimator.IsInTransition(0));
+                // yield return new WaitUntil(() => characterAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1.0f && !characterAnimator.IsInTransition(0));
+                yield return new WaitForSeconds(0.6f); // Wait for 1 second before moving to the next character
+
             }
         }
 
@@ -160,7 +167,6 @@ public class HeatMeasurementSystem : MonoBehaviour
         isGameOver = true;
         Debug.Log("Game Over! The egg is frozen!");
         GameOverObj.SetActive(true); // Show the Game Over screen
-                                     // Finally, pause the game
-        GameController.instance.PauseGame();
+        GameController.instance.GameOver();
     }
 }

@@ -78,6 +78,16 @@ public class GameController : MonoBehaviour
         PauseGame();
     }
 
+    public void GameOver()
+    {
+        if (!gameStarted) return;
+
+        gameStarted = false;
+        restartButton.SetActive(true); // Show the restart button when game ends
+        PauseGame(); // Pause the game
+                     // Optionally, add any additional game over logic here
+    }
+
     private int CalculateScore()
     {
         float timeTaken = Time.time - startTime;
@@ -117,7 +127,7 @@ public class GameController : MonoBehaviour
     public void RestartGame()
     {
         UnPauseGame(); // Ensure the game is not paused
-
+        
         // Reset game state variables
         gameStarted = true;
         timer = 0f; // Reset timer
