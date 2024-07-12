@@ -1,18 +1,180 @@
 using UnityEngine;
 
+public enum CharacterType
+{
+    Aunfryn,
+	Ngoro,
+	Grull,
+	Bohor
+}
 public class CharacterSpecialHabilities : MonoBehaviour
 {
+	public CharacterType characterType;
     public CharacterScriptableObject characterScriptableObject;
+	public LayerMask collisionLayers;
+
+	[Header("Teleport")]
+	public GameObject energySpherePrefab;
+    public float maxTeleportDistance = 10f;
+    public float initialSphereSpeed = 1f;
+    public float sphereAcceleration = 0.5f;
+	public float maxSphereAcceleration = 1.5f;
+	public float tremorIntensity = 0.1f; 
+    public float tremorThreshold = 2f;
+	public Transform handPosition;
+	public PlayerMovement playerMovementScript;
+
+    private GameObject energySphere;
+    private bool isCasting = false;
+    private float currentSphereSpeed;
+    private Vector2 castDirection;
+    private Vector2 initialPosition;
 
     void Start()
     {
-
+        playerMovementScript = GetComponent<PlayerMovement>();
     }
 
     void Update()
     {
+		if(characterType == CharacterType.Aunfryn){
+			if (Input.GetButtonDown("Dash")){
+				StartCasting();
+			}
 
+			if (isCasting){
+				UpdateCasting();
+			}
+
+			if (Input.GetButtonUp("Dash")){
+				Teleport();
+			}
+
+			if (Input.GetMouseButtonDown(1)){
+				CancelCasting();
+			}
+		}
+		
     }
+
+	#region Aunfryn
+	void StartCasting()
+    {
+        isCasting = true;
+        initialPosition = handPosition != null ? handPosition.position : transform.position;
+
+        energySphere = Instantiate(energySpherePrefab, initialPosition, Quaternion.identity);
+        currentSphereSpeed = initialSphereSpeed;
+        if (playerMovementScript != null)
+        {
+            playerMovementScript.canMove = false;
+        }
+    }
+
+    // Declaração da variável startTime
+private float startTime;
+
+void UpdateCasting()
+    {
+        castDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
+
+        // Acelerar a esfera até o máximo permitido
+        if (castDirection.magnitude > 0 && currentSphereSpeed < maxSphereAcceleration)
+        {
+            currentSphereSpeed += sphereAcceleration * Time.deltaTime;
+        }
+
+        Vector2 newPosition2D = (Vector2)energySphere.transform.position + castDirection * currentSphereSpeed * Time.deltaTime;
+
+        // Detectar colisões
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(newPosition2D, energySphere.GetComponent<CircleCollider2D>().radius, collisionLayers);
+        bool collidedWithEnvironment = false;
+
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.gameObject.layer == LayerMask.NameToLayer("Environment") || collider.gameObject.layer == LayerMask.NameToLayer("Platform"))
+            {
+                // Ajustar a posição para evitar atravessar camadas "Environment" e "Platform"
+                Vector2 direction = (newPosition2D - (Vector2)energySphere.transform.position).normalized;
+                newPosition2D = (Vector2)energySphere.transform.position + direction * (collider.Distance(energySphere.GetComponent<Collider2D>()).distance - 0.1f);
+                collidedWithEnvironment = true;
+                break;
+            }
+        }
+
+        // Aplicar nova posição
+        energySphere.transform.position = (Vector3)newPosition2D;
+
+        // Se colidiu com o ambiente, reduzir a velocidade gradualmente ao invés de parar totalmente
+        if (collidedWithEnvironment)
+        {
+            currentSphereSpeed *= 0.5f; // Reduzir a velocidade ao colidir com o ambiente
+        }
+
+        // Iniciar contagem de tempo no lançamento da esfera
+        if (castDirection.magnitude > 0 && startTime == 0f)
+        {
+            startTime = Time.time;
+        }
+
+        // Aplicar tremor nos primeiros 1 segundo de lançamento da esfera
+        if (castDirection.magnitude > 0 && Time.time - startTime < 1f)
+        {
+            ApplyTremor();
+        }
+
+        // Reiniciar startTime quando a direção é zero
+        if (castDirection.magnitude <= 0)
+        {
+            startTime = 0f;
+        }
+
+        // Limitar a distância da esfera
+        if (Vector2.Distance(initialPosition, (Vector2)energySphere.transform.position) > maxTeleportDistance)
+        {
+            Vector2 direction = ((Vector2)energySphere.transform.position - initialPosition).normalized;
+            energySphere.transform.position = (Vector2)initialPosition + direction * maxTeleportDistance;
+        }
+    }
+
+    void ApplyTremor()
+    {
+        float tremorX = Random.Range(-tremorIntensity, tremorIntensity);
+        float tremorY = Random.Range(-tremorIntensity, tremorIntensity);
+        energySphere.transform.position += new Vector3(tremorX, tremorY, 0);
+    }
+
+
+
+
+    void Teleport()
+    {
+        if (isCasting)
+        {
+            isCasting = false;
+            transform.position = energySphere.transform.position;
+            Destroy(energySphere);
+            if (playerMovementScript != null)
+            {
+                playerMovementScript.canMove = true; 
+            }
+        }
+    }
+
+    void CancelCasting()
+    {
+        if (isCasting)
+        {
+            isCasting = false;
+            Destroy(energySphere);
+            if (playerMovementScript != null)
+            {
+                playerMovementScript.canMove = true;
+            }
+        }
+    }
+
+	#endregion
 
     public void EnhancedLaunchForce(){
         // characterScriptableObject.launchForce = characterScriptableObject.launchForce * 1.5;
