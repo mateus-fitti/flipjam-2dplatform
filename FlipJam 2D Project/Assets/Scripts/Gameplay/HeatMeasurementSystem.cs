@@ -133,16 +133,9 @@ public class HeatMeasurementSystem : MonoBehaviour
             PlayerMovement characterMovement = character.GetComponent<PlayerMovement>();
             if (characterMovement != null)
             {
-                characterMovement.PlayDeadAnimation(); // Trigger the "Dead" animation
-            }
-        }
+                Animator characterAnimator = character.GetComponent<Animator>();
+                characterMovement.PlayDeadAnimation();  // Trigger the "Dead" animation
 
-        // Wait for each character's "Dead" animation to finish
-        foreach (GameObject character in characters)
-        {
-            Animator characterAnimator = character.GetComponent<Animator>();
-            if (characterAnimator != null)
-            {
                 yield return new WaitUntil(() => characterAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1.0f && !characterAnimator.IsInTransition(0));
             }
         }
