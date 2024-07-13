@@ -7,6 +7,7 @@
  */
 
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -15,6 +16,63 @@ public class PlayerMovement : MonoBehaviour
 	public CharacterScriptableObject characterScriptableObject;
 
 	private CharacterSpecialHabilities characterSpecialHabilities;
+
+	[Header("Launch Force")]
+	public float launchForce;
+
+	[Header("Gravity")]
+	public float fallGravityMult; //Multiplier to the player's gravityScale when falling.
+	public float maxFallSpeed; //Maximum fall speed (terminal velocity) of the player when falling.
+	[Space(5)]
+	public float fastFallGravityMult; //Larger multiplier to the player's gravityScale when they are falling and a downwards input is pressed.
+									  //Seen in games such as Celeste, lets the player fall extra fast if they wish.
+	public float maxFastFallSpeed; //Maximum fall speed(terminal velocity) of the player when performing a faster fall.
+
+	[Space(20)]
+
+	[Header("Run")]
+	public float runMaxSpeed; //Target speed we want the player to reach.
+	public float runAcceleration; //The speed at which our player accelerates to max speed, can be set to runMaxSpeed for instant acceleration down to 0 for none at all
+	public float runDecceleration; //The speed at which our player decelerates from their current speed, can be set to runMaxSpeed for instant deceleration down to 0 for none at all
+	[Space(5)]
+	[Range(0f, 1)] public float accelInAir; //Multipliers applied to acceleration rate when airborne.
+	[Range(0f, 1)] public float deccelInAir;
+	[Space(5)]
+	public bool doConserveMomentum = true;
+
+	[Space(20)]
+
+	[Header("Jump")]
+	public float jumpHeight; //Height of the player's jump
+	public float jumpForce; //The actual force applied (upwards) to the player when they jump.
+	public float jumpTimeToApex; //Time between applying the jump force and reaching the desired jump height. These values also control the player's gravity and jump force.
+
+	[Header("Both Jumps")]
+	public float jumpCutGravityMult; //Multiplier to increase gravity if the player releases thje jump button while still jumping
+	[Range(0f, 1)] public float jumpHangGravityMult; //Reduces gravity while close to the apex (desired max height) of the jump
+	public float jumpHangTimeThreshold; //Speeds (close to 0) where the player will experience extra "jump hang". The player's velocity.y is closest to 0 at the jump's apex (think of the gradient of a parabola or quadratic function)
+	[Space(0.5f)]
+	public float jumpHangAccelerationMult;
+	public float jumpHangMaxSpeedMult;
+
+	[Header("Wall Jump")]
+	public Vector2 wallJumpForce; //The actual force (this time set by us) applied to the player when wall jumping.
+	[Space(5)]
+	[Range(0f, 1f)] public float wallJumpRunLerp; //Reduces the effect of player's movement while wall jumping.
+	[Range(0f, 1.5f)] public float wallJumpTime; //Time after wall jumping the player's movement is slowed for.
+
+	[Space(20)]
+
+	[Header("Slide")]
+	public float slideSpeed;
+	public float slideAccel;
+
+	[Header("Assists")]
+	[Range(0.01f, 0.5f)] public float coyoteTime; //Grace period after falling off a platform, where you can still jump
+	[Range(0.01f, 0.5f)] public float jumpInputBufferTime; //Grace period after pressing jump where a jump will be automatically performed once the requirements (eg. being grounded) are met.
+
+	[Header("Weights")]
+	[Range(0.01f, 1f)] public float weightModifier; //Weight modifier value
 
 	[Header("Gravity")]
 	[HideInInspector] public float gravityStrength; //Downwards force (gravity) needed for the desired jumpHeight and jumpTimeToApex.
@@ -35,6 +93,7 @@ public class PlayerMovement : MonoBehaviour
 	private Animator animator;
 	private CharacterItemInteractions itemInteractions;
 	public bool isCrouching = false;
+	public bool isHeavy = false;
 	//Variables control the various actions the player can perform at any time.
 	//These are fields which can are public allowing for other sctipts to read them
 	//but can only be privately written to.
@@ -106,17 +165,14 @@ public class PlayerMovement : MonoBehaviour
 		animator = GetComponent<Animator>();
 		itemInteractions = GetComponent<CharacterItemInteractions>();
 		characterSpecialHabilities = GetComponent<CharacterSpecialHabilities>();
+		GetScriptables();
 	}
 
 	private void Start()
 	{
+		OnValidate();
 		SetGravityScale(gravityScale);
 		IsFacingRight = true;
-
-		characterScriptableObject.deafaultJumpForce = characterScriptableObject.jumpForce;
-		characterScriptableObject.deafaultMaxSpeed = characterScriptableObject.runMaxSpeed;
-		characterScriptableObject.deafaultWallJumpForce = characterScriptableObject.wallJumpForce;
-		characterScriptableObject.deafaultSlideSpeed = characterScriptableObject.slideSpeed;
 	}
 
 	private void Update()
@@ -153,35 +209,21 @@ public class PlayerMovement : MonoBehaviour
 			{
 				OnJumpUpInput();
 			}
-			if (_moveInput.y<0 && !IsJumping && !IsSliding)
+			if (_moveInput.y < 0 && !IsJumping && !IsSliding)
 			{
-				if (itemInteractions.holdingItem)
-				{
-					isCrouching = true;
-					//animator.SetBool("IsCrouching", isCrouching);
-				}
-				else
+				if (!itemInteractions.holdingItem)
 				{
 					HeavyMovement();
-					isCrouching = true;
-					//animator.SetBool("IsCrouching", isCrouching);
 				}
-
+				isCrouching = true;
 			}
 			else
 			{
-				if (itemInteractions.holdingItem)
-				{
-					isCrouching = false;
-					//animator.SetBool("IsCrouching", isCrouching);
-				}
-				else
+				if (!itemInteractions.holdingItem)
 				{
 					DefaultMovement();
-					isCrouching = false;
-					//animator.SetBool("IsCrouching", isCrouching);
 				}
-
+				isCrouching = false;
 			}
 
 			// Adjust collision ignoring based on crouching and pressing space
@@ -199,32 +241,25 @@ public class PlayerMovement : MonoBehaviour
 		#region COLLISION CHECKS
 		//Ground
 
-		if (RB.velocity.y == 0)
-		{
-			isGrounded = true;
-		}
-		else
-		{
-			isGrounded = false;
-		}
+		isGrounded = Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer);
 
 		if (!IsJumping)
 		{
 			//Ground Check
-			if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer) && !IsJumping) //checks if set box overlaps with ground
+			if (isGrounded && !IsJumping) //checks if set box overlaps with ground
 			{
-				LastOnGroundTime = characterScriptableObject.coyoteTime; //if so sets the lastGrounded to coyoteTime
+				LastOnGroundTime = coyoteTime; //if so sets the lastGrounded to coyoteTime
 			}
 
 			//Right Wall Check
 			if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)
 					|| (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight)) && !IsWallJumping)
-				LastOnWallRightTime = characterScriptableObject.coyoteTime;
+				LastOnWallRightTime = coyoteTime;
 
 			//Left Wall Check
 			if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight)
 				|| (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)) && !IsWallJumping)
-				LastOnWallLeftTime = characterScriptableObject.coyoteTime;
+				LastOnWallLeftTime = coyoteTime;
 
 			//Two checks needed for both left and right walls since whenever the play turns the wall checkPoints swap sides
 			LastOnWallTime = Mathf.Max(LastOnWallLeftTime, LastOnWallRightTime);
@@ -251,15 +286,13 @@ public class PlayerMovement : MonoBehaviour
 		{
 			IsJumping = false;
 
-			//animator.SetBool("IsJumping", false);
-
 			if (!IsWallJumping)
 			{
 				_isJumpFalling = true;
 			}
 		}
 
-		if (IsWallJumping && Time.time - _wallJumpStartTime > characterScriptableObject.wallJumpTime)
+		if (IsWallJumping && Time.time - _wallJumpStartTime > wallJumpTime)
 		{
 			IsWallJumping = false;
 		}
@@ -317,26 +350,26 @@ public class PlayerMovement : MonoBehaviour
 		else if (RB.velocity.y < 0 && _moveInput.y < 0)
 		{
 			//Much higher gravity if holding down
-			SetGravityScale(gravityScale * characterScriptableObject.fastFallGravityMult);
+			SetGravityScale(gravityScale * fastFallGravityMult);
 			//Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
-			RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -characterScriptableObject.maxFastFallSpeed));
+			RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -maxFastFallSpeed));
 		}
 		else if (_isJumpCut)
 		{
 			//Higher gravity if jump button released
-			SetGravityScale(gravityScale * characterScriptableObject.jumpCutGravityMult);
-			RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -characterScriptableObject.maxFallSpeed));
+			SetGravityScale(gravityScale * jumpCutGravityMult);
+			RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -maxFallSpeed));
 		}
-		else if ((IsJumping || IsWallJumping || _isJumpFalling) && Mathf.Abs(RB.velocity.y) < characterScriptableObject.jumpHangTimeThreshold)
+		else if ((IsJumping || IsWallJumping || _isJumpFalling) && Mathf.Abs(RB.velocity.y) < jumpHangTimeThreshold)
 		{
-			SetGravityScale(gravityScale * characterScriptableObject.jumpHangGravityMult);
+			SetGravityScale(gravityScale * jumpHangGravityMult);
 		}
 		else if (RB.velocity.y < 0)
 		{
 			//Higher gravity if falling
-			SetGravityScale(gravityScale * characterScriptableObject.fallGravityMult);
+			SetGravityScale(gravityScale * fallGravityMult);
 			//Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
-			RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -characterScriptableObject.maxFallSpeed));
+			RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -maxFallSpeed));
 		}
 		else
 		{
@@ -357,14 +390,14 @@ public class PlayerMovement : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		if(currentAnimaton == null) PlayEggIdleJumpAnimation();
+		if (currentAnimaton == null) PlayEggIdleJumpAnimation();
 		//Handle Run
 		if (IsWallJumping)
 		{
 			if (!itemInteractions.holdingItem) ChangeAnimationState(PLAYER_WALLJUMP);
 			else ChangeAnimationState(PLAYER_EGGCLIMB);
 
-			Run(characterScriptableObject.wallJumpRunLerp);
+			Run(wallJumpRunLerp);
 		}
 		else
 		{
@@ -400,7 +433,7 @@ public class PlayerMovement : MonoBehaviour
 	//Methods which whandle input detected in Update()
 	public void OnJumpInput()
 	{
-		LastPressedJumpTime = characterScriptableObject.jumpInputBufferTime;
+		LastPressedJumpTime = jumpInputBufferTime;
 	}
 
 	public void OnJumpUpInput()
@@ -422,7 +455,7 @@ public class PlayerMovement : MonoBehaviour
 	private void Run(float lerpAmount)
 	{
 		//Calculate the direction we want to move in and our desired velocity
-		float targetSpeed = _moveInput.x * characterScriptableObject.runMaxSpeed;
+		float targetSpeed = _moveInput.x * runMaxSpeed;
 		//We can reduce are control using Lerp() this smooths changes to are direction and speed
 		targetSpeed = Mathf.Lerp(RB.velocity.x, targetSpeed, lerpAmount);
 
@@ -434,21 +467,21 @@ public class PlayerMovement : MonoBehaviour
 		if (LastOnGroundTime > 0)
 			accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? runAccelAmount : runDeccelAmount;
 		else
-			accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? runAccelAmount * characterScriptableObject.accelInAir : runDeccelAmount * characterScriptableObject.deccelInAir;
+			accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? runAccelAmount * accelInAir : runDeccelAmount * deccelInAir;
 		#endregion
 
 		#region Add Bonus Jump Apex Acceleration
 		//Increase are acceleration and maxSpeed when at the apex of their jump, makes the jump feel a bit more bouncy, responsive and natural
-		if ((IsJumping || IsWallJumping || _isJumpFalling) && Mathf.Abs(RB.velocity.y) < characterScriptableObject.jumpHangTimeThreshold)
+		if ((IsJumping || IsWallJumping || _isJumpFalling) && Mathf.Abs(RB.velocity.y) < jumpHangTimeThreshold)
 		{
-			accelRate *= characterScriptableObject.jumpHangAccelerationMult;
-			targetSpeed *= characterScriptableObject.jumpHangMaxSpeedMult;
+			accelRate *= jumpHangAccelerationMult;
+			targetSpeed *= jumpHangMaxSpeedMult;
 		}
 		#endregion
 
 		#region Conserve Momentum
 		//We won't slow the player down if they are moving in their desired direction but at a greater speed than their maxSpeed
-		if (characterScriptableObject.doConserveMomentum && Mathf.Abs(RB.velocity.x) > Mathf.Abs(targetSpeed) && Mathf.Sign(RB.velocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f && LastOnGroundTime < 0)
+		if (doConserveMomentum && Mathf.Abs(RB.velocity.x) > Mathf.Abs(targetSpeed) && Mathf.Sign(RB.velocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f && LastOnGroundTime < 0)
 		{
 			//Prevent any deceleration from happening, or in other words conserve are current momentum
 			//You could experiment with allowing for the player to slightly increae their speed whilst in this "state"
@@ -492,7 +525,7 @@ public class PlayerMovement : MonoBehaviour
 		//We increase the force applied if we are falling
 		//This means we'll always feel like we jump the same amount 
 		//(setting the player's Y velocity to 0 beforehand will likely work the same, but I find this more elegant :D)
-		float force = characterScriptableObject.jumpForce;
+		float force = jumpForce;
 		if (RB.velocity.y < 0)
 			force -= RB.velocity.y;
 
@@ -507,8 +540,8 @@ public class PlayerMovement : MonoBehaviour
 	// {
 	// 	//Works the same as the Run but only in the y-axis
 	// 	//THis seems to work fine, buit maybe you'll find a better way to implement a slide into this system
-	// 	float speedDif = characterScriptableObject.slideSpeed - RB.velocity.y;
-	// 	float movement = speedDif * characterScriptableObject.slideAccel;
+	// 	float speedDif = slideSpeed - RB.velocity.y;
+	// 	float movement = speedDif * slideAccel;
 	// 	//So, we clamp the movement here to prevent any over corrections (these aren't noticeable in the Run)
 	// 	//The force applied can't be greater than the (negative) speedDifference * by how many times a second FixedUpdate() is called. For more info research how force are applied to rigidbodies.
 	// 	movement = Mathf.Clamp(movement, -Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime), Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime));
@@ -560,39 +593,47 @@ public class PlayerMovement : MonoBehaviour
 	private void OnValidate()
 	{
 		//Calculate gravity strength using the formula (gravity = 2 * jumpHeight / timeToJumpApex^2) 
-		gravityStrength = -(2 * characterScriptableObject.jumpHeight) / (characterScriptableObject.jumpTimeToApex * characterScriptableObject.jumpTimeToApex);
+		gravityStrength = -(2 * jumpHeight) / (jumpTimeToApex * jumpTimeToApex);
 
 		//Calculate the rigidbody's gravity scale (ie: gravity strength relative to unity's gravity value, see project settings/Physics2D)
 		gravityScale = gravityStrength / Physics2D.gravity.y;
 
 		//Calculate are run acceleration & deceleration forces using formula: amount = ((1 / Time.fixedDeltaTime) * acceleration) / runMaxSpeed
-		runAccelAmount = (50 * characterScriptableObject.runAcceleration) / characterScriptableObject.runMaxSpeed;
-		runDeccelAmount = (50 * characterScriptableObject.runDecceleration) / characterScriptableObject.runMaxSpeed;
+		runAccelAmount = (50 * runAcceleration) / runMaxSpeed;
+		runDeccelAmount = (50 * runDecceleration) / runMaxSpeed;
 
 		//Calculate jumpForce using the formula (initialJumpVelocity = gravity * timeToJumpApex)
-		characterScriptableObject.jumpForce = Mathf.Abs(gravityStrength) * characterScriptableObject.jumpTimeToApex;
+		jumpForce = Mathf.Abs(gravityStrength) * jumpTimeToApex;
 
 		#region Variable Ranges
-		characterScriptableObject.runAcceleration = Mathf.Clamp(characterScriptableObject.runAcceleration, 0.01f, characterScriptableObject.runMaxSpeed);
-		characterScriptableObject.runDecceleration = Mathf.Clamp(characterScriptableObject.runDecceleration, 0.01f, characterScriptableObject.runMaxSpeed);
+		runAcceleration = Mathf.Clamp(runAcceleration, 0.01f, runMaxSpeed);
+		runDecceleration = Mathf.Clamp(runDecceleration, 0.01f, runMaxSpeed);
 		#endregion
 	}
 
 	#region Weight
 	public void HeavyMovement()
 	{
-		characterScriptableObject.runMaxSpeed *= characterScriptableObject.weightModifier;
-		characterScriptableObject.jumpForce *= characterScriptableObject.weightModifier;
-		characterScriptableObject.wallJumpForce *= characterScriptableObject.weightModifier;
-		characterScriptableObject.slideSpeed /= characterScriptableObject.weightModifier;
+		if (!isHeavy)
+		{
+			runMaxSpeed *= weightModifier;
+			jumpForce *= weightModifier;
+			wallJumpForce *= weightModifier;
+			slideSpeed /= weightModifier;
+			isHeavy = true;
+		}
 	}
 
 	public void DefaultMovement()
 	{
-		characterScriptableObject.runMaxSpeed = characterScriptableObject.deafaultMaxSpeed;
-		characterScriptableObject.jumpForce = characterScriptableObject.deafaultJumpForce;
-		characterScriptableObject.wallJumpForce = characterScriptableObject.deafaultWallJumpForce;
-		characterScriptableObject.slideSpeed = characterScriptableObject.deafaultSlideSpeed;
+		if (isHeavy)
+		{
+			runMaxSpeed = characterScriptableObject.runMaxSpeed;
+			jumpForce = characterScriptableObject.jumpForce;
+			wallJumpForce = characterScriptableObject.wallJumpForce;
+			slideSpeed = characterScriptableObject.slideSpeed;
+			isHeavy = false;
+		}
 	}
 	#endregion
 
@@ -614,26 +655,23 @@ public class PlayerMovement : MonoBehaviour
 				return;
 			}
 		}
-		#endregion
-
-
 	}
 
 	void PlayEggIdleJumpAnimation()
 	{
 		if (!itemInteractions.holdingItem)
 		{
-			if (RB.velocity.y == 0 && RB.velocity.x == 0 && !isCrouching) ChangeAnimationState(PLAYER_IDLE);
-			else if (RB.velocity.y == 0 && RB.velocity.x != 0 && !isCrouching) ChangeAnimationState(PLAYER_WALK);
-			else if (RB.velocity.y != 0 && !IsWallJumping && !IsSliding && !isCrouching) ChangeAnimationState(PLAYER_JUMP);
+			if (isGrounded && RB.velocity.x > -0.1f && RB.velocity.x < 0.1f && !isCrouching) ChangeAnimationState(PLAYER_IDLE);
+			else if (isGrounded && (RB.velocity.x < -0.1f || RB.velocity.x > 0.1f) && !isCrouching) ChangeAnimationState(PLAYER_WALK);
+			else if (!isGrounded && !IsWallJumping && !IsSliding && !isCrouching) ChangeAnimationState(PLAYER_JUMP);
 			else if (isCrouching) ChangeAnimationState(PLAYER_CROUCH);
 			else ChangeAnimationState(PLAYER_CLIMB);
 		}
 		else
 		{
-			if (RB.velocity.y == 0 && RB.velocity.x == 0 && !isCrouching) ChangeAnimationState(PLAYER_EGGIDLE);
-			else if (RB.velocity.y == 0 && RB.velocity.x != 0 && !isCrouching) ChangeAnimationState(PLAYER_EGGWALK);
-			else if (RB.velocity.y != 0 && !IsWallJumping && !IsSliding && !isCrouching) ChangeAnimationState(PLAYER_EGGJUMP);
+			if (isGrounded && RB.velocity.x > -0.1f && RB.velocity.x < 0.1f && !isCrouching) ChangeAnimationState(PLAYER_EGGIDLE);
+			else if (isGrounded && (RB.velocity.x < -0.1f || RB.velocity.x > 0.1f) && !isCrouching) ChangeAnimationState(PLAYER_EGGWALK);
+			else if (!isGrounded && !IsWallJumping && !IsSliding && !isCrouching) ChangeAnimationState(PLAYER_EGGJUMP);
 			else if (isCrouching) ChangeAnimationState(PLAYER_EGGCROUCH);
 			else ChangeAnimationState(PLAYER_EGGCLIMB);
 		}
@@ -643,6 +681,49 @@ public class PlayerMovement : MonoBehaviour
 	{
 		animator.Play("Dead");
 	}
+	#endregion
+
+	#region Variables Assign
+	void GetScriptables()
+	{
+		launchForce = characterScriptableObject.launchForce;
+		fallGravityMult = characterScriptableObject.fallGravityMult;
+		maxFallSpeed = characterScriptableObject.maxFallSpeed;
+
+		fastFallGravityMult = characterScriptableObject.fastFallGravityMult;
+		maxFastFallSpeed = characterScriptableObject.maxFallSpeed;
+
+		runMaxSpeed = characterScriptableObject.runMaxSpeed;
+		runAcceleration = characterScriptableObject.runAcceleration;
+		runDecceleration = characterScriptableObject.runDecceleration;
+
+		accelInAir = characterScriptableObject.accelInAir;
+		deccelInAir = characterScriptableObject.deccelInAir;
+		doConserveMomentum = characterScriptableObject.doConserveMomentum;
+
+		jumpHeight = characterScriptableObject.jumpHeight;
+		jumpForce = characterScriptableObject.jumpForce;
+		jumpTimeToApex = characterScriptableObject.jumpTimeToApex;
+
+		jumpCutGravityMult = characterScriptableObject.jumpCutGravityMult;
+		jumpHangGravityMult = characterScriptableObject.jumpHangGravityMult;
+		jumpHangTimeThreshold = characterScriptableObject.jumpHangTimeThreshold;
+		jumpHangAccelerationMult = characterScriptableObject.jumpHangAccelerationMult;
+		jumpHangMaxSpeedMult = characterScriptableObject.jumpHangMaxSpeedMult;
+
+		wallJumpForce = characterScriptableObject.wallJumpForce;
+		wallJumpRunLerp = characterScriptableObject.wallJumpRunLerp;
+		wallJumpTime = characterScriptableObject.wallJumpTime;
+
+		slideSpeed = characterScriptableObject.slideSpeed;
+		slideAccel = characterScriptableObject.slideAccel;
+
+		coyoteTime = characterScriptableObject.coyoteTime;
+		jumpInputBufferTime = characterScriptableObject.jumpInputBufferTime;
+
+		weightModifier = characterScriptableObject.weightModifier;
+	}
+	#endregion
 }
 
 // created by Dawnosaur :D

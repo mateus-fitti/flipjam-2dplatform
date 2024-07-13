@@ -21,7 +21,6 @@ public class CharacterScriptableObject : ScriptableObject
 
 	[Header("Run")]
 	public float runMaxSpeed; //Target speed we want the player to reach.
-	public float deafaultMaxSpeed; //Default target speed we want the player to reach.
 	public float runAcceleration; //The speed at which our player accelerates to max speed, can be set to runMaxSpeed for instant acceleration down to 0 for none at all
 	public float runDecceleration; //The speed at which our player decelerates from their current speed, can be set to runMaxSpeed for instant deceleration down to 0 for none at all
 	[Space(5)]
@@ -34,9 +33,7 @@ public class CharacterScriptableObject : ScriptableObject
 
 	[Header("Jump")]
 	public float jumpHeight; //Height of the player's jump
-	public float deafaultJumpHeight; //Default Height of the player's jump
 	public float jumpForce; //The actual force applied (upwards) to the player when they jump.
-	public float deafaultJumpForce; //Default force applied (upwards) to the player when they jump.
 	public float jumpTimeToApex; //Time between applying the jump force and reaching the desired jump height. These values also control the player's gravity and jump force.
 
 	[Header("Both Jumps")]
@@ -49,7 +46,6 @@ public class CharacterScriptableObject : ScriptableObject
 
 	[Header("Wall Jump")]
 	public Vector2 wallJumpForce; //The actual force (this time set by us) applied to the player when wall jumping.
-	public Vector2 deafaultWallJumpForce; // The deafault force applied to the player when wall jumping.
 	[Space(5)]
 	[Range(0f, 1f)] public float wallJumpRunLerp; //Reduces the effect of player's movement while wall jumping.
 	[Range(0f, 1.5f)] public float wallJumpTime; //Time after wall jumping the player's movement is slowed for.
@@ -58,7 +54,6 @@ public class CharacterScriptableObject : ScriptableObject
 
 	[Header("Slide")]
 	public float slideSpeed;
-	public float deafaultSlideSpeed;
 	public float slideAccel;
 
 	[Header("Assists")]
