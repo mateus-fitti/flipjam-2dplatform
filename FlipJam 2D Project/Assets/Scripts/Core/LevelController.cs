@@ -39,8 +39,10 @@ public class LevelController : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
-            player.transform.position = new Vector3(-5f, 1.5f, 0); // Set to desired start position, adjust as necessary
+            player.transform.position = new Vector3(-3.32f, 1.2f, 0); // Set to desired start position, adjust as necessary
         }
+
+        PlayLevelMusic();
     }
 
     public void FinishGame()
@@ -103,6 +105,10 @@ public class LevelController : MonoBehaviour
         {
             GameController.instance.OnSceneChange(SceneManager.GetActiveScene().name);
         }
+    }
+
+    public void PlayLevelMusic(){
+        MusicManager.Instance.PlayMusic("LevelMusic");
     }
 
 

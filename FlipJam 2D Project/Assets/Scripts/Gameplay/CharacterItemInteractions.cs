@@ -70,6 +70,7 @@ public class CharacterItemInteractions : MonoBehaviour
             item = itemCol.gameObject;
             item.GetComponent<Renderer>().enabled = false;
             holdingItem = true;
+            SoundManager.Instance.PlaySound2D("PickRelease");
         }
     }
 
@@ -82,6 +83,7 @@ public class CharacterItemInteractions : MonoBehaviour
         {
             item.GetComponent<Renderer>().enabled = true;
             item.GetComponent<Rigidbody2D>().velocity = itemVelocity;
+            SoundManager.Instance.PlaySound2D("PickRelease");
         }
         charMovement.DefaultMovement();
         item = null;
