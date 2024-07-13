@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-using System.Collections; // Required for IEnumerator
+using System.Collections;
+using UnityEngine.EventSystems; // Required for IEnumerator
 
 public class HeatMeasurementSystem : MonoBehaviour
 {
@@ -197,6 +198,7 @@ public class HeatMeasurementSystem : MonoBehaviour
         isGameOver = true;
         Debug.Log("Game Over! The egg is frozen!");
         GameOverObj.SetActive(true); // Show the Game Over screen
+        EventSystem.current.SetSelectedGameObject(GameObject.Find(GameOverObj.name + "/RestartButton"));
         GameController.instance.PauseGame(); // Pause the game
     }
 }

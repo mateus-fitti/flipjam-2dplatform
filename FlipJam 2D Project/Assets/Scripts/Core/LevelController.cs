@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using TMPro;
-using Cinemachine; // Add this for TextMeshPro
+using Cinemachine;
 
 public class LevelController : MonoBehaviour
 {
@@ -27,7 +27,7 @@ public class LevelController : MonoBehaviour
     public void StartGame()
     {
         highScoreText.text = "High Score: " + PlayerPrefs.GetInt("HighScore", 0).ToString();
-        restartButton.SetActive(false); // Ensure the restart button is hidden at start
+        //restartButton.SetActive(false); // Ensure the restart button is hidden at start
         highScoreText.transform.parent.gameObject.SetActive(false);
         startTime = Time.time;
 
@@ -120,7 +120,7 @@ public class LevelController : MonoBehaviour
 
     public void OnSceneChange(string sceneName)
     {
-        SceneManager.LoadScene(sceneName);
+        GameController.instance.OnSceneChange(sceneName);
     }
 
     public void RestartGame()
