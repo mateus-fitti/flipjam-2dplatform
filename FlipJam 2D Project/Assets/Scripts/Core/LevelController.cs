@@ -61,7 +61,6 @@ public class LevelController : MonoBehaviour
         highScoreText.transform.parent.gameObject.SetActive(true);
         highScoreText.text = "High Score: " + highScore.ToString();
 
-        restartButton.SetActive(true); // Show the restart button when game ends
         GameController.instance.PauseGame();
     }
 
@@ -69,7 +68,7 @@ public class LevelController : MonoBehaviour
     {
         float timeTaken = Time.time - startTime;
         // Assuming higher score for less time, adjust the formula as needed
-        int score = Mathf.Max(0, (int)(1000 - timeTaken * 10));
+        int score = Mathf.Max(0, (int)(4000 - timeTaken * 10));
         return score;
     }
 
@@ -83,6 +82,9 @@ public class LevelController : MonoBehaviour
             // Update the timer UI text
             timerText.text = timer.ToString("F2"); // Display time with 2 decimal places
             scoreText.text = "Score: " + CalculateScore();
+        }
+        else {
+            restartButton.SetActive(true);
         }
 
         // IMPRIME A TECLA OU BOTÃO PRESSIONADO

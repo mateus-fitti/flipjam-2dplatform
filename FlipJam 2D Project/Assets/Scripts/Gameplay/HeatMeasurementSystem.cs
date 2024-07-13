@@ -1,12 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 using System.Collections; // Required for IEnumerator
 
 public class HeatMeasurementSystem : MonoBehaviour
 {
     public GameObject egg; // Referência para o GameObject do Egg
     public GameObject GameOverObj; // Referência para o GameObject do GameOver
-    public Slider temperatureSlider; // Reference to the UI Slider that acts as a temperature progress bar
+    public GameObject temperatureImg; // Reference to the UI Image that acts as a temperature progress bar
     public float temperature = 100f; // Temperatura inicial
 
     // Cores para os estados do Egg
@@ -14,6 +15,7 @@ public class HeatMeasurementSystem : MonoBehaviour
     public Sprite balancedEggImage;
     public Sprite coldEggImage;
     public Sprite frozenEggImage;
+    public Sprite[] temperatureStateSprites; // Array of sprites for each temperature state
     public LayerMask heatLayer;
 
     public bool heatSystemActive = false; // Flag para indicar se o sistema de calor está ativo
@@ -24,11 +26,13 @@ public class HeatMeasurementSystem : MonoBehaviour
     private float reducedDreceasedRate;
     public float defaultDecreasedRate = 2f; // Taxa de diminuição da temperatura por segundo
     public float defaultIncreasedRate = 6f; // Taxa de ganho da temperatura por segundo
-    private Image sliderFill;
+
+    private float lastSpriteChangeTemperature; // Track the last temperature at which the sprite was changed
 
     void Awake()
     {
         isGameOver = false;
+        lastSpriteChangeTemperature = temperature;
     }
 
     void Start()
@@ -39,11 +43,6 @@ public class HeatMeasurementSystem : MonoBehaviour
         decreaseRate = defaultDecreasedRate;
         reducedDreceasedRate = defaultDecreasedRate / 2;
 
-        if (temperatureSlider != null)
-        {
-            temperatureSlider.maxValue = 100f; // Assuming 100 is the max temperature
-            temperatureSlider.value = temperature; // Set to initial temperature
-        }
     }
     void Update()
     {
@@ -80,45 +79,75 @@ public class HeatMeasurementSystem : MonoBehaviour
 
     void UpdateEggColor()
     {
-        // Dynamically find the Slider's Fill component if not already cached
-        if (sliderFill == null)
-        {
-            // Assuming the Slider's Fill GameObject is named "Fill", and it's the first child of the second child of the Slider
-            sliderFill = temperatureSlider.transform.GetChild(1).GetChild(0).GetComponent<Image>();
-        }
 
-        // Update the egg color and slider fill color based on the temperature
+        // Update the egg color and Image fill color based on the temperature
+        // This part remains for compatibility with other game logic, might be adjusted or removed depending on specific needs
         if (temperature > 75)
         {
             egg.GetComponent<SpriteRenderer>().sprite = heatedEggImage;
-            sliderFill.color = Color.red;
         }
         else if (temperature > 50)
         {
             egg.GetComponent<SpriteRenderer>().sprite = balancedEggImage;
-            sliderFill.color = Color.yellow; // Change slider color to balancedColor
         }
         else if (temperature > 25)
         {
             egg.GetComponent<SpriteRenderer>().sprite = coldEggImage;
-            sliderFill.color = Color.grey; // Change slider color to coldColor
         }
         else
         {
             egg.GetComponent<SpriteRenderer>().sprite = frozenEggImage;
-            sliderFill.color = Color.cyan; // Change slider color to frozenColor
             GameOver(); // Trigger Game Over when temperature is 25 or below
         }
     }
 
     void UpdateThermometerUI()
     {
-        if (temperatureSlider != null)
+        // Determine the direction of temperature change
+        bool isTemperatureIncreasing = temperature > lastSpriteChangeTemperature;
+
+        // Calculate the difference in temperature since the last sprite change
+        float temperatureDifference = Mathf.Abs(temperature - lastSpriteChangeTemperature);
+
+        // Check if the temperature has changed by 6.5 degrees or more
+        if (temperatureDifference >= 6f)
         {
-            temperatureSlider.value = temperature;
+            // Calculate how many steps of 6.5f fit into the temperature difference
+            int steps = Mathf.FloorToInt(temperatureDifference / 6f);
+
+            // Calculate the current index based on the direction of temperature change
+            int currentIndex = Array.IndexOf(temperatureStateSprites, temperatureImg.GetComponent<Image>().sprite);
+            int spriteIndex = currentIndex;
+
+            if (isTemperatureIncreasing)
+            {
+                // Move backwards through the sprite array for increasing temperature
+                spriteIndex -= steps;
+            }
+            else
+            {
+                // Move forwards through the sprite array for decreasing temperature
+                spriteIndex += steps;
+            }
+
+            // Ensure the sprite index wraps around the array bounds
+            if (spriteIndex < 0)
+            {
+                spriteIndex = temperatureStateSprites.Length - 1 + ((spriteIndex + 1) % temperatureStateSprites.Length);
+            }
+            else if (spriteIndex >= temperatureStateSprites.Length)
+            {
+                spriteIndex %= temperatureStateSprites.Length;
+            }
+
+            // Update the UI image sprite
+            Image background = temperatureImg.GetComponent<Image>();
+            background.sprite = temperatureStateSprites[spriteIndex];
+
+            // Update the last temperature at which the sprite was changed
+            lastSpriteChangeTemperature = temperature;
         }
     }
-
     public void ResetHeatSystem()
     {
         temperature = 100f; // Reset to initial temperature
@@ -126,12 +155,7 @@ public class HeatMeasurementSystem : MonoBehaviour
         isGameOver = false; // Reset game over flag
         GameOverObj.SetActive(false); // Hide the Game Over screen
 
-        // Reset UI elements
-        if (temperatureSlider != null)
-        {
-            temperatureSlider.value = temperature;
-        }
-        // Reset egg color and slider fill color
+        // Reset egg color and Image fill color
         UpdateEggColor();
     }
     void GameOver()
@@ -152,7 +176,9 @@ public class HeatMeasurementSystem : MonoBehaviour
                 Animator characterAnimator = character.GetComponent<Animator>();
                 characterMovement.PlayDeadAnimation();  // Trigger the "Dead" animation
 
-                yield return new WaitUntil(() => characterAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1.0f && !characterAnimator.IsInTransition(0));
+                // yield return new WaitUntil(() => characterAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1.0f && !characterAnimator.IsInTransition(0));
+                yield return new WaitForSeconds(0.6f); // Wait for 1 second before moving to the next character
+
             }
         }
 
@@ -160,7 +186,6 @@ public class HeatMeasurementSystem : MonoBehaviour
         isGameOver = true;
         Debug.Log("Game Over! The egg is frozen!");
         GameOverObj.SetActive(true); // Show the Game Over screen
-                                     // Finally, pause the game
-        GameController.instance.PauseGame();
+        GameController.instance.PauseGame(); // Pause the game
     }
 }
