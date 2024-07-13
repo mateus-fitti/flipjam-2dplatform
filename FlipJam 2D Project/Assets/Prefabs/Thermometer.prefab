@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7609268898184051526
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3942997905529514854}
+  - component: {fileID: 6981602014094741339}
+  m_Layer: 0
+  m_Name: Thermometer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3942997905529514854
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7609268898184051526}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.461069, y: 9.465067, z: 0.53353214}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6981602014094741339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7609268898184051526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73a36b8efcbd81f449047497f40ae93c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  egg: {fileID: 0}
+  GameOverObj: {fileID: 0}
+  temperatureImg: {fileID: 0}
+  temperature: 100
+  heatedEggImage: {fileID: 21300000, guid: a3af7e5cad59a2a4ab145027877af837, type: 3}
+  balancedEggImage: {fileID: 21300000, guid: 0a9a7090bc1e0854b8802440aa038482, type: 3}
+  coldEggImage: {fileID: 21300000, guid: 6271eeca7b773af4ea26c64ff7bac6e4, type: 3}
+  frozenEggImage: {fileID: 21300000, guid: 665bc30700ce3804981295d38503e2b7, type: 3}
+  temperatureStateSprites:
+  - {fileID: 21300000, guid: 6743ec9247941194badca397ff65714b, type: 3}
+  - {fileID: 21300000, guid: dc969ae8c63bdfc4b98a185d37741e21, type: 3}
+  - {fileID: 21300000, guid: 27343d2dc154ac240866a30d633fe60d, type: 3}
+  - {fileID: 21300000, guid: 28af515f7c1c2c2449cf731c76a5b822, type: 3}
+  - {fileID: 21300000, guid: 454fd0079cb8b934a8479b8339ae3f78, type: 3}
+  - {fileID: 21300000, guid: 83c33bf584e638e4994cb670466c85af, type: 3}
+  - {fileID: 21300000, guid: c476bf6d090804d42b92dc33f7dcf9e6, type: 3}
+  - {fileID: 21300000, guid: 4c02d73bdaddf1f43a4e73772947b50e, type: 3}
+  - {fileID: 21300000, guid: 384387981c9d3b947bdc353360f36461, type: 3}
+  - {fileID: 21300000, guid: 5339babaea9c1474197a0dbe3bbfdc92, type: 3}
+  - {fileID: 21300000, guid: 3522856e95fd7ff40b5ec6e934b824bb, type: 3}
+  - {fileID: 21300000, guid: 415cec917befad64dbb9bf7e5ccd2ef4, type: 3}
+  - {fileID: 21300000, guid: eb92334a0091995489ee1956ab848b89, type: 3}
+  heatLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  coldLayer:
+    serializedVersion: 2
+    m_Bits: 2048
+  heatSystemActive: 1
+  defaultDecreasedRate: 2
+  defaultIncreasedRate: 6

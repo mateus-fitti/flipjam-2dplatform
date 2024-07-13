@@ -17,6 +17,7 @@ public class HeatMeasurementSystem : MonoBehaviour
     public Sprite frozenEggImage;
     public Sprite[] temperatureStateSprites; // Array of sprites for each temperature state
     public LayerMask heatLayer;
+    public LayerMask coldLayer;
 
     public bool heatSystemActive = false; // Flag para indicar se o sistema de calor está ativo
 
@@ -24,6 +25,7 @@ public class HeatMeasurementSystem : MonoBehaviour
 
     private float decreaseRate;
     private float reducedDreceasedRate;
+    private float aumentedDecreasedRate;
     public float defaultDecreasedRate = 2f; // Taxa de diminuição da temperatura por segundo
     public float defaultIncreasedRate = 6f; // Taxa de ganho da temperatura por segundo
 
@@ -42,15 +44,17 @@ public class HeatMeasurementSystem : MonoBehaviour
 
         decreaseRate = defaultDecreasedRate;
         reducedDreceasedRate = defaultDecreasedRate / 2;
+        aumentedDecreasedRate = defaultDecreasedRate * 2;
 
     }
     void Update()
     {
         if (heatSystemActive)
         {
-            Collider2D collider = Physics2D.OverlapCircle(egg.transform.position, 1, heatLayer);
+            Collider2D heatCollider = Physics2D.OverlapCircle(egg.transform.position, 1, heatLayer);
+            Collider2D coldCollider = Physics2D.OverlapCircle(egg.transform.position, 1, coldLayer);
 
-            if (collider == null)
+            if (heatCollider == null && coldCollider == null)
             {
                 // Diminuir a temperatura com o tempo
                 if (!egg.GetComponent<SpriteRenderer>().enabled)
@@ -64,9 +68,16 @@ public class HeatMeasurementSystem : MonoBehaviour
                     if (temperature > 0) temperature -= decreaseRate * Time.deltaTime;
                 }
             }
-            else
+            else if(heatCollider != null)
             {
                 if (temperature > 0 && temperature < 100) temperature += defaultIncreasedRate * Time.deltaTime;
+
+            }
+            else if(coldCollider != null)
+            {
+                Debug.Log("Esfriando: " + temperature);
+                decreaseRate = aumentedDecreasedRate;
+                    if (temperature > 0) temperature -= decreaseRate * Time.deltaTime;
             }
             // Atualizar a cor do Egg com base na temperatura
             UpdateEggColor();
