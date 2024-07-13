@@ -5,11 +5,13 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using TMPro;
 using Cinemachine;
+using UnityEngine.EventSystems;
 
 public class LevelController : MonoBehaviour
 {
     public TextMeshProUGUI scoreText; // Changed to TextMeshProUGUI
     public TextMeshProUGUI highScoreText; // Changed to TextMeshProUGUI
+    public GameObject gameOverObj;
     public GameObject restartButton; // Reference to the Restart Button
     private float startTime;
     private bool gameStarted = true;
@@ -26,8 +28,10 @@ public class LevelController : MonoBehaviour
 
     public void StartGame()
     {
+        GameController.instance.UnPauseGame(); // Use GameController to unpause
+        gameOverObj.SetActive(false); // Hide the Game Over screen
+
         highScoreText.text = "High Score: " + PlayerPrefs.GetInt("HighScore", 0).ToString();
-        //restartButton.SetActive(false); // Ensure the restart button is hidden at start
         highScoreText.transform.parent.gameObject.SetActive(false);
         startTime = Time.time;
 
@@ -53,7 +57,46 @@ public class LevelController : MonoBehaviour
             virtualCam.GetComponent<CinemachineVirtualCamera>().Follow = player.transform;
         }
         MusicManager.Instance.StopAndPlayMusic("LevelMusic");
+    }
 
+    private void Update()
+    {
+        if (gameStarted)
+        {
+            // Increase the timer
+            timer += Time.deltaTime;
+            // Convert timer to minutes and seconds
+            int minutes = Mathf.FloorToInt(timer / 60F);
+            int seconds = Mathf.FloorToInt(timer % 60F);
+
+            // Update the timer UI text to show as "MM:SS"
+            timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+
+            // Update the score text
+            scoreText.text = "Score: " + CalculateScore();
+
+        }
+        else
+        {
+            restartButton.SetActive(true);
+        }
+
+        // IMPRIME A TECLA OU BOTÃO PRESSIONADO
+        /*
+        foreach (KeyCode keyCode in System.Enum.GetValues(typeof(KeyCode)))
+        {
+            if (Input.GetKeyDown(keyCode))
+            {
+                Debug.Log(keyCode);
+            }
+        }
+        */
+
+        // Restart game - PARA TESTES
+        if (Input.GetButtonDown("Debug Reset"))
+        {
+            GameController.instance.OnSceneChange(SceneManager.GetActiveScene().name);
+        }
     }
 
     public void FinishGame()
@@ -73,8 +116,6 @@ public class LevelController : MonoBehaviour
         }
         highScoreText.transform.parent.gameObject.SetActive(true);
         highScoreText.text = "High Score: " + highScore.ToString();
-
-        GameController.instance.PauseGame();
     }
 
     private int CalculateScore()
@@ -85,58 +126,44 @@ public class LevelController : MonoBehaviour
         return score;
     }
 
-
-    private void Update()
+    public void GameOver()
     {
-        if (gameStarted)
-        {
-            // Increase the timer
-            timer += Time.deltaTime;
-            // Convert timer to minutes and seconds
-            int minutes = Mathf.FloorToInt(timer / 60F);
-            int seconds = Mathf.FloorToInt(timer % 60F);
-
-            // Update the timer UI text to show as "MM:SS"
-            timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-
-            // Update the score text
-            scoreText.text = "Score: " + CalculateScore();
-        
+        StartCoroutine(PlayDeadAnimationOnAllCharacters());
     }
-        else
+
+    IEnumerator PlayDeadAnimationOnAllCharacters()
+    {
+        GameObject[] characters = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject character in characters)
         {
-            restartButton.SetActive(true);
+            PlayerMovement characterMovement = character.GetComponent<PlayerMovement>();
+            if (characterMovement != null)
+            {
+                Animator characterAnimator = character.GetComponent<Animator>();
+                characterMovement.PlayDeadAnimation();  // Trigger the "Dead" animation
+
+                // yield return new WaitUntil(() => characterAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1.0f && !characterAnimator.IsInTransition(0));
+                yield return new WaitForSeconds(0.6f); // Wait for 1 second before moving to the next character
+
+            }
         }
 
-// IMPRIME A TECLA OU BOTÃO PRESSIONADO
-/*
-foreach (KeyCode keyCode in System.Enum.GetValues(typeof(KeyCode)))
-{
-    if (Input.GetKeyDown(keyCode))
-    {
-        Debug.Log(keyCode);
+        // After all characters' animations have finished, execute the following
+        Debug.Log("Game Over! The egg is frozen!");
+        gameOverObj.SetActive(true); // Show the Game Over screen
+        EventSystem.current.SetSelectedGameObject(restartButton);
+        GameController.instance.PauseGame(); // Pause the game
     }
-}
-*/
-
-// Restart game - PARA TESTES
-if (Input.GetButtonDown("Debug Reset"))
-{
-    GameController.instance.OnSceneChange(SceneManager.GetActiveScene().name);
-}
-    }
-
 
     public void OnSceneChange(string sceneName)
-{
-    GameController.instance.OnSceneChange(sceneName);
-}
+    {
+        GameController.instance.OnSceneChange(sceneName);
+    }
 
-public void RestartGame()
-{
-    GameController.instance.OnSceneChange(SceneManager.GetActiveScene().name);
-
-}
+    public void RestartGame()
+    {
+        GameController.instance.OnSceneChange(SceneManager.GetActiveScene().name);
+    }
 
 
 }
