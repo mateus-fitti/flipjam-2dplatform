@@ -62,7 +62,7 @@ public class LevelController : MonoBehaviour
 
         gameStarted = false;
         int score = CalculateScore();
-        scoreText.text = "Your Score: " + score;
+        scoreText.text = "Score: " + score;
 
         // Check and update high score
         int highScore = PlayerPrefs.GetInt("HighScore", 0);
@@ -92,44 +92,51 @@ public class LevelController : MonoBehaviour
         {
             // Increase the timer
             timer += Time.deltaTime;
-            // Update the timer UI text
-            timerText.text = timer.ToString("F2"); // Display time with 2 decimal places
+            // Convert timer to minutes and seconds
+            int minutes = Mathf.FloorToInt(timer / 60F);
+            int seconds = Mathf.FloorToInt(timer % 60F);
+
+            // Update the timer UI text to show as "MM:SS"
+            timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+
+            // Update the score text
             scoreText.text = "Score: " + CalculateScore();
-        }
+        
+    }
         else
         {
             restartButton.SetActive(true);
         }
 
-        // IMPRIME A TECLA OU BOTÃO PRESSIONADO
-        /*
-        foreach (KeyCode keyCode in System.Enum.GetValues(typeof(KeyCode)))
-        {
-            if (Input.GetKeyDown(keyCode))
-            {
-                Debug.Log(keyCode);
-            }
-        }
-        */
+// IMPRIME A TECLA OU BOTÃO PRESSIONADO
+/*
+foreach (KeyCode keyCode in System.Enum.GetValues(typeof(KeyCode)))
+{
+    if (Input.GetKeyDown(keyCode))
+    {
+        Debug.Log(keyCode);
+    }
+}
+*/
 
-        // Restart game - PARA TESTES
-        if (Input.GetButtonDown("Debug Reset"))
-        {
-            GameController.instance.OnSceneChange(SceneManager.GetActiveScene().name);
-        }
+// Restart game - PARA TESTES
+if (Input.GetButtonDown("Debug Reset"))
+{
+    GameController.instance.OnSceneChange(SceneManager.GetActiveScene().name);
+}
     }
 
 
     public void OnSceneChange(string sceneName)
-    {
-        GameController.instance.OnSceneChange(sceneName);
-    }
+{
+    GameController.instance.OnSceneChange(sceneName);
+}
 
-    public void RestartGame()
-    {
-        GameController.instance.OnSceneChange(SceneManager.GetActiveScene().name);
+public void RestartGame()
+{
+    GameController.instance.OnSceneChange(SceneManager.GetActiveScene().name);
 
-    }
+}
 
 
 }
