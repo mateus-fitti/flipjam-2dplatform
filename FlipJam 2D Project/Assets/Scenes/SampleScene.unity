@@ -1038,7 +1038,7 @@ MonoBehaviour:
   m_Intensity: 0.8
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 00000000
+  m_ApplyToSortingLayers: 00000000ffca4f23
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -2184,6 +2184,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   heatSystemActive: 1
+  decreaseRate: 0
+  reducedDreceasedRate: 0
   defaultDecreasedRate: 2
   defaultIncreasedRate: 6
 --- !u!4 &1171921560
@@ -2768,7 +2770,7 @@ MonoBehaviour:
   m_Intensity: 1.5
   m_LightVolumeIntensity: 0.01
   m_LightVolumeIntensityEnabled: 1
-  m_ApplyToSortingLayers: 00000000
+  m_ApplyToSortingLayers: 00000000ffca4f23
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -3799,19 +3801,31 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1530405584268360983, guid: de507479644eff245ba0dd32045f1663, type: 3}
-      propertyPath: runAccelAmount
-      value: NaN
-      objectReference: {fileID: 0}
-    - target: {fileID: 1530405584268360983, guid: de507479644eff245ba0dd32045f1663, type: 3}
-      propertyPath: runAcceleration
+      propertyPath: coyoteTime
       value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 1530405584268360983, guid: de507479644eff245ba0dd32045f1663, type: 3}
+      propertyPath: runAccelAmount
+      value: Infinity
+      objectReference: {fileID: 0}
+    - target: {fileID: 1530405584268360983, guid: de507479644eff245ba0dd32045f1663, type: 3}
+      propertyPath: weightModifier
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1530405584268360983, guid: de507479644eff245ba0dd32045f1663, type: 3}
+      propertyPath: runAcceleration
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1530405584268360983, guid: de507479644eff245ba0dd32045f1663, type: 3}
       propertyPath: runDeccelAmount
-      value: NaN
+      value: Infinity
       objectReference: {fileID: 0}
     - target: {fileID: 1530405584268360983, guid: de507479644eff245ba0dd32045f1663, type: 3}
       propertyPath: runDecceleration
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1530405584268360983, guid: de507479644eff245ba0dd32045f1663, type: 3}
+      propertyPath: jumpInputBufferTime
       value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 3137958253193204829, guid: de507479644eff245ba0dd32045f1663, type: 3}
@@ -3860,12 +3874,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3704641008782404539, guid: de507479644eff245ba0dd32045f1663, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5216937789500265611, guid: de507479644eff245ba0dd32045f1663, type: 3}
       propertyPath: climbingHorizontalOffset
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 6747889841299008848, guid: de507479644eff245ba0dd32045f1663, type: 3}
+      propertyPath: heatSystem
+      value: 
+      objectReference: {fileID: 1171921559}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4880,8 +4898,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1530405584268360983, guid: 6c0cfe8899495004faa3f486369c8f39, type: 3}
+      propertyPath: coyoteTime
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1530405584268360983, guid: 6c0cfe8899495004faa3f486369c8f39, type: 3}
       propertyPath: runAccelAmount
       value: NaN
+      objectReference: {fileID: 0}
+    - target: {fileID: 1530405584268360983, guid: 6c0cfe8899495004faa3f486369c8f39, type: 3}
+      propertyPath: weightModifier
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 1530405584268360983, guid: 6c0cfe8899495004faa3f486369c8f39, type: 3}
       propertyPath: runAcceleration
@@ -4893,6 +4919,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1530405584268360983, guid: 6c0cfe8899495004faa3f486369c8f39, type: 3}
       propertyPath: runDecceleration
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1530405584268360983, guid: 6c0cfe8899495004faa3f486369c8f39, type: 3}
+      propertyPath: jumpInputBufferTime
       value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 3137958253193204829, guid: 6c0cfe8899495004faa3f486369c8f39, type: 3}
@@ -4941,7 +4971,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3704641008782404539, guid: 6c0cfe8899495004faa3f486369c8f39, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5216937789500265611, guid: 6c0cfe8899495004faa3f486369c8f39, type: 3}
       propertyPath: climbingHorizontalOffset

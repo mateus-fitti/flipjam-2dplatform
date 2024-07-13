@@ -23,10 +23,9 @@ public class HeatMeasurementSystem : MonoBehaviour
     public bool heatSystemActive = false; // Flag para indicar se o sistema de calor está ativo
 
     private bool isGameOver = false; // Flag para indicar se o jogo acabou
-
-    private float decreaseRate;
-    private float reducedDreceasedRate;
     private float aumentedDecreasedRate;
+    public float decreaseRate;
+    public float reducedDreceasedRate;
     public float defaultDecreasedRate = 2f; // Taxa de diminuição da temperatura por segundo
     public float defaultIncreasedRate = 6f; // Taxa de ganho da temperatura por segundo
 
