@@ -94,6 +94,7 @@ public class PlayerMovement : MonoBehaviour
 	private CharacterItemInteractions itemInteractions;
 	public bool isCrouching = false;
 	public bool isHeavy = false;
+	public bool isLight = false;
 	//Variables control the various actions the player can perform at any time.
 	//These are fields which can are public allowing for other sctipts to read them
 	//but can only be privately written to.
@@ -623,10 +624,21 @@ public class PlayerMovement : MonoBehaviour
 			isHeavy = true;
 		}
 	}
+	public void LightMovement()
+	{
+		if (!isLight)
+        {
+            runMaxSpeed /= weightModifier;
+            jumpForce /= weightModifier;
+            wallJumpForce /= weightModifier;
+            slideSpeed *= weightModifier;
+            isLight = true;
+        }
+	}
 
 	public void DefaultMovement()
 	{
-		if (isHeavy)
+		if (isHeavy || isLight)
 		{
 			runMaxSpeed = characterScriptableObject.runMaxSpeed;
 			jumpForce = characterScriptableObject.jumpForce;
@@ -635,6 +647,7 @@ public class PlayerMovement : MonoBehaviour
 			isHeavy = false;
 		}
 	}
+
 	#endregion
 
 	#region Animation
@@ -647,7 +660,7 @@ public class PlayerMovement : MonoBehaviour
 
 		foreach (var animation in characterScriptableObject.animations)
 		{
-			Debug.Log(animation.animationType.ToString());
+			//Debug.Log(animation.animationType.ToString());
 			if (animation.animationType.ToString() == newAnimation)
 			{
 				animator.Play(animation.animationName);

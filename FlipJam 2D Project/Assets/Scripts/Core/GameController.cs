@@ -6,6 +6,8 @@ public class GameController : MonoBehaviour
 {
 
     public static GameController instance;
+    public int player1 = 0;
+    public int player2 = 0;
 
 
     void Awake()
@@ -43,6 +45,11 @@ public class GameController : MonoBehaviour
     public void UnPauseGame()
     {
         Time.timeScale = 1.0f;
+    }
+
+    public void CharacterSelection(int id)
+    {
+        player1 = id;
     }
 
 

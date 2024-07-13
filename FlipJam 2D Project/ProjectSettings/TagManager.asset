@@ -13,6 +13,7 @@ TagManager:
   - ExplosionFX
   - Bullet
   - HealthBar
+  - VirtualCamera
   layers:
   - Default
   - TransparentFX
@@ -25,7 +26,7 @@ TagManager:
   - Platform
   - HeatLayer
   - BackGround
-  - 
+  - ColdLayer
   - 
   - 
   - 

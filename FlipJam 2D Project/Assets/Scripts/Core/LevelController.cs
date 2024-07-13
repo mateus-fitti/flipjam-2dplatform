@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
-using TMPro; // Add this for TextMeshPro
+using TMPro;
+using Cinemachine;
 
 public class LevelController : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class LevelController : MonoBehaviour
     private bool gameStarted = true;
     private float timer = 0f; // Timer variable
     public TextMeshProUGUI timerText; // Changed to TextMeshProUGUI
+    public GameObject[] characters;
+    public Transform spawnPosition;
 
 
     void Start()
@@ -24,7 +27,7 @@ public class LevelController : MonoBehaviour
     public void StartGame()
     {
         highScoreText.text = "High Score: " + PlayerPrefs.GetInt("HighScore", 0).ToString();
-        restartButton.SetActive(false); // Ensure the restart button is hidden at start
+        //restartButton.SetActive(false); // Ensure the restart button is hidden at start
         highScoreText.transform.parent.gameObject.SetActive(false);
         startTime = Time.time;
 
@@ -37,9 +40,17 @@ public class LevelController : MonoBehaviour
         timer = 0; // Reset timer at the start of the game
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
+        if (spawnPosition != null)
         {
-            player.transform.position = new Vector3(-3.32f, 1.2f, 0); // Set to desired start position, adjust as necessary
+            if (player != null)
+            {
+                Destroy(player);
+            }
+
+            player = characters[GameController.instance.player1];
+            player = Instantiate(player, spawnPosition.position, Quaternion.identity);
+            GameObject virtualCam = GameObject.FindGameObjectWithTag("VirtualCamera");
+            virtualCam.GetComponent<CinemachineVirtualCamera>().Follow = player.transform;
         }
 
         PlayLevelMusic();
@@ -85,7 +96,8 @@ public class LevelController : MonoBehaviour
             timerText.text = timer.ToString("F2"); // Display time with 2 decimal places
             scoreText.text = "Score: " + CalculateScore();
         }
-        else {
+        else
+        {
             restartButton.SetActive(true);
         }
 
@@ -114,7 +126,7 @@ public class LevelController : MonoBehaviour
 
     public void OnSceneChange(string sceneName)
     {
-        SceneManager.LoadScene(sceneName);
+        GameController.instance.OnSceneChange(sceneName);
     }
 
     public void RestartGame()

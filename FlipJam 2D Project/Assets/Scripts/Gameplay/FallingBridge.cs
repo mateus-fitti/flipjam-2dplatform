@@ -1,35 +1,31 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class FallingPlatform : MonoBehaviour
 {
 
-    private float fallDelay = 1f;
+    private float fallDelay = 3f;
     private float destroyDelay = 7f;
-    // private float respawnTime = 5f;
-    // private Vector3 spawnPosition;
     [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private LayerMask playerLayer;
+    private CharacterItemInteractions characterInteractions;
 
     void Start()
     {
-        //spawnPosition = transform.position;
+
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        
         if (collision.gameObject.CompareTag("Player"))
         {
-            StartCoroutine(Fall());
+            characterInteractions = collision.gameObject.GetComponent<CharacterItemInteractions>();
+            if(characterInteractions.holdingItem)
+                StartCoroutine(Fall()); 
         }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        //StartCoroutine(Respawn());
+        
     }
 
     private IEnumerator Fall()
@@ -39,11 +35,5 @@ public class FallingPlatform : MonoBehaviour
         Destroy(gameObject, destroyDelay);
     }
     
-    // private IEnumerator Respawn()
-    // {
-    //     yield return new WaitForSeconds(respawnTime);
-    //     rb.bodyType = RigidbodyType2D.Kinematic;
-    //     Instantiate(gameObject,spawnPosition, transform.rotation);
-    // }
 
 }
