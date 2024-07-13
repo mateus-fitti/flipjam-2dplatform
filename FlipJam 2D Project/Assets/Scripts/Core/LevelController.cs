@@ -69,7 +69,7 @@ public class LevelController : MonoBehaviour
     {
         float timeTaken = Time.time - startTime;
         // Assuming higher score for less time, adjust the formula as needed
-        int score = Mathf.Max(0, (int)(4000 - timeTaken * 10));
+        int score = Mathf.Max(0, (int)(1000 - timeTaken * 10));
         return score;
     }
 
