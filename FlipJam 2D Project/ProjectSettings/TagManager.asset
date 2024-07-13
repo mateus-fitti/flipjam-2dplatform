@@ -13,6 +13,7 @@ TagManager:
   - ExplosionFX
   - Bullet
   - HealthBar
+  - VirtualCamera
   layers:
   - Default
   - TransparentFX

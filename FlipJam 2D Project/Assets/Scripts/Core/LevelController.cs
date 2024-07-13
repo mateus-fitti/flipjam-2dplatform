@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
-using TMPro; // Add this for TextMeshPro
+using TMPro;
+using Cinemachine; // Add this for TextMeshPro
 
 public class LevelController : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class LevelController : MonoBehaviour
     private bool gameStarted = true;
     private float timer = 0f; // Timer variable
     public TextMeshProUGUI timerText; // Changed to TextMeshProUGUI
+    public GameObject[] characters;
+    public Transform spawnPosition;
 
 
     void Start()
@@ -39,8 +42,13 @@ public class LevelController : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
-            player.transform.position = new Vector3(-5f, 1.5f, 0); // Set to desired start position, adjust as necessary
+            Destroy(player);
         }
+
+        player = characters[GameController.instance.player1];
+        player = Instantiate(player, spawnPosition.position, Quaternion.identity);
+        GameObject virtualCam = GameObject.FindGameObjectWithTag("VirtualCamera");
+        virtualCam.GetComponent<CinemachineVirtualCamera>().Follow = player.transform;
     }
 
     public void FinishGame()

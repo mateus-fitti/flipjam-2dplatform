@@ -25,4 +25,10 @@ public class MenuController : MonoBehaviour
     {
         GameController.instance.OnSceneChange(sceneName);
     }
+
+    public void CharacterSelection(int character_id)
+    {
+        GameController.instance.CharacterSelection(character_id);
+        EventSystem.current.SetSelectedGameObject(GameObject.Find("StartButton"));
+    }
 }
