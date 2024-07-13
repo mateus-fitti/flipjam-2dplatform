@@ -240,8 +240,8 @@ MonoBehaviour:
   fastFallGravityMult: 0
   maxFastFallSpeed: 0
   runMaxSpeed: 0
-  runAcceleration: 0
-  runDecceleration: 0
+  runAcceleration: 0.01
+  runDecceleration: 0.01
   accelInAir: 0
   deccelInAir: 0
   doConserveMomentum: 1
@@ -263,8 +263,8 @@ MonoBehaviour:
   weightModifier: 0.01
   gravityStrength: NaN
   gravityScale: NaN
-  runAccelAmount: Infinity
-  runDeccelAmount: Infinity
+  runAccelAmount: NaN
+  runDeccelAmount: NaN
   isCrouching: 0
   isHeavy: 0
   isLight: 0
@@ -290,6 +290,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterScriptableObject: {fileID: 11400000, guid: 359b2dc0d0d287540ab40cd86b07016b, type: 2}
+  characterType: 0
+  heatSystem: {fileID: 0}
   pickupRange: 1
   itemLayer:
     serializedVersion: 2
@@ -344,19 +346,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be47f17f264c065418d05b9d6da783ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterType: 0
   characterScriptableObject: {fileID: 11400000, guid: 359b2dc0d0d287540ab40cd86b07016b, type: 2}
---- !u!114 &6467648525817244052
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3704641008782404539}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1c6aecd71495244f9e266ace38bfab8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  collisionLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  castingLight: {fileID: 0}
+  range: {fileID: 0}
+  energySpherePrefab: {fileID: 0}
+  maxTeleportDistance: 10
+  initialSphereSpeed: 1
+  sphereAcceleration: 0.5
+  maxSphereAcceleration: 1.5
+  tremorIntensity: 0.1
+  tremorThreshold: 2
+  handPosition: {fileID: 0}
+  playerMovementScript: {fileID: 0}
 --- !u!1 &3904293013271306322
 GameObject:
   m_ObjectHideFlags: 0
