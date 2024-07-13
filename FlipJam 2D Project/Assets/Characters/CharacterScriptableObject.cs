@@ -109,6 +109,7 @@ public class CharacterScriptableObject : ScriptableObject
         }
     }
 
+/*
 	[CustomEditor(typeof(CharacterScriptableObject))]
 	public class CharacterScriptableObjectEditor : Editor
 {
@@ -141,4 +142,5 @@ public class CharacterScriptableObject : ScriptableObject
         }
     }
 }
+*/
 }

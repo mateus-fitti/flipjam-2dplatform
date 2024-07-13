@@ -17,33 +17,33 @@ MonoBehaviour:
   maxFallSpeed: 22
   fastFallGravityMult: 2
   maxFastFallSpeed: 22
-  runMaxSpeed: 0.7387202
-  deafaultMaxSpeed: 1.2312002
-  runAcceleration: 0.7387202
-  runDecceleration: 0.7387202
+  runMaxSpeed: 5
+  deafaultMaxSpeed: 5
+  runAcceleration: 5
+  runDecceleration: 5
   accelInAir: 0.1
   deccelInAir: 0.1
   doConserveMomentum: 0
   jumpHeight: 4.5
   deafaultJumpHeight: 0
-  jumpForce: 18
-  deafaultJumpForce: 18
+  jumpForce: 15
+  deafaultJumpForce: 15
   jumpTimeToApex: 0.5
   jumpCutGravityMult: 3.5
   jumpHangGravityMult: 1
   jumpHangTimeThreshold: 0
   jumpHangAccelerationMult: 1
   jumpHangMaxSpeedMult: 1
-  wallJumpForce: {x: 0.6609602, y: 1.1664002}
-  deafaultWallJumpForce: {x: 1.1016003, y: 1.9440002}
+  wallJumpForce: {x: 0, y: 0}
+  deafaultWallJumpForce: {x: 0, y: 0}
   wallJumpRunLerp: 0.075
   wallJumpTime: 0.3
-  slideSpeed: -64.3004
-  deafaultSlideSpeed: -38.580242
+  slideSpeed: -5
+  deafaultSlideSpeed: -5
   slideAccel: 0.8
   coyoteTime: 0.15
   jumpInputBufferTime: 0.15
-  weightModifier: 0.6
+  weightModifier: 0.7
   animations:
   - animationType: 0
     animationClip: {fileID: 7400000, guid: db2597347574653459cb2c96ec865024, type: 2}
