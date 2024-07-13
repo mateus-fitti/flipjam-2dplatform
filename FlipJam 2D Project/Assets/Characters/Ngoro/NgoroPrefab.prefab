@@ -233,11 +233,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterScriptableObject: {fileID: 11400000, guid: 359b2dc0d0d287540ab40cd86b07016b, type: 2}
-  gravityStrength: -36
-  gravityScale: 1.8
-  runAccelAmount: 50
-  runDeccelAmount: 50
+  launchForce: 0
+  fallGravityMult: 0
+  maxFallSpeed: 0
+  fastFallGravityMult: 0
+  maxFastFallSpeed: 0
+  runMaxSpeed: 0
+  runAcceleration: 0.01
+  runDecceleration: 0.01
+  accelInAir: 0
+  deccelInAir: 0
+  doConserveMomentum: 1
+  jumpHeight: 0
+  jumpForce: NaN
+  jumpTimeToApex: 0
+  jumpCutGravityMult: 0
+  jumpHangGravityMult: 0
+  jumpHangTimeThreshold: 0
+  jumpHangAccelerationMult: 0
+  jumpHangMaxSpeedMult: 0
+  wallJumpForce: {x: 0, y: 0}
+  wallJumpRunLerp: 0
+  wallJumpTime: 0
+  slideSpeed: 0
+  slideAccel: 0
+  coyoteTime: 0.01
+  jumpInputBufferTime: 0.01
+  weightModifier: 0.01
+  gravityStrength: NaN
+  gravityScale: NaN
+  runAccelAmount: NaN
+  runDeccelAmount: NaN
   isCrouching: 0
+  isHeavy: 0
+  isLight: 0
   canMove: 1
   _groundCheckPoint: {fileID: 6983580467530219990}
   _groundCheckSize: {x: 0.49, y: 0.03}
@@ -260,6 +289,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterScriptableObject: {fileID: 11400000, guid: 359b2dc0d0d287540ab40cd86b07016b, type: 2}
+  characterType: 0
+  heatSystem: {fileID: 0}
   pickupRange: 1
   itemLayer:
     serializedVersion: 2
@@ -314,7 +345,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be47f17f264c065418d05b9d6da783ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterType: 0
   characterScriptableObject: {fileID: 11400000, guid: 359b2dc0d0d287540ab40cd86b07016b, type: 2}
+  collisionLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  castingLight: {fileID: 0}
+  range: {fileID: 0}
+  energySpherePrefab: {fileID: 0}
+  maxTeleportDistance: 10
+  initialSphereSpeed: 1
+  sphereAcceleration: 0.5
+  maxSphereAcceleration: 1.5
+  tremorIntensity: 0.1
+  tremorThreshold: 2
+  handPosition: {fileID: 0}
+  playerMovementScript: {fileID: 0}
 --- !u!1 &3904293013271306322
 GameObject:
   m_ObjectHideFlags: 0
