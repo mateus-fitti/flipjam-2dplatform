@@ -30,4 +30,9 @@ public void PlayWallJumpSound()
     SoundManager.Instance.PlaySound2D("WallJump");
 }
 
+public void PlayGameOverSound()
+{
+    SoundManager.Instance.PlaySound2D("GameOver");
+}
+
 }

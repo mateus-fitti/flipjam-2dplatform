@@ -44,7 +44,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.4
+  m_Volume: 0.6
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -141,6 +141,7 @@ GameObject:
   - component: {fileID: 1767409494685478868}
   - component: {fileID: 1855322876923358916}
   - component: {fileID: 7523510908162705460}
+  - component: {fileID: 2942281082567614761}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -180,13 +181,25 @@ MonoBehaviour:
   soundEffects:
   - groupID: Jump
     clips:
-    - {fileID: 8300000, guid: 4c92b5940ba4efa419073094fe50bf60, type: 3}
-  - groupID: PickRelease
-    clips:
-    - {fileID: 8300000, guid: fe0b1f9aeb45b41b089175aeeabd5d95, type: 3}
+    - {fileID: 8300000, guid: faed99a6c6d19384c897dddf825d385b, type: 3}
   - groupID: WallJump
     clips:
-    - {fileID: 8300000, guid: fdccdd83abc76da468e64632fa3253be, type: 3}
+    - {fileID: 8300000, guid: e50dae57ff297f24892d1352cf1a549d, type: 3}
+  - groupID: PickItem
+    clips:
+    - {fileID: 8300000, guid: 64d1c56e94608c547bbde584b1d4f682, type: 3}
+  - groupID: ReleaseItem
+    clips:
+    - {fileID: 8300000, guid: ff38a027f1f9b6a43a0ea2da488498fe, type: 3}
+  - groupID: Step
+    clips:
+    - {fileID: 8300000, guid: 5b40741086860824484ba26f2bb6d6b3, type: 3}
+  - groupID: GameOver
+    clips:
+    - {fileID: 8300000, guid: 52ff5a632caafea489f5c1127cce821e, type: 3}
+  - groupID: Button
+    clips:
+    - {fileID: 8300000, guid: 1aa23bc99a9ff2845843defbca893997, type: 3}
 --- !u!114 &1767409494685478868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,7 +228,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tracks:
   - trackName: LevelMusic
-    clip: {fileID: 8300000, guid: 6d54feb3ed8d14b42b87885df21d950d, type: 3}
+    clip: {fileID: 8300000, guid: 8787b91fb7ee8e946a52efe7f54b588f, type: 3}
+  - trackName: MenuMusic
+    clip: {fileID: 8300000, guid: 231486046f2fc94449d731e18fc5f0e6, type: 3}
 --- !u!114 &7523510908162705460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,6 +245,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicLibrary: {fileID: 1855322876923358916}
   musicSource: {fileID: 5519397378529742035}
+--- !u!114 &2942281082567614761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5123095236858568684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fba9163204fa2b46897a795f249dfc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8626147096615379710
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,7 +301,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.2
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 1
   Mute: 0

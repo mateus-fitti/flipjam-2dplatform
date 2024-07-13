@@ -86,7 +86,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3137958253193204829
 Transform:
   m_ObjectHideFlags: 0
@@ -240,8 +240,8 @@ MonoBehaviour:
   fastFallGravityMult: 0
   maxFastFallSpeed: 0
   runMaxSpeed: 0
-  runAcceleration: 0.01
-  runDecceleration: 0.01
+  runAcceleration: 0
+  runDecceleration: 0
   accelInAir: 0
   deccelInAir: 0
   doConserveMomentum: 1
@@ -258,15 +258,16 @@ MonoBehaviour:
   wallJumpTime: 0
   slideSpeed: 0
   slideAccel: 0
-  coyoteTime: 0
-  jumpInputBufferTime: 0
-  weightModifier: 0
+  coyoteTime: 0.01
+  jumpInputBufferTime: 0.01
+  weightModifier: 0.01
   gravityStrength: NaN
   gravityScale: NaN
-  runAccelAmount: NaN
-  runDeccelAmount: NaN
+  runAccelAmount: Infinity
+  runDeccelAmount: Infinity
   isCrouching: 0
   isHeavy: 0
+  isLight: 0
   canMove: 1
   _groundCheckPoint: {fileID: 6983580467530219990}
   _groundCheckSize: {x: 0.49, y: 0.03}
@@ -329,7 +330,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clip: {fileID: 7400000, guid: 40f7d38371b882747bc73cbe040ad765, type: 2}
-  climbingHorizontalOffset: 0.3
+  climbingHorizontalOffset: 0.5
   GrabbingLedge: 0
 --- !u!114 &4693325089612122748
 MonoBehaviour:

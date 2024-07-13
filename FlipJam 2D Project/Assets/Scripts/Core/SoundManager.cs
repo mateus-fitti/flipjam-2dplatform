@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class SoundManager : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class SoundManager : MonoBehaviour
     private SoundLibrary sfxLibrary;
     [SerializeField]
     private AudioSource sfx2DSource;
+    private AudioClip currentlyPlayingClip;
+    private bool isClipPlaying = false;
 
     private void Awake()
     {
@@ -35,8 +38,28 @@ public class SoundManager : MonoBehaviour
         PlaySound3D(sfxLibrary.GetClipFromName(soundName), pos);
     }
 
-    public void PlaySound2D(string soundName)
+    public void PlaySound2D(string soundName, bool solo = true)
     {
-        sfx2DSource.PlayOneShot(sfxLibrary.GetClipFromName(soundName));
+        if (solo)
+        {
+            AudioClip clipToPlay = sfxLibrary.GetClipFromName(soundName);
+            if (clipToPlay != null && (!isClipPlaying || currentlyPlayingClip != clipToPlay))
+            {
+                sfx2DSource.PlayOneShot(clipToPlay);
+                currentlyPlayingClip = clipToPlay;
+                isClipPlaying = true;
+                StartCoroutine(ResetIsPlayingAfterClipEnds(clipToPlay.length));
+            }
+        } else
+        {
+            sfx2DSource.PlayOneShot(sfxLibrary.GetClipFromName(soundName));
+        }
+
+    }
+
+    private IEnumerator ResetIsPlayingAfterClipEnds(float clipLength)
+    {
+        yield return new WaitForSeconds(clipLength);
+        isClipPlaying = false;
     }
 }
