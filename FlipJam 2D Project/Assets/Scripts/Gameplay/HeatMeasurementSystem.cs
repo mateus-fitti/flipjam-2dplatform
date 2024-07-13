@@ -20,8 +20,8 @@ public class HeatMeasurementSystem : MonoBehaviour
 
     private bool isGameOver = false; // Flag para indicar se o jogo acabou
 
-    private float decreaseRate;
-    private float reducedDreceasedRate;
+    public float decreaseRate;
+    public float reducedDreceasedRate;
     public float defaultDecreasedRate = 2f; // Taxa de diminuição da temperatura por segundo
     public float defaultIncreasedRate = 6f; // Taxa de ganho da temperatura por segundo
     private Image sliderFill;

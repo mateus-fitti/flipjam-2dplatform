@@ -1,12 +1,5 @@
 using UnityEngine;
 
-public enum CharacterType
-{
-    Aunfryn,
-	Ngoro,
-	Grull,
-	Bohor
-}
 public class CharacterSpecialHabilities : MonoBehaviour
 {
 	public CharacterType characterType;
@@ -14,6 +7,7 @@ public class CharacterSpecialHabilities : MonoBehaviour
 	public LayerMask collisionLayers;
 
 	public GameObject castingLight;
+    public GameObject range;
 
 	// Declaração da variável startTime
 	private float startTime;
@@ -46,6 +40,7 @@ public class CharacterSpecialHabilities : MonoBehaviour
 			if (Input.GetButtonDown("Dash")){
 				StartCasting();
 				castingLight.SetActive(true);
+                range.SetActive(true);
 			}
 
 			if (isCasting){
@@ -54,11 +49,13 @@ public class CharacterSpecialHabilities : MonoBehaviour
 
 			if (Input.GetButtonUp("Dash")){
 				castingLight.SetActive(false);
+                range.SetActive(false);
 				Teleport();
 			}
 
 			if (Input.GetMouseButtonDown(1)){
 				castingLight.SetActive(false);
+                range.SetActive(false);
 				CancelCasting();
 			}
 		}
