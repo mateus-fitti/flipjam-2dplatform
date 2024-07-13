@@ -13,6 +13,11 @@ public class CharacterSpecialHabilities : MonoBehaviour
     public CharacterScriptableObject characterScriptableObject;
 	public LayerMask collisionLayers;
 
+	public GameObject castingLight;
+
+	// Declaração da variável startTime
+	private float startTime;
+
 	[Header("Teleport")]
 	public GameObject energySpherePrefab;
     public float maxTeleportDistance = 10f;
@@ -40,6 +45,7 @@ public class CharacterSpecialHabilities : MonoBehaviour
 		if(characterType == CharacterType.Aunfryn){
 			if (Input.GetButtonDown("Dash")){
 				StartCasting();
+				castingLight.SetActive(true);
 			}
 
 			if (isCasting){
@@ -47,10 +53,12 @@ public class CharacterSpecialHabilities : MonoBehaviour
 			}
 
 			if (Input.GetButtonUp("Dash")){
+				castingLight.SetActive(false);
 				Teleport();
 			}
 
 			if (Input.GetMouseButtonDown(1)){
+				castingLight.SetActive(false);
 				CancelCasting();
 			}
 		}
@@ -70,9 +78,6 @@ public class CharacterSpecialHabilities : MonoBehaviour
             playerMovementScript.canMove = false;
         }
     }
-
-    // Declaração da variável startTime
-private float startTime;
 
 void UpdateCasting()
     {
