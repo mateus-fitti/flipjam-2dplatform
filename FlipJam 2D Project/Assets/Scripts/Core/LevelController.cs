@@ -62,7 +62,7 @@ public class LevelController : MonoBehaviour
         highScoreText.text = "High Score: " + highScore.ToString();
 
         restartButton.SetActive(true); // Show the restart button when game ends
-        PauseGame();
+        GameController.instance.PauseGame();
     }
 
     private int CalculateScore()
@@ -107,16 +107,6 @@ public class LevelController : MonoBehaviour
     public void OnSceneChange(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
-    }
-
-    public void PauseGame()
-    {
-        Time.timeScale = 0f;
-    }
-
-    public void UnPauseGame()
-    {
-        Time.timeScale = 1.0f;
     }
 
     public void RestartGame()
