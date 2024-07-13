@@ -14,6 +14,7 @@ TagManager:
   - Bullet
   - HealthBar
   - VirtualCamera
+  - Halo
   layers:
   - Default
   - TransparentFX
@@ -50,4 +51,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Halo
+    uniqueID: 592431871
     locked: 0
