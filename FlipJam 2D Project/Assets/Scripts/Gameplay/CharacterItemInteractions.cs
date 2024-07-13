@@ -3,6 +3,8 @@ using UnityEngine;
 public class CharacterItemInteractions : MonoBehaviour
 {
     public CharacterScriptableObject characterScriptableObject;
+    public CharacterType characterType;
+    private HeatMeasurementSystem heatSystem;
     [SerializeField] private float pickupRange = 1f;
     [SerializeField] private LayerMask itemLayer;
     public bool holdingItem = false;
@@ -18,7 +20,7 @@ public class CharacterItemInteractions : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        heatSystem = FindObjectOfType<HeatMeasurementSystem>().gameObject.GetComponent<HeatMeasurementSystem>();
     }
 
     // Update is called once per frame
@@ -38,6 +40,9 @@ public class CharacterItemInteractions : MonoBehaviour
 
         if (holdingItem)
         {
+            if(characterType == CharacterType.Aunfryn){
+                heatSystem.decreaseRate = 0.1f;
+            }
             item.transform.position = transform.position;
             item.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 
@@ -57,6 +62,8 @@ public class CharacterItemInteractions : MonoBehaviour
             {
 
             }
+        } else if(characterType == CharacterType.Aunfryn){
+            heatSystem.decreaseRate = heatSystem.defaultDecreasedRate;
         }
     }
 
