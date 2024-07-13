@@ -40,15 +40,18 @@ public class LevelController : MonoBehaviour
         timer = 0; // Reset timer at the start of the game
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
+        if (spawnPosition != null)
         {
-            Destroy(player);
-        }
+            if (player != null)
+            {
+                Destroy(player);
+            }
 
-        player = characters[GameController.instance.player1];
-        player = Instantiate(player, spawnPosition.position, Quaternion.identity);
-        GameObject virtualCam = GameObject.FindGameObjectWithTag("VirtualCamera");
-        virtualCam.GetComponent<CinemachineVirtualCamera>().Follow = player.transform;
+            player = characters[GameController.instance.player1];
+            player = Instantiate(player, spawnPosition.position, Quaternion.identity);
+            GameObject virtualCam = GameObject.FindGameObjectWithTag("VirtualCamera");
+            virtualCam.GetComponent<CinemachineVirtualCamera>().Follow = player.transform;
+        }
     }
 
     public void FinishGame()
@@ -91,7 +94,8 @@ public class LevelController : MonoBehaviour
             timerText.text = timer.ToString("F2"); // Display time with 2 decimal places
             scoreText.text = "Score: " + CalculateScore();
         }
-        else {
+        else
+        {
             restartButton.SetActive(true);
         }
 
