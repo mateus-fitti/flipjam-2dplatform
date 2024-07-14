@@ -52,5 +52,9 @@ public class GameController : MonoBehaviour
         player1 = id;
     }
 
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
 
 }

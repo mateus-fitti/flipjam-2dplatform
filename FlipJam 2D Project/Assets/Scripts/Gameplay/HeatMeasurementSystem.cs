@@ -2,12 +2,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.Collections;
-using UnityEngine.EventSystems; // Required for IEnumerator
 
 public class HeatMeasurementSystem : MonoBehaviour
 {
     public GameObject egg; // Referência para o GameObject do Egg
-    public GameObject GameOverObj; // Referência para o GameObject do GameOver
     public GameObject temperatureImg; // Reference to the UI Image that acts as a temperature progress bar
     public float temperature = 100f; // Temperatura inicial
 
@@ -22,7 +20,6 @@ public class HeatMeasurementSystem : MonoBehaviour
 
     public bool heatSystemActive = false; // Flag para indicar se o sistema de calor está ativo
 
-    private bool isGameOver = false; // Flag para indicar se o jogo acabou
     private float aumentedDecreasedRate;
     public float decreaseRate;
     public float reducedDreceasedRate;
@@ -31,21 +28,20 @@ public class HeatMeasurementSystem : MonoBehaviour
 
     private float lastSpriteChangeTemperature; // Track the last temperature at which the sprite was changed
 
+    private LevelController levelController;
+
     void Awake()
     {
-        isGameOver = false;
         lastSpriteChangeTemperature = temperature;
     }
 
     void Start()
     {
-        GameController.instance.UnPauseGame(); // Use GameController to unpause
-        GameOverObj.SetActive(false); // Hide the Game Over screen
-
         decreaseRate = defaultDecreasedRate;
         reducedDreceasedRate = defaultDecreasedRate / 2;
         aumentedDecreasedRate = defaultDecreasedRate * 2;
 
+        levelController = GameObject.Find("LevelController").GetComponent<LevelController>();
     }
     void Update()
     {
@@ -163,41 +159,12 @@ public class HeatMeasurementSystem : MonoBehaviour
     {
         temperature = 100f; // Reset to initial temperature
         heatSystemActive = true; // Reactivate the heat system
-        isGameOver = false; // Reset game over flag
-        GameOverObj.SetActive(false); // Hide the Game Over screen
 
         // Reset egg color and Image fill color
         UpdateEggColor();
     }
     void GameOver()
     {
-        if (isGameOver) return;
-
-        StartCoroutine(PlayDeadAnimationOnAllCharacters());
-    }
-
-    IEnumerator PlayDeadAnimationOnAllCharacters()
-    {
-        GameObject[] characters = GameObject.FindGameObjectsWithTag("Player");
-        foreach (GameObject character in characters)
-        {
-            PlayerMovement characterMovement = character.GetComponent<PlayerMovement>();
-            if (characterMovement != null)
-            {
-                Animator characterAnimator = character.GetComponent<Animator>();
-                characterMovement.PlayDeadAnimation();  // Trigger the "Dead" animation
-
-                // yield return new WaitUntil(() => characterAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1.0f && !characterAnimator.IsInTransition(0));
-                yield return new WaitForSeconds(0.6f); // Wait for 1 second before moving to the next character
-
-            }
-        }
-
-        // After all characters' animations have finished, execute the following
-        isGameOver = true;
-        Debug.Log("Game Over! The egg is frozen!");
-        GameOverObj.SetActive(true); // Show the Game Over screen
-        EventSystem.current.SetSelectedGameObject(GameObject.Find(GameOverObj.name + "/RestartButton"));
-        GameController.instance.PauseGame(); // Pause the game
+        levelController.GameOver();
     }
 }

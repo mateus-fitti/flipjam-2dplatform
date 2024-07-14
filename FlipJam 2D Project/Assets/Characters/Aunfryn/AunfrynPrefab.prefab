@@ -243,6 +243,7 @@ GameObject:
   - component: {fileID: 1103845216507161463}
   - component: {fileID: 4641832966675212810}
   - component: {fileID: 4693325089612122748}
+  - component: {fileID: 5540270395369257971}
   m_Layer: 3
   m_Name: AunfrynPrefab
   m_TagString: Player
@@ -457,7 +458,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterScriptableObject: {fileID: 11400000, guid: 3a47be0a2339d1f45b6a9e66bcb7fbf9, type: 2}
   characterType: 0
-  heatSystem: {fileID: 0}
   pickupRange: 1
   itemLayer:
     serializedVersion: 2
@@ -528,6 +528,18 @@ MonoBehaviour:
   tremorThreshold: 2
   handPosition: {fileID: 8148236252401071975}
   playerMovementScript: {fileID: 1530405584268360983}
+--- !u!114 &5540270395369257971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3704641008782404539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c6aecd71495244f9e266ace38bfab8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5124364763250524755
 GameObject:
   m_ObjectHideFlags: 0
