@@ -6,21 +6,54 @@ using UnityEngine;
 
 public class TutorialController : MonoBehaviour
 {
-    [SerializeField] private float mensageTime = 2f;
+    [SerializeField] private float mensageTime = 1f;
     float mensageCounter = 0f;
 
     [SerializeField] private GameObject nextText;
-    [SerializeField] private GameObject skipText;
-
     [SerializeField] private GameObject[] tutorialPanels;
-    int panelCounter = 1;
+    int panelCounter = 0;
     [SerializeField] private String nextScene;
 
+
+    void Start()
+    {
+        mensageCounter = 1f;
+    }
 
     // Update is called once per frame
     void Update()
     {
         if (Input.anyKeyDown && mensageCounter <= 0f)
+        {
+            mensageCounter = mensageTime;
+            if (panelCounter < tutorialPanels.Length-1)
+            {
+                tutorialPanels[panelCounter].SetActive(false);
+                panelCounter++;
+                tutorialPanels[panelCounter].SetActive(true);
+            }
+            else
+            {
+                GameController.instance.OnSceneChange(nextScene);
+            }
+        }
+
+        if (mensageCounter > 0f)
+        {
+            nextText.SetActive(false);
+        }
+        else
+        {
+            nextText.SetActive(true);
+        }
+
+        mensageCounter -= Time.deltaTime;
+    }
+}
+
+
+/*
+if (Input.anyKeyDown && mensageCounter <= 0f)
         {
             mensageCounter = mensageTime;
             nextText.SetActive(true);
@@ -54,7 +87,4 @@ public class TutorialController : MonoBehaviour
             nextText.SetActive(false);
             skipText.SetActive(false);
         }
-
-        mensageCounter -= Time.deltaTime;
-    }
-}
+*/

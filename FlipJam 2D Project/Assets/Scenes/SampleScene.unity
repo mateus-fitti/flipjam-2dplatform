@@ -3738,7 +3738,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3704641008782404539, guid: de507479644eff245ba0dd32045f1663, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4813,6 +4813,10 @@ PrefabInstance:
     - target: {fileID: 3704641008782404539, guid: 6c0cfe8899495004faa3f486369c8f39, type: 3}
       propertyPath: m_Name
       value: Ngoro
+      objectReference: {fileID: 0}
+    - target: {fileID: 3704641008782404539, guid: 6c0cfe8899495004faa3f486369c8f39, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

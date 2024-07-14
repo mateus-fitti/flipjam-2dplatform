@@ -65,7 +65,7 @@ public class CharacterSpecialHabilities : MonoBehaviour
                 Teleport();
             }
 
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetButtonDown("Fire2"))
             {
                 castingLight.SetActive(false);
                 range.SetActive(false);
