@@ -219,7 +219,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.06035638, y: -0.060937285}
-  m_Size: {x: 0.826715, y: 1.4583495}
+  m_Size: {x: 0.826715, y: 1.458349}
   m_Direction: 0
 --- !u!114 &1530405584268360983
 MonoBehaviour:
@@ -240,8 +240,8 @@ MonoBehaviour:
   fastFallGravityMult: 0
   maxFastFallSpeed: 0
   runMaxSpeed: 0
-  runAcceleration: 0.01
-  runDecceleration: 0.01
+  runAcceleration: 0
+  runDecceleration: 0
   accelInAir: 0
   deccelInAir: 0
   doConserveMomentum: 1
@@ -263,17 +263,21 @@ MonoBehaviour:
   weightModifier: 0.01
   gravityStrength: NaN
   gravityScale: NaN
-  runAccelAmount: NaN
-  runDeccelAmount: NaN
+  runAccelAmount: Infinity
+  runDeccelAmount: Infinity
   isCrouching: 0
   isHeavy: 0
   isLight: 0
+  IsJumping: 0
+  IsWallJumping: 0
+  IsSliding: 0
+  isGrounded: 0
   canMove: 1
   _groundCheckPoint: {fileID: 6983580467530219990}
-  _groundCheckSize: {x: 0.49, y: 0.03}
+  _groundCheckSize: {x: 0.3, y: 1}
   _frontWallCheckPoint: {fileID: 6383847736736468297}
   _backWallCheckPoint: {fileID: 7738501493887797179}
-  _wallCheckSize: {x: 0.5, y: 1}
+  _wallCheckSize: {x: 1, y: 0.3}
   _groundLayer:
     serializedVersion: 2
     m_Bits: 320
@@ -352,6 +356,9 @@ MonoBehaviour:
     m_Bits: 0
   castingLight: {fileID: 0}
   range: {fileID: 0}
+  dashSpeed: 20
+  dashTime: 0.2
+  isDashing: 0
   energySpherePrefab: {fileID: 0}
   maxTeleportDistance: 10
   initialSphereSpeed: 1
@@ -434,7 +441,7 @@ EdgeCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.5, y: -0.5}

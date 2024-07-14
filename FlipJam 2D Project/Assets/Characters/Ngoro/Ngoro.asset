@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3f20bf2207727746a20207ac9570a68, type: 3}
   m_Name: Ngoro
   m_EditorClassIdentifier: 
-  launchForce: 10
+  launchForce: 7
   fallGravityMult: 2
   maxFallSpeed: 22
   fastFallGravityMult: 2

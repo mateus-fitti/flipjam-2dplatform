@@ -61,7 +61,7 @@ EdgeCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.5, y: -0.5}
@@ -105,7 +105,7 @@ Transform:
   m_GameObject: {fileID: 562632037300861688}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalPosition: {x: 0, y: -0.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -182,7 +182,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 592431871
-  m_SortingLayer: 1
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: adc48a7c448e7fc43b509aa14ac94e07, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -341,8 +341,8 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_GravityScale: 2.5
+  m_Material: {fileID: 6200000, guid: 3c769659cddde25428fb543a318f0de6, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -385,8 +385,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.11445665, y: -0.0053235292}
-  m_Size: {x: 1.2044382, y: 1.815647}
+  m_Offset: {x: -0.107354164, y: -0.015977263}
+  m_Size: {x: 0.9913645, y: 1.4818318}
   m_Direction: 0
 --- !u!114 &1530405584268360983
 MonoBehaviour:
@@ -407,8 +407,8 @@ MonoBehaviour:
   fastFallGravityMult: 0
   maxFastFallSpeed: 0
   runMaxSpeed: 0
-  runAcceleration: 0
-  runDecceleration: 0
+  runAcceleration: 0.01
+  runDecceleration: 0.01
   accelInAir: 0
   deccelInAir: 0
   doConserveMomentum: 1
@@ -430,17 +430,21 @@ MonoBehaviour:
   weightModifier: 0.01
   gravityStrength: NaN
   gravityScale: NaN
-  runAccelAmount: Infinity
-  runDeccelAmount: Infinity
+  runAccelAmount: NaN
+  runDeccelAmount: NaN
   isCrouching: 0
   isHeavy: 0
   isLight: 0
+  IsJumping: 0
+  IsWallJumping: 0
+  IsSliding: 0
+  isGrounded: 0
   canMove: 1
   _groundCheckPoint: {fileID: 6983580467530219990}
-  _groundCheckSize: {x: 0.49, y: 0.03}
+  _groundCheckSize: {x: 0.3, y: 1}
   _frontWallCheckPoint: {fileID: 6383847736736468297}
   _backWallCheckPoint: {fileID: 7738501493887797179}
-  _wallCheckSize: {x: 0.5, y: 1}
+  _wallCheckSize: {x: 1, y: 0.3}
   _groundLayer:
     serializedVersion: 2
     m_Bits: 320
@@ -519,6 +523,9 @@ MonoBehaviour:
     m_Bits: 320
   castingLight: {fileID: 5124364763250524755}
   range: {fileID: 581350346403068366}
+  dashSpeed: 25
+  dashTime: 0.2
+  isDashing: 0
   energySpherePrefab: {fileID: 3056090732569560442, guid: 361eb338d6e24864c9fae195e18d4818, type: 3}
   maxTeleportDistance: 6
   initialSphereSpeed: 5
@@ -669,7 +676,7 @@ Transform:
   m_GameObject: {fileID: 5679929743491255734}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.83, y: 0, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -700,7 +707,7 @@ Transform:
   m_GameObject: {fileID: 6885833930147731008}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.881, y: 0, z: 0}
+  m_LocalPosition: {x: -0.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -731,7 +738,7 @@ Transform:
   m_GameObject: {fileID: 7826196138014920874}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.7, y: 0, z: 0}
+  m_LocalPosition: {x: 0.3, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -32,21 +32,27 @@ public class MovingPlatform : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Player"))
+        if(collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Egg"))
         {
             collision.transform.SetParent(transform);
-            player = collision.gameObject.GetComponent<PlayerMovement>();
-            player.LightMovement();
+            if(collision.gameObject.CompareTag("Player"))
+            {
+                player = collision.gameObject.GetComponent<PlayerMovement>();
+                player.LightMovement();
+            }
         }
 
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Player"))
+        if(collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Egg"))
         {
             collision.transform.SetParent(null);
-            player = collision.gameObject.GetComponent<PlayerMovement>();
-            player.DefaultMovement();
+            if(collision.gameObject.CompareTag("Player"))
+            {
+                player = collision.gameObject.GetComponent<PlayerMovement>();
+                player.DefaultMovement();
+            }
         }
         
     }

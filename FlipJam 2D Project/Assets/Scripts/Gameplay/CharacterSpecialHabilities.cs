@@ -11,6 +11,13 @@ public class CharacterSpecialHabilities : MonoBehaviour
 
 	// Declaração da variável startTime
 	private float startTime;
+    Rigidbody2D rig2D;
+
+    [Header("Dash")]
+    [SerializeField] private float dashSpeed = 20f;
+    [SerializeField] private float dashTime = 0.3f;
+    public bool isDashing = false;
+    private float dashTimeLeft;
 
 	[Header("Teleport")]
 	public GameObject energySpherePrefab;
@@ -32,35 +39,68 @@ public class CharacterSpecialHabilities : MonoBehaviour
     void Start()
     {
         playerMovementScript = GetComponent<PlayerMovement>();
+        rig2D = GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {
-		if(characterType == CharacterType.Aunfryn){
-			if (Input.GetButtonDown("Dash")){
+		if(characterType == CharacterType.Aunfryn)
+        {
+			if (Input.GetButtonDown("Dash"))
+            {
 				StartCasting();
 				castingLight.SetActive(true);
                 range.SetActive(true);
 			}
 
-			if (isCasting){
+			if (isCasting)
+            {
 				UpdateCasting();
 			}
 
-			if (Input.GetButtonUp("Dash")){
+			if (Input.GetButtonUp("Dash"))
+            {
 				castingLight.SetActive(false);
                 range.SetActive(false);
 				Teleport();
 			}
 
-			if (Input.GetMouseButtonDown(1)){
+			if (Input.GetMouseButtonDown(1))
+            {
 				castingLight.SetActive(false);
                 range.SetActive(false);
 				CancelCasting();
 			}
 		}
+        else if(characterType == CharacterType.Ngoro)
+        {
+            dashTimeLeft -= Time.deltaTime;
+            if (dashTimeLeft <= 0)
+                {
+                    isDashing = false;
+                }
+            if (Input.GetButtonDown("Dash"))
+            {
+                if (!isDashing)
+                {
+                    Dash();
+                }                   
+            }
+        }
 		
     }
+
+    #region Ngoro
+    void Dash()
+    {
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        
+        isDashing = true;
+        dashTimeLeft = dashTime;
+        rig2D.velocity = new Vector2(horizontal * dashSpeed, rig2D.velocity.y);
+        
+    }
+    #endregion
 
 	#region Aunfryn
 	void StartCasting()

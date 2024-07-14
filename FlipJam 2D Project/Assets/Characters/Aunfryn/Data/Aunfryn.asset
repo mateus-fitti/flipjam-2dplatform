@@ -12,22 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3f20bf2207727746a20207ac9570a68, type: 3}
   m_Name: Aunfryn
   m_EditorClassIdentifier: 
-  launchForce: 10
+  launchForce: 7
   fallGravityMult: 2
   maxFallSpeed: 22
   fastFallGravityMult: 2
   maxFastFallSpeed: 22
   runMaxSpeed: 5
-  deafaultMaxSpeed: 5
   runAcceleration: 5
   runDecceleration: 5
   accelInAir: 0.1
   deccelInAir: 0.1
   doConserveMomentum: 0
   jumpHeight: 4.5
-  deafaultJumpHeight: 0
-  jumpForce: 15
-  deafaultJumpForce: 15
+  jumpForce: 18
   jumpTimeToApex: 0.5
   jumpCutGravityMult: 3.5
   jumpHangGravityMult: 1
@@ -35,11 +32,9 @@ MonoBehaviour:
   jumpHangAccelerationMult: 1
   jumpHangMaxSpeedMult: 1
   wallJumpForce: {x: 0, y: 0}
-  deafaultWallJumpForce: {x: 0, y: 0}
   wallJumpRunLerp: 0.075
   wallJumpTime: 0.3
   slideSpeed: -5
-  deafaultSlideSpeed: -5
   slideAccel: 0.8
   coyoteTime: 0.15
   jumpInputBufferTime: 0.15
