@@ -84,6 +84,23 @@ public class LevelController : MonoBehaviour
             restartButton.SetActive(true);
         }
 
+        // Dois botões para pausar, no teclado: Backspace e R
+        // No flipe: Start e Botão de cima da direita (em teoria)
+        if (Input.GetButtonDown("Pause") || Input.GetButtonDown("Extra Button"))
+        {
+            if (Time.timeScale > 0){
+                GameController.instance.PauseGame();
+            } else {
+                GameController.instance.UnPauseGame();
+            }
+        }
+
+        // Se o jogo tiver pausado e a tecla de Cancel for pressionada, volta para o Menu
+        if (Input.GetButtonDown("Cancel") && Time.timeScale == 0)
+        {
+            GameController.instance.OnSceneChange("MenuScene");
+        }
+
         // IMPRIME A TECLA OU BOTÃO PRESSIONADO
         /*
         foreach (KeyCode keyCode in System.Enum.GetValues(typeof(KeyCode)))
@@ -96,10 +113,10 @@ public class LevelController : MonoBehaviour
         */
 
         // Restart game - PARA TESTES
-        if (Input.GetButtonDown("Debug Reset"))
+        /*if (Input.GetButtonDown("Debug Reset"))
         {
             GameController.instance.OnSceneChange(SceneManager.GetActiveScene().name);
-        }
+        }*/
     }
 
     public void FinishGame()
