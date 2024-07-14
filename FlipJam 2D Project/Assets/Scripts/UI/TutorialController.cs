@@ -33,12 +33,14 @@ public class TutorialController : MonoBehaviour
             mensageCounter = mensageTime;
             if (panelCounter < tutorialPanels.Length - 1)
             {
+                SoundManager.Instance.PlaySound2D("Button", false);
                 tutorialPanels[panelCounter].SetActive(false);
                 panelCounter++;
                 tutorialPanels[panelCounter].SetActive(true);
             }
             else
             {
+                SoundManager.Instance.PlaySound2D("Button", false);
                 GameController.instance.OnSceneChange(nextScene);
             }
         }

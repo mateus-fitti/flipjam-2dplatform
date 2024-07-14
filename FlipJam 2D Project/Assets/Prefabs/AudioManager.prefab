@@ -199,13 +199,19 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 52ff5a632caafea489f5c1127cce821e, type: 3}
   - groupID: Button
     clips:
-    - {fileID: 8300000, guid: 1aa23bc99a9ff2845843defbca893997, type: 3}
+    - {fileID: 8300000, guid: e9f592af7122de64f88efedfe2529557, type: 3}
   - groupID: Cast
     clips:
     - {fileID: 8300000, guid: 7b0583fe596771d4a9d2299691d5e80a, type: 3}
   - groupID: Teleport
     clips:
     - {fileID: 8300000, guid: 96362057a973420479b0cc6fa7995af3, type: 3}
+  - groupID: Victory
+    clips:
+    - {fileID: 8300000, guid: 021fd48251921894b911fee4e91fae63, type: 3}
+  - groupID: Freeze
+    clips:
+    - {fileID: 8300000, guid: 8f6d5a9973542ed41973020d6a565c0b, type: 3}
 --- !u!114 &1767409494685478868
 MonoBehaviour:
   m_ObjectHideFlags: 0

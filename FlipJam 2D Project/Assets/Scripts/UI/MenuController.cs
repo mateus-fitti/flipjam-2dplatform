@@ -26,11 +26,13 @@ public class MenuController : MonoBehaviour
 
     public void OnSceneChange(String sceneName)
     {
+        SoundManager.Instance.PlaySound2D("Button", false);
         GameController.instance.OnSceneChange(sceneName);
     }
 
     public void CharacterSelection(int character_id)
     {
+        SoundManager.Instance.PlaySound2D("Button", false);
         GameController.instance.CharacterSelection(character_id);
         EventSystem.current.SetSelectedGameObject(GameObject.Find("StartButton"));
     }
@@ -38,6 +40,7 @@ public class MenuController : MonoBehaviour
     public void ExitGame()
     {
         Debug.Log("Exiting Game");
+        SoundManager.Instance.PlaySound2D("Button", false);
         GameController.instance.ExitGame();
     }
 }

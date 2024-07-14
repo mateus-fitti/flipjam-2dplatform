@@ -103,6 +103,9 @@ public class HeatMeasurementSystem : MonoBehaviour
         }
         else
         {
+            if(egg.GetComponent<SpriteRenderer>().sprite != frozenEggImage)
+            SoundManager.Instance.PlaySound2D("Freeze");
+
             egg.GetComponent<SpriteRenderer>().sprite = frozenEggImage;
             GameOver(); // Trigger Game Over when temperature is 25 or below
         }

@@ -88,9 +88,13 @@ public class LevelController : MonoBehaviour
         // No flipe: Start e Botão de cima da direita (em teoria)
         if (Input.GetButtonDown("Pause") || Input.GetButtonDown("Extra Button"))
         {
-            if (Time.timeScale > 0){
+            SoundManager.Instance.PlaySound2D("Button", false);
+            if (Time.timeScale > 0)
+            {
                 GameController.instance.PauseGame();
-            } else {
+            }
+            else
+            {
                 GameController.instance.UnPauseGame();
             }
         }
@@ -98,6 +102,7 @@ public class LevelController : MonoBehaviour
         // Se o jogo tiver pausado e a tecla de Cancel for pressionada, volta para o Menu
         if (Input.GetButtonDown("Cancel") && Time.timeScale == 0)
         {
+            SoundManager.Instance.PlaySound2D("Button", false);
             GameController.instance.OnSceneChange("MenuScene");
         }
 
@@ -136,6 +141,9 @@ public class LevelController : MonoBehaviour
         }
         highScoreText.transform.parent.gameObject.SetActive(true);
         highScoreText.text = "High Score: " + highScore.ToString();
+
+        SoundManager.Instance.PlaySound2D("Victory", false);
+
     }
 
     private int CalculateScore()
@@ -186,16 +194,19 @@ public class LevelController : MonoBehaviour
 
     public void OnSceneChange(string sceneName)
     {
+        SoundManager.Instance.PlaySound2D("Button", false);
         GameController.instance.OnSceneChange(sceneName);
     }
 
     public void RestartGame()
     {
+        SoundManager.Instance.PlaySound2D("Button", false);
         GameController.instance.OnSceneChange(SceneManager.GetActiveScene().name);
     }
 
     public void ExitGame()
     {
+        SoundManager.Instance.PlaySound2D("Button", false);
         GameController.instance.ExitGame();
     }
 
