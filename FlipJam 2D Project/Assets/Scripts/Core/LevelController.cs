@@ -86,7 +86,7 @@ public class LevelController : MonoBehaviour
 
         // Dois botões para pausar, no teclado: Backspace e R
         // No flipe: Start e Botão de cima da direita (em teoria)
-        if (Input.GetButtonDown("Pause") || Input.GetButtonDown("Extra Button"))
+        if (Input.GetButtonDown("Pause") || Input.GetButtonDown("Debug Reset"))
         {
             SoundManager.Instance.PlaySound2D("Button", false);
             if (Time.timeScale > 0)
@@ -100,10 +100,10 @@ public class LevelController : MonoBehaviour
         }
 
         // Se o jogo tiver pausado e a tecla de Cancel for pressionada, volta para o Menu
-        if (Input.GetButtonDown("Cancel") && Time.timeScale == 0)
+        if (Input.GetButtonDown("Extra Button") && Time.timeScale == 0)
         {
             SoundManager.Instance.PlaySound2D("Button", false);
-            GameController.instance.OnSceneChange("MenuScene");
+            GameController.instance.OnSceneChange("StartScene");
         }
 
         // IMPRIME A TECLA OU BOTÃO PRESSIONADO
