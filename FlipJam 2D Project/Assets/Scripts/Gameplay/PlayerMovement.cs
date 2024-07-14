@@ -627,13 +627,13 @@ public class PlayerMovement : MonoBehaviour
 	public void LightMovement()
 	{
 		if (!isLight)
-        {
-            runMaxSpeed /= weightModifier;
-            jumpForce /= weightModifier;
-            wallJumpForce /= weightModifier;
-            slideSpeed *= weightModifier;
-            isLight = true;
-        }
+		{
+			runMaxSpeed /= weightModifier;
+			jumpForce /= weightModifier;
+			wallJumpForce /= weightModifier;
+			slideSpeed *= weightModifier;
+			isLight = true;
+		}
 	}
 
 	public void DefaultMovement()
@@ -674,18 +674,18 @@ public class PlayerMovement : MonoBehaviour
 	{
 		if (!itemInteractions.holdingItem)
 		{
-			if (isGrounded && RB.velocity.x > -0.1f && RB.velocity.x < 0.1f && !isCrouching) ChangeAnimationState(PLAYER_IDLE);
-			else if (isGrounded && (RB.velocity.x < -0.1f || RB.velocity.x > 0.1f) && !isCrouching) ChangeAnimationState(PLAYER_WALK);
+			if (isGrounded && Input.GetAxisRaw("Horizontal") == 0 && !isCrouching) ChangeAnimationState(PLAYER_IDLE);
+			else if (isGrounded && Input.GetAxisRaw("Horizontal") != 0 && !isCrouching) ChangeAnimationState(PLAYER_WALK);
 			else if (!isGrounded && !IsWallJumping && !IsSliding && !isCrouching) ChangeAnimationState(PLAYER_JUMP);
-			else if (isCrouching) ChangeAnimationState(PLAYER_CROUCH);
+			else if (isCrouching && Input.GetAxisRaw("Vertical") < 0) ChangeAnimationState(PLAYER_CROUCH);
 			else ChangeAnimationState(PLAYER_CLIMB);
 		}
 		else
 		{
-			if (isGrounded && RB.velocity.x > -0.1f && RB.velocity.x < 0.1f && !isCrouching) ChangeAnimationState(PLAYER_EGGIDLE);
-			else if (isGrounded && (RB.velocity.x < -0.1f || RB.velocity.x > 0.1f) && !isCrouching) ChangeAnimationState(PLAYER_EGGWALK);
+			if (isGrounded && Input.GetAxisRaw("Horizontal") == 0 && !isCrouching) ChangeAnimationState(PLAYER_EGGIDLE);
+			else if (isGrounded && Input.GetAxisRaw("Horizontal") != 0 && !isCrouching) ChangeAnimationState(PLAYER_EGGWALK);
 			else if (!isGrounded && !IsWallJumping && !IsSliding && !isCrouching) ChangeAnimationState(PLAYER_EGGJUMP);
-			else if (isCrouching) ChangeAnimationState(PLAYER_EGGCROUCH);
+			else if (isCrouching && Input.GetAxisRaw("Vertical") < 0) ChangeAnimationState(PLAYER_EGGCROUCH);
 			else ChangeAnimationState(PLAYER_EGGCLIMB);
 		}
 	}
