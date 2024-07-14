@@ -103,7 +103,7 @@ public class PlayerMovement : MonoBehaviour
 	public bool IsJumping { get; private set; }
 	public bool IsWallJumping { get; private set; }
 	public bool IsSliding { get; private set; }
-	public bool isGrounded { get; private set; }
+	public bool IsGrounded { get; private set; }
 
 	//Timers (also all fields, could be private and a method returning a bool could be used)
 	public float LastOnGroundTime { get; private set; }
@@ -242,12 +242,12 @@ public class PlayerMovement : MonoBehaviour
 		#region COLLISION CHECKS
 		//Ground
 
-		isGrounded = Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer);
+		IsGrounded = Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer);
 
 		if (!IsJumping)
 		{
 			//Ground Check
-			if (isGrounded && !IsJumping) //checks if set box overlaps with ground
+			if (IsGrounded && !IsJumping) //checks if set box overlaps with ground
 			{
 				LastOnGroundTime = coyoteTime; //if so sets the lastGrounded to coyoteTime
 			}
@@ -391,6 +391,8 @@ public class PlayerMovement : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		//if(IsGrounded) IsJumping = false;
+
 		if (currentAnimaton == null) PlayEggIdleJumpAnimation();
 		//Handle Run
 		if (IsWallJumping)
@@ -674,17 +676,17 @@ public class PlayerMovement : MonoBehaviour
 	{
 		if (!itemInteractions.holdingItem)
 		{
-			if (isGrounded && Input.GetAxisRaw("Horizontal") == 0 && !isCrouching) ChangeAnimationState(PLAYER_IDLE);
-			else if (isGrounded && Input.GetAxisRaw("Horizontal") != 0 && !isCrouching) ChangeAnimationState(PLAYER_WALK);
-			else if (!isGrounded && !IsWallJumping && !IsSliding && !isCrouching) ChangeAnimationState(PLAYER_JUMP);
+			if (IsGrounded && Input.GetAxisRaw("Horizontal") == 0 && !isCrouching) ChangeAnimationState(PLAYER_IDLE);
+			else if (IsGrounded && Input.GetAxisRaw("Horizontal") != 0 && !isCrouching) ChangeAnimationState(PLAYER_WALK);
+			else if (!IsGrounded && !IsWallJumping && !IsSliding && !isCrouching) ChangeAnimationState(PLAYER_JUMP);
 			else if (isCrouching && Input.GetAxisRaw("Vertical") < 0) ChangeAnimationState(PLAYER_CROUCH);
 			else ChangeAnimationState(PLAYER_CLIMB);
 		}
 		else
 		{
-			if (isGrounded && Input.GetAxisRaw("Horizontal") == 0 && !isCrouching) ChangeAnimationState(PLAYER_EGGIDLE);
-			else if (isGrounded && Input.GetAxisRaw("Horizontal") != 0 && !isCrouching) ChangeAnimationState(PLAYER_EGGWALK);
-			else if (!isGrounded && !IsWallJumping && !IsSliding && !isCrouching) ChangeAnimationState(PLAYER_EGGJUMP);
+			if (IsGrounded && Input.GetAxisRaw("Horizontal") == 0 && !isCrouching) ChangeAnimationState(PLAYER_EGGIDLE);
+			else if (IsGrounded && Input.GetAxisRaw("Horizontal") != 0 && !isCrouching) ChangeAnimationState(PLAYER_EGGWALK);
+			else if (!IsGrounded && !IsWallJumping && !IsSliding && !isCrouching) ChangeAnimationState(PLAYER_EGGJUMP);
 			else if (isCrouching && Input.GetAxisRaw("Vertical") < 0) ChangeAnimationState(PLAYER_EGGCROUCH);
 			else ChangeAnimationState(PLAYER_EGGCLIMB);
 		}

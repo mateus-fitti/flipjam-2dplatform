@@ -14,8 +14,8 @@ public class CharacterSpecialHabilities : MonoBehaviour
     Rigidbody2D rig2D;
 
     [Header("Dash")]
-    [SerializeField] private float dashSpeed = 20f;
-    [SerializeField] private float dashTime = 0.3f;
+    [SerializeField] private float dashSpeed = 30f;
+    [SerializeField] private float dashTime = 2f;
     public bool isDashing = false;
     private float dashTimeLeft;
 

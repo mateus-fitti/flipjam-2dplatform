@@ -28,9 +28,9 @@ MonoBehaviour:
   jumpTimeToApex: 0.5
   jumpCutGravityMult: 3.6
   jumpHangGravityMult: 1
-  jumpHangTimeThreshold: 0
+  jumpHangTimeThreshold: 0.3
   jumpHangAccelerationMult: 1
-  jumpHangMaxSpeedMult: 1
+  jumpHangMaxSpeedMult: 5
   wallJumpForce: {x: 8.5, y: 15}
   wallJumpRunLerp: 0.075
   wallJumpTime: 0.3
