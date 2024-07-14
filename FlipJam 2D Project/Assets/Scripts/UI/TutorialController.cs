@@ -14,10 +14,15 @@ public class TutorialController : MonoBehaviour
     int panelCounter = 0;
     [SerializeField] private String nextScene;
 
+    [SerializeField] private float blinkTime = 1f;
+    float blinkCounter = 0f;
+
+
 
     void Start()
     {
         mensageCounter = 1f;
+        GameController.instance.UnPauseGame();
     }
 
     // Update is called once per frame
@@ -26,7 +31,7 @@ public class TutorialController : MonoBehaviour
         if (Input.anyKeyDown && mensageCounter <= 0f)
         {
             mensageCounter = mensageTime;
-            if (panelCounter < tutorialPanels.Length-1)
+            if (panelCounter < tutorialPanels.Length - 1)
             {
                 tutorialPanels[panelCounter].SetActive(false);
                 panelCounter++;
@@ -44,10 +49,15 @@ public class TutorialController : MonoBehaviour
         }
         else
         {
-            nextText.SetActive(true);
+            if (blinkCounter >= blinkTime)
+            {
+                nextText.SetActive(!nextText.activeSelf);
+                blinkCounter = 0f;
+            }
         }
 
         mensageCounter -= Time.deltaTime;
+        blinkCounter += Time.deltaTime;
     }
 }
 

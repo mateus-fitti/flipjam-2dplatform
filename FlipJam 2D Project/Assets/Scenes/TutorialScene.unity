@@ -1486,7 +1486,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a090947aeae2ffe468b44bfc5180e2e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mensageTime: 3
+  mensageTime: 1.5
   nextText: {fileID: 1768799369}
   tutorialPanels:
   - {fileID: 899618977}
@@ -1494,6 +1494,7 @@ MonoBehaviour:
   - {fileID: 1096020061}
   - {fileID: 1183898736}
   nextScene: Level 1
+  blinkTime: 0.5
 --- !u!4 &640377534
 Transform:
   m_ObjectHideFlags: 0

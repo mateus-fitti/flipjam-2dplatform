@@ -14,6 +14,8 @@ public class MenuController : MonoBehaviour
     {
         MusicManager.Instance.StopAndContinueMusic("MenuMusic");
         EventSystem.current.SetSelectedGameObject(startFirst);
+
+        GameController.instance.UnPauseGame();
     }
 
     // Update is called once per frame

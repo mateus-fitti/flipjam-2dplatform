@@ -119,7 +119,7 @@ public class CharacterSpecialHabilities : MonoBehaviour
 
     void UpdateCasting()
     {
-        SoundManager.Instance.PlaySound2D("Cast");
+        //SoundManager.Instance.PlaySound2D("Cast");
         castDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
 
         // Acelerar a esfera até o máximo permitido
