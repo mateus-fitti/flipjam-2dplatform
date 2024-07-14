@@ -32,4 +32,10 @@ public class MenuController : MonoBehaviour
         GameController.instance.CharacterSelection(character_id);
         EventSystem.current.SetSelectedGameObject(GameObject.Find("StartButton"));
     }
+
+    public void ExitGame()
+    {
+        Debug.Log("Exiting Game");
+        GameController.instance.ExitGame();
+    }
 }

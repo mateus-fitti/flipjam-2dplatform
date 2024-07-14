@@ -13,6 +13,8 @@ public class LevelController : MonoBehaviour
     public TextMeshProUGUI highScoreText; // Changed to TextMeshProUGUI
     public GameObject gameOverObj;
     public GameObject restartButton; // Reference to the Restart Button
+    public GameObject victoryObj;
+    public GameObject menuButton;
     private float startTime;
     private bool gameStarted = true;
     private float timer = 0f; // Timer variable
@@ -30,6 +32,7 @@ public class LevelController : MonoBehaviour
     {
         GameController.instance.UnPauseGame(); // Use GameController to unpause
         gameOverObj.SetActive(false); // Hide the Game Over screen
+        victoryObj.SetActive(false);
 
         highScoreText.text = "High Score: " + PlayerPrefs.GetInt("HighScore", 0).ToString();
         highScoreText.transform.parent.gameObject.SetActive(false);
@@ -155,6 +158,15 @@ public class LevelController : MonoBehaviour
         GameController.instance.PauseGame(); // Pause the game
     }
 
+    public void Victory()
+    {
+        FinishGame();
+        Debug.Log("Game Won! The egg is safe!");
+        victoryObj.SetActive(true); // Show the Game Over screen
+        EventSystem.current.SetSelectedGameObject(menuButton);
+        GameController.instance.PauseGame(); // Pause the game
+    }
+
     public void OnSceneChange(string sceneName)
     {
         GameController.instance.OnSceneChange(sceneName);
@@ -165,5 +177,9 @@ public class LevelController : MonoBehaviour
         GameController.instance.OnSceneChange(SceneManager.GetActiveScene().name);
     }
 
+    public void ExitGame()
+    {
+        GameController.instance.ExitGame();
+    }
 
 }
