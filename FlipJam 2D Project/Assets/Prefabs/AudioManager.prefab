@@ -200,6 +200,12 @@ MonoBehaviour:
   - groupID: Button
     clips:
     - {fileID: 8300000, guid: 1aa23bc99a9ff2845843defbca893997, type: 3}
+  - groupID: Cast
+    clips:
+    - {fileID: 8300000, guid: 7b0583fe596771d4a9d2299691d5e80a, type: 3}
+  - groupID: Teleport
+    clips:
+    - {fileID: 8300000, guid: 96362057a973420479b0cc6fa7995af3, type: 3}
 --- !u!114 &1767409494685478868
 MonoBehaviour:
   m_ObjectHideFlags: 0

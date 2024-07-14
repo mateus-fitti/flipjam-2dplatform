@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class CharacterSpecialHabilities : MonoBehaviour
 {
-	public CharacterType characterType;
+    public CharacterType characterType;
     public CharacterScriptableObject characterScriptableObject;
-	public LayerMask collisionLayers;
+    public LayerMask collisionLayers;
 
-	public GameObject castingLight;
+    public GameObject castingLight;
     public GameObject range;
 
-	// Declaração da variável startTime
-	private float startTime;
+    // Declaração da variável startTime
+    private float startTime;
     Rigidbody2D rig2D;
 
     [Header("Dash")]
@@ -19,16 +19,16 @@ public class CharacterSpecialHabilities : MonoBehaviour
     public bool isDashing = false;
     private float dashTimeLeft;
 
-	[Header("Teleport")]
-	public GameObject energySpherePrefab;
+    [Header("Teleport")]
+    public GameObject energySpherePrefab;
     public float maxTeleportDistance = 10f;
     public float initialSphereSpeed = 1f;
     public float sphereAcceleration = 0.5f;
-	public float maxSphereAcceleration = 1.5f;
-	public float tremorIntensity = 0.1f; 
+    public float maxSphereAcceleration = 1.5f;
+    public float tremorIntensity = 0.1f;
     public float tremorThreshold = 2f;
-	public Transform handPosition;
-	public PlayerMovement playerMovementScript;
+    public Transform handPosition;
+    public PlayerMovement playerMovementScript;
 
     private GameObject energySphere;
     private bool isCasting = false;
@@ -44,67 +44,68 @@ public class CharacterSpecialHabilities : MonoBehaviour
 
     void Update()
     {
-		if(characterType == CharacterType.Aunfryn)
+        if (characterType == CharacterType.Aunfryn)
         {
-			if (Input.GetButtonDown("Dash"))
+            if (Input.GetButtonDown("Dash"))
             {
-				StartCasting();
-				castingLight.SetActive(true);
+                StartCasting();
+                castingLight.SetActive(true);
                 range.SetActive(true);
-			}
+            }
 
-			if (isCasting)
+            if (isCasting)
             {
-				UpdateCasting();
-			}
+                UpdateCasting();
+            }
 
-			if (Input.GetButtonUp("Dash"))
+            if (Input.GetButtonUp("Dash"))
             {
-				castingLight.SetActive(false);
+                castingLight.SetActive(false);
                 range.SetActive(false);
-				Teleport();
-			}
+                Teleport();
+            }
 
-			if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(1))
             {
-				castingLight.SetActive(false);
+                castingLight.SetActive(false);
                 range.SetActive(false);
-				CancelCasting();
-			}
-		}
-        else if(characterType == CharacterType.Ngoro)
+                CancelCasting();
+            }
+        }
+        else if (characterType == CharacterType.Ngoro)
         {
             dashTimeLeft -= Time.deltaTime;
             if (dashTimeLeft <= 0)
-                {
-                    isDashing = false;
-                }
+            {
+                isDashing = false;
+            }
             if (Input.GetButtonDown("Dash"))
             {
                 if (!isDashing)
                 {
                     Dash();
-                }                   
+                }
             }
         }
-		
+
     }
 
     #region Ngoro
     void Dash()
     {
         float horizontal = Input.GetAxisRaw("Horizontal");
-        
+
         isDashing = true;
         dashTimeLeft = dashTime;
         rig2D.velocity = new Vector2(horizontal * dashSpeed, rig2D.velocity.y);
-        
+
     }
     #endregion
 
-	#region Aunfryn
-	void StartCasting()
+    #region Aunfryn
+    void StartCasting()
     {
+        if(!isCasting) { SoundManager.Instance.PlaySound2D("Cast"); }
         isCasting = true;
         initialPosition = handPosition != null ? handPosition.position : transform.position;
 
@@ -116,8 +117,9 @@ public class CharacterSpecialHabilities : MonoBehaviour
         }
     }
 
-void UpdateCasting()
+    void UpdateCasting()
     {
+        SoundManager.Instance.PlaySound2D("Cast");
         castDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
 
         // Acelerar a esfera até o máximo permitido
@@ -193,12 +195,13 @@ void UpdateCasting()
     {
         if (isCasting)
         {
+            SoundManager.Instance.PlaySound2D("Teleport");
             isCasting = false;
             transform.position = energySphere.transform.position;
             Destroy(energySphere);
             if (playerMovementScript != null)
             {
-                playerMovementScript.canMove = true; 
+                playerMovementScript.canMove = true;
             }
         }
     }
@@ -216,41 +219,43 @@ void UpdateCasting()
         }
     }
 
-	#endregion
+    #endregion
 
-    public void EnhancedLaunchForce(){
+    public void EnhancedLaunchForce()
+    {
         // characterScriptableObject.launchForce = characterScriptableObject.launchForce * 1.5;
     }
-    public void EnhancedJumpForce(){
+    public void EnhancedJumpForce()
+    {
         // characterScriptableObject.jumpForce = characterScriptableObject.jumpForce * 1.5;
     }
     public void WallJump(int dir, Rigidbody2D RB)
-	{
-		Vector2 force = new Vector2(characterScriptableObject.wallJumpForce.x, characterScriptableObject.wallJumpForce.y);
-		force.x *= dir; //apply force in opposite direction of wall
+    {
+        Vector2 force = new Vector2(characterScriptableObject.wallJumpForce.x, characterScriptableObject.wallJumpForce.y);
+        force.x *= dir; //apply force in opposite direction of wall
 
-		if (Mathf.Sign(RB.velocity.x) != Mathf.Sign(force.x))
-			force.x -= RB.velocity.x;
+        if (Mathf.Sign(RB.velocity.x) != Mathf.Sign(force.x))
+            force.x -= RB.velocity.x;
 
-		if (RB.velocity.y < 0) //checks whether player is falling, if so we subtract the velocity.y (counteracting force of gravity). This ensures the player always reaches our desired jump force or greater
-			force.y -= RB.velocity.y;
+        if (RB.velocity.y < 0) //checks whether player is falling, if so we subtract the velocity.y (counteracting force of gravity). This ensures the player always reaches our desired jump force or greater
+            force.y -= RB.velocity.y;
 
-		//Unlike in the run we want to use the Impulse mode.
-		//The default mode will apply are force instantly ignoring masss
-		RB.AddForce(force, ForceMode2D.Impulse);
-	}
+        //Unlike in the run we want to use the Impulse mode.
+        //The default mode will apply are force instantly ignoring masss
+        RB.AddForce(force, ForceMode2D.Impulse);
+    }
 
     public void Slide(Rigidbody2D RB)
-	{
-		//Works the same as the Run but only in the y-axis
-		//THis seems to work fine, buit maybe you'll find a better way to implement a slide into this system
-		float speedDif = characterScriptableObject.slideSpeed - RB.velocity.y;
-		float movement = speedDif * characterScriptableObject.slideAccel;
-		//So, we clamp the movement here to prevent any over corrections (these aren't noticeable in the Run)
-		//The force applied can't be greater than the (negative) speedDifference * by how many times a second FixedUpdate() is called. For more info research how force are applied to rigidbodies.
-		movement = Mathf.Clamp(movement, -Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime), Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime));
+    {
+        //Works the same as the Run but only in the y-axis
+        //THis seems to work fine, buit maybe you'll find a better way to implement a slide into this system
+        float speedDif = characterScriptableObject.slideSpeed - RB.velocity.y;
+        float movement = speedDif * characterScriptableObject.slideAccel;
+        //So, we clamp the movement here to prevent any over corrections (these aren't noticeable in the Run)
+        //The force applied can't be greater than the (negative) speedDifference * by how many times a second FixedUpdate() is called. For more info research how force are applied to rigidbodies.
+        movement = Mathf.Clamp(movement, -Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime), Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime));
 
 
-		RB.AddForce(movement * Vector2.up);
-	}
+        RB.AddForce(movement * Vector2.up);
+    }
 }
