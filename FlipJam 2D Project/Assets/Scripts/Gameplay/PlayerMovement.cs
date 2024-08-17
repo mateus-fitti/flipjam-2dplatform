@@ -9,9 +9,15 @@
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Animations;
+using UnityEngine.InputSystem;
+
 
 public class PlayerMovement : MonoBehaviour
 {
+	public InputActionReference inputMove;
+	public InputActionReference inputJump;
+
 	[Header("Data")]
 	public CharacterScriptableObject characterScriptableObject;
 
@@ -192,8 +198,11 @@ public class PlayerMovement : MonoBehaviour
 		_moveInput.y = 0;
 		if (canMove)
 		{
-			_moveInput.x = Input.GetAxisRaw("Horizontal");
-			_moveInput.y = Input.GetAxisRaw("Vertical");
+			//_moveInput.x = Input.GetAxisRaw("Horizontal");
+			//_moveInput.y = Input.GetAxisRaw("Vertical");
+			Vector2 moveInp = inputMove.action.ReadValue<Vector2>();
+			_moveInput.x = moveInp.x;
+			_moveInput.y = moveInp.y;
 			if (_moveInput.x != 0)
 			{
 				CheckDirectionToFace(_moveInput.x > 0);
@@ -201,14 +210,6 @@ public class PlayerMovement : MonoBehaviour
 			if (itemInteractions)
 			{
 				//animator.SetBool("holdingItem", itemInteractions.holdingItem);
-			}
-			if (!isCrouching && Input.GetButtonDown("Jump"))
-			{
-				OnJumpInput();
-			}
-			if (Input.GetButtonDown("Jump"))
-			{
-				OnJumpUpInput();
 			}
 			if (_moveInput.y < 0 && !IsJumping && !IsSliding)
 			{
@@ -225,15 +226,6 @@ public class PlayerMovement : MonoBehaviour
 					DefaultMovement();
 				}
 				isCrouching = false;
-			}
-
-			// Adjust collision ignoring based on crouching and pressing space
-			int platformLayer = LayerMask.NameToLayer("Platform");
-			int playerLayer = gameObject.layer;
-			if (isCrouching && Input.GetButtonDown("Jump"))
-			{
-				Physics2D.IgnoreLayerCollision(playerLayer, platformLayer, true);
-				StartCoroutine(ReactivateCollisionAfterDelay(0.3f));
 			}
 		}
 
@@ -265,21 +257,6 @@ public class PlayerMovement : MonoBehaviour
 			//Two checks needed for both left and right walls since whenever the play turns the wall checkPoints swap sides
 			LastOnWallTime = Mathf.Max(LastOnWallLeftTime, LastOnWallRightTime);
 		}
-
-
-		IEnumerator ReactivateCollisionAfterDelay(float delay)
-		{
-			yield return new WaitForSeconds(delay);
-
-			// Assuming the platform layer is named "platform"
-			int platformLayer = LayerMask.NameToLayer("Platform");
-			int playerLayer = gameObject.layer;
-
-			// Reactivate collisions between the player layer and the platform layer
-			Physics2D.IgnoreLayerCollision(playerLayer, platformLayer, false);
-		}
-
-
 		#endregion
 
 		#region JUMP CHECKS
@@ -379,6 +356,43 @@ public class PlayerMovement : MonoBehaviour
 		}
 		#endregion
 	}
+
+	#region JUMP ACTION
+	private void JumpAction(InputAction.CallbackContext obj)
+	{
+		bool buttonPressed = obj.performed;
+
+		if (!isCrouching && buttonPressed)
+		{
+			OnJumpInput();
+		}
+		if (buttonPressed)
+		{
+			OnJumpUpInput();
+		}
+
+		// Adjust collision ignoring based on crouching and pressing space
+		int platformLayer = LayerMask.NameToLayer("Platform");
+		int playerLayer = gameObject.layer;
+		if (isCrouching && buttonPressed)
+		{
+			Physics2D.IgnoreLayerCollision(playerLayer, platformLayer, true);
+			StartCoroutine(ReactivateCollisionAfterDelay(0.3f));
+		}
+
+		IEnumerator ReactivateCollisionAfterDelay(float delay)
+		{
+			yield return new WaitForSeconds(delay);
+
+			// Assuming the platform layer is named "platform"
+			int platformLayer = LayerMask.NameToLayer("Platform");
+			int playerLayer = gameObject.layer;
+
+			// Reactivate collisions between the player layer and the platform layer
+			Physics2D.IgnoreLayerCollision(playerLayer, platformLayer, false);
+		}
+	}
+	#endregion
 
 	private void LimitWallJumpUses()
 	{
@@ -674,20 +688,21 @@ public class PlayerMovement : MonoBehaviour
 
 	void PlayEggIdleJumpAnimation()
 	{
+		Vector2 moveVector = inputMove.action.ReadValue<Vector2>();
 		if (!itemInteractions.holdingItem)
 		{
-			if (IsGrounded && Input.GetAxisRaw("Horizontal") == 0 && !isCrouching) ChangeAnimationState(PLAYER_IDLE);
-			else if (IsGrounded && Input.GetAxisRaw("Horizontal") != 0 && !isCrouching) ChangeAnimationState(PLAYER_WALK);
+			if (IsGrounded && moveVector.x == 0 && !isCrouching) ChangeAnimationState(PLAYER_IDLE);
+			else if (IsGrounded && moveVector.x != 0 && !isCrouching) ChangeAnimationState(PLAYER_WALK);
 			else if (!IsGrounded && !IsWallJumping && !IsSliding && !isCrouching) ChangeAnimationState(PLAYER_JUMP);
-			else if (isCrouching && Input.GetAxisRaw("Vertical") < 0) ChangeAnimationState(PLAYER_CROUCH);
+			else if (isCrouching && moveVector.y < 0) ChangeAnimationState(PLAYER_CROUCH);
 			else ChangeAnimationState(PLAYER_CLIMB);
 		}
 		else
 		{
-			if (IsGrounded && Input.GetAxisRaw("Horizontal") == 0 && !isCrouching) ChangeAnimationState(PLAYER_EGGIDLE);
-			else if (IsGrounded && Input.GetAxisRaw("Horizontal") != 0 && !isCrouching) ChangeAnimationState(PLAYER_EGGWALK);
+			if (IsGrounded && moveVector.x == 0 && !isCrouching) ChangeAnimationState(PLAYER_EGGIDLE);
+			else if (IsGrounded && moveVector.x != 0 && !isCrouching) ChangeAnimationState(PLAYER_EGGWALK);
 			else if (!IsGrounded && !IsWallJumping && !IsSliding && !isCrouching) ChangeAnimationState(PLAYER_EGGJUMP);
-			else if (isCrouching && Input.GetAxisRaw("Vertical") < 0) ChangeAnimationState(PLAYER_EGGCROUCH);
+			else if (isCrouching && moveVector.y < 0) ChangeAnimationState(PLAYER_EGGCROUCH);
 			else ChangeAnimationState(PLAYER_EGGCLIMB);
 		}
 	}
@@ -739,6 +754,19 @@ public class PlayerMovement : MonoBehaviour
 		weightModifier = characterScriptableObject.weightModifier;
 	}
 	#endregion
+
+	#region ENABLE AND DISABLE EVENTS
+	private void OnEnable()
+	{
+		inputJump.action.started += JumpAction;
+	}
+
+	private void OnDisable()
+	{
+		inputJump.action.started -= JumpAction;
+	}
+	#endregion
+
 }
 
 // created by Dawnosaur :D
