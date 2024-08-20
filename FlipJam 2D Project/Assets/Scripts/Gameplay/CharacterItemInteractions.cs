@@ -1,7 +1,9 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CharacterItemInteractions : MonoBehaviour
 {
+    PlayerInput playerInput;
     public CharacterScriptableObject characterScriptableObject;
     public CharacterType characterType;
     private HeatMeasurementSystem heatSystem;
@@ -16,6 +18,7 @@ public class CharacterItemInteractions : MonoBehaviour
     void Awake()
     {
         charMovement = GetComponent<PlayerMovement>();
+        playerInput = GetComponent<PlayerInput>();
     }
     // Start is called before the first frame update
     void Start()
@@ -26,7 +29,7 @@ public class CharacterItemInteractions : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Fire2"))
+        if (playerInput.actions["Fire2"].WasPressedThisFrame())
         {
             if (!holdingItem)
             {
@@ -46,19 +49,19 @@ public class CharacterItemInteractions : MonoBehaviour
             item.transform.position = transform.position;
             item.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 
-            if (Input.GetButtonDown("Fire1"))
+            if (playerInput.actions["Fire1"].WasPressedThisFrame())
             {
                 //charMovement.canMove = false;
                 FireProjectile();
 
             }
 
-            if (Input.GetButton("Fire1"))
+            if (playerInput.actions["Fire1"].WasPerformedThisFrame())
             {
 
             }
-
-            if (Input.GetButtonUp("Fire1"))
+            
+            if (playerInput.actions["Fire1"].WasReleasedThisFrame())
             {
 
             }
@@ -110,7 +113,7 @@ public class CharacterItemInteractions : MonoBehaviour
         Rigidbody2D rg = item.GetComponent<Rigidbody2D>();
         rg.velocity = Vector2.zero;
 
-        float vertical = Input.GetAxis("Vertical");
+        float vertical = playerInput.actions["Move"].ReadValue<Vector2>().y;
         if (transform.localScale.x > 0)
         {
             if (vertical > 0)

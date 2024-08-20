@@ -9,9 +9,12 @@
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
+	PlayerInput playerInput;
+
 	[Header("Data")]
 	public CharacterScriptableObject characterScriptableObject;
 
@@ -167,6 +170,8 @@ public class PlayerMovement : MonoBehaviour
 		itemInteractions = GetComponent<CharacterItemInteractions>();
 		characterSpecialHabilities = GetComponent<CharacterSpecialHabilities>();
 		GetScriptables();
+
+		playerInput = GetComponent<PlayerInput>();
 	}
 
 	private void Start()
@@ -192,8 +197,9 @@ public class PlayerMovement : MonoBehaviour
 		_moveInput.y = 0;
 		if (canMove)
 		{
-			_moveInput.x = Input.GetAxisRaw("Horizontal");
-			_moveInput.y = Input.GetAxisRaw("Vertical");
+			//_moveInput.x = Input.GetAxisRaw("Horizontal");
+			//_moveInput.y = Input.GetAxisRaw("Vertical");
+			_moveInput = playerInput.actions["Move"].ReadValue<Vector2>();
 			if (_moveInput.x != 0)
 			{
 				CheckDirectionToFace(_moveInput.x > 0);
@@ -202,11 +208,11 @@ public class PlayerMovement : MonoBehaviour
 			{
 				//animator.SetBool("holdingItem", itemInteractions.holdingItem);
 			}
-			if (!isCrouching && Input.GetButtonDown("Jump"))
+			if (!isCrouching && playerInput.actions["Jump"].WasPressedThisFrame())
 			{
 				OnJumpInput();
 			}
-			if (Input.GetButtonDown("Jump"))
+			if (playerInput.actions["Jump"].WasPressedThisFrame())
 			{
 				OnJumpUpInput();
 			}
@@ -230,7 +236,7 @@ public class PlayerMovement : MonoBehaviour
 			// Adjust collision ignoring based on crouching and pressing space
 			int platformLayer = LayerMask.NameToLayer("Platform");
 			int playerLayer = gameObject.layer;
-			if (isCrouching && Input.GetButtonDown("Jump"))
+			if (isCrouching && playerInput.actions["Jump"].WasPressedThisFrame())
 			{
 				Physics2D.IgnoreLayerCollision(playerLayer, platformLayer, true);
 				StartCoroutine(ReactivateCollisionAfterDelay(0.3f));
@@ -674,20 +680,21 @@ public class PlayerMovement : MonoBehaviour
 
 	void PlayEggIdleJumpAnimation()
 	{
+		Vector2 moveCheck = playerInput.actions["Move"].ReadValue<Vector2>();
 		if (!itemInteractions.holdingItem)
 		{
-			if (IsGrounded && Input.GetAxisRaw("Horizontal") == 0 && !isCrouching) ChangeAnimationState(PLAYER_IDLE);
-			else if (IsGrounded && Input.GetAxisRaw("Horizontal") != 0 && !isCrouching) ChangeAnimationState(PLAYER_WALK);
+			if (IsGrounded && moveCheck.x == 0 && !isCrouching) ChangeAnimationState(PLAYER_IDLE);
+			else if (IsGrounded && moveCheck.x != 0 && !isCrouching) ChangeAnimationState(PLAYER_WALK);
 			else if (!IsGrounded && !IsWallJumping && !IsSliding && !isCrouching) ChangeAnimationState(PLAYER_JUMP);
-			else if (isCrouching && Input.GetAxisRaw("Vertical") < 0) ChangeAnimationState(PLAYER_CROUCH);
+			else if (isCrouching && moveCheck.y < 0) ChangeAnimationState(PLAYER_CROUCH);
 			else ChangeAnimationState(PLAYER_CLIMB);
 		}
 		else
 		{
-			if (IsGrounded && Input.GetAxisRaw("Horizontal") == 0 && !isCrouching) ChangeAnimationState(PLAYER_EGGIDLE);
-			else if (IsGrounded && Input.GetAxisRaw("Horizontal") != 0 && !isCrouching) ChangeAnimationState(PLAYER_EGGWALK);
+			if (IsGrounded && moveCheck.x == 0 && !isCrouching) ChangeAnimationState(PLAYER_EGGIDLE);
+			else if (IsGrounded && moveCheck.x != 0 && !isCrouching) ChangeAnimationState(PLAYER_EGGWALK);
 			else if (!IsGrounded && !IsWallJumping && !IsSliding && !isCrouching) ChangeAnimationState(PLAYER_EGGJUMP);
-			else if (isCrouching && Input.GetAxisRaw("Vertical") < 0) ChangeAnimationState(PLAYER_EGGCROUCH);
+			else if (isCrouching && moveCheck.y < 0) ChangeAnimationState(PLAYER_EGGCROUCH);
 			else ChangeAnimationState(PLAYER_EGGCLIMB);
 		}
 	}

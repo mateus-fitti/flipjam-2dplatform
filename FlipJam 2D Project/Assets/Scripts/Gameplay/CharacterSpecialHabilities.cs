@@ -1,7 +1,9 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CharacterSpecialHabilities : MonoBehaviour
 {
+    PlayerInput playerInput;
     public CharacterType characterType;
     public CharacterScriptableObject characterScriptableObject;
     public LayerMask collisionLayers;
@@ -36,17 +38,23 @@ public class CharacterSpecialHabilities : MonoBehaviour
     private Vector2 castDirection;
     private Vector2 initialPosition;
 
-    void Start()
+    void Awake()
     {
         playerMovementScript = GetComponent<PlayerMovement>();
         rig2D = GetComponent<Rigidbody2D>();
+        playerInput = GetComponent<PlayerInput>();
+    }
+
+    void Start()
+    {
+        
     }
 
     void Update()
     {
         if (characterType == CharacterType.Aunfryn)
         {
-            if (Input.GetButtonDown("Dash"))
+            if (playerInput.actions["Dash"].WasPressedThisFrame())
             {
                 StartCasting();
                 castingLight.SetActive(true);
@@ -58,14 +66,14 @@ public class CharacterSpecialHabilities : MonoBehaviour
                 UpdateCasting();
             }
 
-            if (Input.GetButtonUp("Dash"))
+            if (playerInput.actions["Dash"].WasReleasedThisFrame())
             {
                 castingLight.SetActive(false);
                 range.SetActive(false);
                 Teleport();
             }
 
-            if (Input.GetButtonDown("Fire2"))
+            if (playerInput.actions["Fire2"].WasPressedThisFrame())
             {
                 castingLight.SetActive(false);
                 range.SetActive(false);
@@ -79,7 +87,7 @@ public class CharacterSpecialHabilities : MonoBehaviour
             {
                 isDashing = false;
             }
-            if (Input.GetButtonDown("Dash"))
+            if (playerInput.actions["Dash"].WasPressedThisFrame())
             {
                 if (!isDashing)
                 {
@@ -93,7 +101,7 @@ public class CharacterSpecialHabilities : MonoBehaviour
     #region Ngoro
     void Dash()
     {
-        float horizontal = Input.GetAxisRaw("Horizontal");
+        float horizontal = playerInput.actions["Move"].ReadValue<Vector2>().x;
 
         isDashing = true;
         dashTimeLeft = dashTime;
@@ -120,7 +128,9 @@ public class CharacterSpecialHabilities : MonoBehaviour
     void UpdateCasting()
     {
         //SoundManager.Instance.PlaySound2D("Cast");
-        castDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
+        //castDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
+        castDirection = playerInput.actions["Move"].ReadValue<Vector2>();
+        castDirection = castDirection.normalized;
 
         // Acelerar a esfera até o máximo permitido
         if (castDirection.magnitude > 0 && currentSphereSpeed < maxSphereAcceleration)
