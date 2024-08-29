@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 using TMPro;
 using Cinemachine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class LevelController : MonoBehaviour
 {
@@ -54,10 +55,28 @@ public class LevelController : MonoBehaviour
                 Destroy(player);
             }
 
+            if (GameController.instance.player1 < 0)
+            {
+                GameController.instance.player1 = 0;
+            }
             player = characters[GameController.instance.player1];
             player = Instantiate(player, spawnPosition.position, Quaternion.identity);
+            player.GetComponent<PlayerInput>().SwitchCurrentActionMap("Player");
+
             GameObject virtualCam = GameObject.FindGameObjectWithTag("VirtualCamera");
             virtualCam.GetComponent<CinemachineVirtualCamera>().Follow = player.transform;
+
+            if (GameController.instance.multiplayer)
+            {
+                if (GameController.instance.player2 < 0)
+                {
+                    GameController.instance.player2 = 0;
+                }
+                GameObject playerTwo = characters[GameController.instance.player2];
+                playerTwo = Instantiate(playerTwo, spawnPosition.position + new Vector3(-1f, 1f, 0f), Quaternion.identity);
+                playerTwo.GetComponent<PlayerInput>().SwitchCurrentActionMap("Player2");
+                Debug.Log("Player Two Spawned");
+            }
         }
         MusicManager.Instance.StopAndPlayMusic("LevelMusic");
     }

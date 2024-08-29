@@ -15,6 +15,7 @@ TagManager:
   - HealthBar
   - VirtualCamera
   - Halo
+  - PlayerUI
   layers:
   - Default
   - TransparentFX

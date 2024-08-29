@@ -6,8 +6,9 @@ public class GameController : MonoBehaviour
 {
 
     public static GameController instance;
-    public int player1 = 0;
-    public int player2 = 0;
+    public int player1 = -1;
+    public int player2 = -1;
+    public bool multiplayer;
 
 
     void Awake()
@@ -25,6 +26,7 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        multiplayer = false;
     }
 
     private void Update()
