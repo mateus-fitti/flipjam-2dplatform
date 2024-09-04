@@ -228,7 +228,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textObj: {fileID: 999055881}
   blinkTime: 0.5
-  firstScene: MenuScene
+  firstScene: Campus_Party
   gameplayVideo: {fileID: 32900000, guid: 7278b6d4db907d9428ffdbde630d6648, type: 3}
 --- !u!4 &420439983
 Transform:
