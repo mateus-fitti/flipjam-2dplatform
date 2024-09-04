@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Campus_Party.unity
     guid: 6e836f26c9521c64cb2e37b9a643067a
+  - enabled: 1
+    path: Assets/Scenes/LogoScene.unity
+    guid: 54e6367e8c5db0749b74d26afe7414ef
   m_configObjects: {}
