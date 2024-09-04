@@ -27,7 +27,7 @@ public class CampusController : MonoBehaviour
         {
             mensageCounter = mensageTime;
             SoundManager.Instance.PlaySound2D("Button", false);
-            GameController.instance.OnSceneChange("MenuScene");
+            GameController.instance.OnSceneChange("LogoScene");
         }
         
         if (mensageCounter > 0f)
