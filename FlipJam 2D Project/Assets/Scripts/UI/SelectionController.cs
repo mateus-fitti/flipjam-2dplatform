@@ -12,6 +12,9 @@ public class SelectionController : MonoBehaviour
     [SerializeField] private GameObject[] characters;
     private PlayerInputManager playerIManager;
     public GameObject playerUIPrefab;
+    public GameObject[] p1Icon;
+    public GameObject[] p2Icon;
+    public GameObject[] charsIcons;
 
     void Awake()
     {
@@ -21,6 +24,10 @@ public class SelectionController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (GameController.instance.multiplayer)
+        {
+            gameObject.SetActive(false);
+        }
         /*if (GameController.instance.multiplayer)
         {
             GameObject p2UI = Instantiate(playerUIPrefab);
@@ -43,6 +50,27 @@ public class SelectionController : MonoBehaviour
     {
         if (GameController.instance.multiplayer)
         {
+            charsIcons[0].SetActive(true);
+            charsIcons[1].SetActive(true);
+
+            if (character_id == 0)
+            {
+                GameController.instance.player1 = 0;
+                GameController.instance.player2 = 1;
+
+                p1Icon[0].SetActive(true);
+                p2Icon[0].SetActive(false);
+                p1Icon[1].SetActive(false);
+                p2Icon[1].SetActive(true);
+            } else {
+                GameController.instance.player1 = 1;
+                GameController.instance.player2 = 0;
+
+                p1Icon[0].SetActive(false);
+                p2Icon[0].SetActive(true);
+                p1Icon[1].SetActive(true);
+                p2Icon[1].SetActive(false);
+            }
             if (GameController.instance.player1 > 0 && GameController.instance.player2 > 0)
             {
                 // HABILITAR START
