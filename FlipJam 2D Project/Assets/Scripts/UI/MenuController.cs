@@ -22,7 +22,7 @@ public class MenuController : MonoBehaviour
 
         GameController.instance.UnPauseGame();
 
-        GameObject[] players = GameObject.FindGameObjectsWithTag("PlayerUI");
+        /*GameObject[] players = GameObject.FindGameObjectsWithTag("PlayerUI");
         if (!GameController.instance.multiplayer)
         {
             foreach (GameObject player in players)
@@ -30,9 +30,12 @@ public class MenuController : MonoBehaviour
                 if (player.name != "PlayerUI")
                 {
                     GameObject.Destroy(player);
+                } else {
+                    player.SetActive(false);
+                    player.SetActive(true);
                 }
             }
-        }
+        }*/
     }
 
     // Update is called once per frame

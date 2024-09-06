@@ -22,6 +22,8 @@ public class LevelController : MonoBehaviour
     public TextMeshProUGUI timerText; // Changed to TextMeshProUGUI
     public GameObject[] characters;
     public Transform spawnPosition;
+    private GameObject player;
+    private GameObject playerTwo;
 
 
     void Start()
@@ -47,7 +49,7 @@ public class LevelController : MonoBehaviour
         gameStarted = true;
         timer = 0; // Reset timer at the start of the game
 
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindGameObjectWithTag("Player");
         if (spawnPosition != null)
         {
             if (player != null)
@@ -72,7 +74,7 @@ public class LevelController : MonoBehaviour
                 {
                     GameController.instance.player2 = 0;
                 }
-                GameObject playerTwo = characters[GameController.instance.player2];
+                playerTwo = characters[GameController.instance.player2];
                 playerTwo = Instantiate(playerTwo, spawnPosition.position + new Vector3(-1f, 1f, 0f), Quaternion.identity);
                 playerTwo.GetComponent<PlayerInput>().SwitchCurrentActionMap("Player2");
                 Debug.Log("Player Two Spawned");
@@ -105,7 +107,7 @@ public class LevelController : MonoBehaviour
 
         // Dois botões para pausar, no teclado: Backspace e R
         // No flipe: Start e Botão de cima da direita (em teoria)
-        if (Input.GetButtonDown("Pause") || Input.GetButtonDown("Debug Reset"))
+        if (player.GetComponent<PlayerInput>().actions["Pause"].WasPressedThisFrame())
         {
             SoundManager.Instance.PlaySound2D("Button", false);
             if (Time.timeScale > 0)
@@ -119,7 +121,7 @@ public class LevelController : MonoBehaviour
         }
 
         // Se o jogo tiver pausado e a tecla de Cancel for pressionada, volta para o Menu
-        if (Input.GetButtonDown("Extra Button") && Time.timeScale == 0)
+        if (player.GetComponent<PlayerInput>().actions["Reset"].WasPressedThisFrame() && Time.timeScale == 0)
         {
             SoundManager.Instance.PlaySound2D("Button", false);
             GameController.instance.OnSceneChange("StartScene");

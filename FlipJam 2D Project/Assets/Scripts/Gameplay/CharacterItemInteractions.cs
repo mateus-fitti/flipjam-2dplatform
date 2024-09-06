@@ -31,6 +31,7 @@ public class CharacterItemInteractions : MonoBehaviour
     {
         if (playerInput.actions["Fire2"].WasPressedThisFrame())
         {
+
             if (!holdingItem)
             {
                 PickItem();
@@ -43,7 +44,8 @@ public class CharacterItemInteractions : MonoBehaviour
 
         if (holdingItem)
         {
-            if(characterType == CharacterType.Aunfryn){
+            if (characterType == CharacterType.Aunfryn)
+            {
                 heatSystem.decreaseRate = 0.1f;
             }
             item.transform.position = transform.position;
@@ -60,12 +62,14 @@ public class CharacterItemInteractions : MonoBehaviour
             {
 
             }
-            
+
             if (playerInput.actions["Fire1"].WasReleasedThisFrame())
             {
 
             }
-        } else if(characterType == CharacterType.Aunfryn){
+        }
+        else if (characterType == CharacterType.Aunfryn)
+        {
             heatSystem.decreaseRate = heatSystem.defaultDecreasedRate;
         }
     }
@@ -76,11 +80,15 @@ public class CharacterItemInteractions : MonoBehaviour
 
         if (itemCol)
         {
-            charMovement.HeavyMovement();
-            item = itemCol.gameObject;
-            item.GetComponent<Renderer>().enabled = false;
-            holdingItem = true;
-            SoundManager.Instance.PlaySound2D("PickItem");
+            if (!itemCol.gameObject.GetComponent<ItemStatus>().holded)
+            {
+                charMovement.HeavyMovement();
+                item = itemCol.gameObject;
+                item.GetComponent<Renderer>().enabled = false;
+                holdingItem = true;
+                item.GetComponent<ItemStatus>().holded = true;
+                SoundManager.Instance.PlaySound2D("PickItem");
+            }
         }
     }
 
@@ -93,6 +101,7 @@ public class CharacterItemInteractions : MonoBehaviour
         {
             item.GetComponent<Renderer>().enabled = true;
             item.GetComponent<Rigidbody2D>().velocity = itemVelocity;
+            item.GetComponent<ItemStatus>().holded = false;
             SoundManager.Instance.PlaySound2D("ReleaseItem");
         }
         charMovement.DefaultMovement();

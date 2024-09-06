@@ -172,10 +172,10 @@ public class CharacterSpecialHabilities : MonoBehaviour
         }
 
         // Aplicar tremor nos primeiros 1 segundo de lançamento da esfera
-        if (castDirection.magnitude > 0 && Time.time - startTime < 1f)
+        /*if (castDirection.magnitude > 0 && Time.time - startTime < 1f)
         {
             ApplyTremor();
-        }
+        }*/
 
         // Reiniciar startTime quando a direção é zero
         if (castDirection.magnitude <= 0)
