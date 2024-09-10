@@ -16,6 +16,9 @@ public class StartController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameController.instance.UnPauseGame();
+        MusicManager.Instance.StopAllMusic();
+
         // Will attach a VideoPlayer to the main camera.
         GameObject camera = GameObject.Find("Main Camera");
 

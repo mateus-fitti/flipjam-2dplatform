@@ -87,4 +87,12 @@ public class MusicManager : MonoBehaviour
             yield return null;
         }
     }
+
+    public void StopAllMusic()
+    {
+        if (musicSource != null)
+        {
+            musicSource.Stop();
+        }
+    }
 }
