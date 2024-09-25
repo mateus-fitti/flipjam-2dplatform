@@ -711,17 +711,6 @@
                 },
                 {
                     "name": "",
-                    "id": "454dc15e-ff33-4045-8c00-aa484ec5937a",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Fire2",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "e732b900-dd1f-4e75-a6fd-d039a2f6dbdd",
                     "path": "<Keyboard>/numpad2",
                     "interactions": "",
