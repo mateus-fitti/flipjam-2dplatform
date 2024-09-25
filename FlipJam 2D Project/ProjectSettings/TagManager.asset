@@ -16,6 +16,7 @@ TagManager:
   - VirtualCamera
   - Halo
   - PlayerUI
+  - Throwable
   layers:
   - Default
   - TransparentFX
