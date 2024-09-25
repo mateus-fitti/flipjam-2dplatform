@@ -588,10 +588,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebce5914a97196b4cbaf9e3c2701d60a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 3566104151071024795, guid: 7394314b965af9c419ee17b3e8847b80, type: 3}
+  bulletPrefab: {fileID: 3566104151071024795, guid: 7394314b965af9c419ee17b3e8847b80, type: 3}
   bulletHole: {fileID: 5716262188529631919}
-  force: 300
-  reloadTime: 1
 --- !u!1 &3902352116942170347
 GameObject:
   m_ObjectHideFlags: 0

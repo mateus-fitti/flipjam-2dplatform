@@ -162,3 +162,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterType: 1
+  fireSpeed: 400
+  fireSize: 1
+  fireCount: 1
+  fireRange: 1.2
+  reloadTime: 0.5
