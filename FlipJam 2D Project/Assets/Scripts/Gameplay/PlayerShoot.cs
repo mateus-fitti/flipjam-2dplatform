@@ -10,6 +10,7 @@ public class PlayerShoot : MonoBehaviour
     public GameObject bullet;
     public Transform bulletHole;
     public float force = 400;
+    public float reloadTime = 0.5f;
 
     private bool canShoot = true; // Variable to track if the player can shoot
 
@@ -46,7 +47,7 @@ public class PlayerShoot : MonoBehaviour
 
     IEnumerator Reload()
     {
-        yield return new WaitForSeconds(0.5f); // Wait for 0.5 seconds
+        yield return new WaitForSeconds(reloadTime); // Wait for 0.5 seconds
         canShoot = true; // Set canShoot to true after the reload time
     }
 }

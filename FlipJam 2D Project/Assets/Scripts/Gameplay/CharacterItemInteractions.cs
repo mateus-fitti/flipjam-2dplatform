@@ -173,11 +173,15 @@ public class CharacterItemInteractions : MonoBehaviour
             Rigidbody2D itemRb = collision.gameObject.GetComponent<Rigidbody2D>();
             Debug.Log("Item collided with " + collision.gameObject.name);
 
-            // Stun the character if hit by a thrown item
-            Vector2 impactDirection = (transform.position - collision.transform.position).normalized;
-            StartCoroutine(StunCharacter(impactDirection));
-            isThrowingItem = false; // Reset the throwing state
-
+            // Check the character type of the Bullet script
+            Bullet bullet = collision.gameObject.GetComponent<Bullet>();
+            if (bullet != null && bullet.characterType != characterType)
+            {
+                // Stun the character if hit by a thrown item with a different character type
+                Vector2 impactDirection = (transform.position - collision.transform.position).normalized;
+                StartCoroutine(StunCharacter(impactDirection));
+                isThrowingItem = false; // Reset the throwing state
+            }
         }
     }
 

@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 1243525398646110697}
   - component: {fileID: 1830173764093053386}
   - component: {fileID: 9013933073535175587}
-  - component: {fileID: 1659775840661227412}
+  - component: {fileID: 3017651045934595058}
   m_Layer: 3
-  m_Name: Bullet
+  m_Name: BulletNgoro
   m_TagString: Throwable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 12.139035, y: -1.5654995, z: -0.045125328}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
+  m_LocalScale: {x: 0.1, y: 0.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -76,8 +76,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 6d4083d635afcb24a81e6fc139a2b2c9, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 1a8f3715dfc50a743a19a3968d3348eb, type: 3}
+  m_Color: {r: 0.78859377, g: 0, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -149,7 +149,7 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1.675, y: 1.3733333}
   m_Direction: 0
---- !u!114 &1659775840661227412
+--- !u!114 &3017651045934595058
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -161,3 +161,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c750d4e3cb2cdf4ca00b4ee13d563ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterType: 1
