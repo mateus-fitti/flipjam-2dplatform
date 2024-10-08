@@ -14,7 +14,7 @@ public class LogoController : MonoBehaviour
 
     private IEnumerator StartFadeOut()
     {
-        // Wait for 1 second before starting the fade-out
+        // Wait for 2 second before starting the fade-out
         yield return new WaitForSeconds(2f);
 
         // Trigger the fade-out animation
