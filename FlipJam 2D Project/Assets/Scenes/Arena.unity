@@ -122814,12 +122814,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3704641008782404539, guid: 6c0cfe8899495004faa3f486369c8f39, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4693325089612122748, guid: 6c0cfe8899495004faa3f486369c8f39, type: 3}
       propertyPath: dashSpeed
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 6620246324990193250, guid: 6c0cfe8899495004faa3f486369c8f39, type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 3566104151071024795, guid: 9649e348dd8235f1ab8d135f4c9830ba, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -125734,6 +125738,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4595130914386375164, guid: de507479644eff245ba0dd32045f1663, type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 3566104151071024795, guid: 9649e348dd8235f1ab8d135f4c9830ba, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
