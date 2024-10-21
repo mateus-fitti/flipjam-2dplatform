@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 1830173764093053386}
   - component: {fileID: 9013933073535175587}
   - component: {fileID: 8952542081230238956}
-  m_Layer: 3
+  m_Layer: 16
   m_Name: NewBullet
-  m_TagString: Throwable
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -143,7 +143,7 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

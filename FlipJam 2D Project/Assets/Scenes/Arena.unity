@@ -122820,10 +122820,6 @@ PrefabInstance:
       propertyPath: dashSpeed
       value: 20
       objectReference: {fileID: 0}
-    - target: {fileID: 6620246324990193250, guid: 6c0cfe8899495004faa3f486369c8f39, type: 3}
-      propertyPath: bulletPrefab
-      value: 
-      objectReference: {fileID: 3566104151071024795, guid: 9649e348dd8235f1ab8d135f4c9830ba, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

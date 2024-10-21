@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public float speed = 400.0f;
+    public float speed = 100.0f;
     public float lifetime = 1.0f;
     Vector2 direction;
 
@@ -23,5 +23,10 @@ public class Projectile : MonoBehaviour
     {
         Vector2 displace = direction * speed * Time.fixedDeltaTime;
         transform.Translate(new Vector3(displace.x, displace.y, 0));
+    }
+
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        Debug.Log("bullet collided with " + collider.gameObject.name);
     }
 }

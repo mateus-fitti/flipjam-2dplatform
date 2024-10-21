@@ -17,6 +17,7 @@ public class PlayerShoot : MonoBehaviour
     public float rateOfFire = 0.5f;
 
     private bool canShoot = true; // Variable to track if the player can shoot
+    private Vector2 currentMove = Vector2.zero;
 
     void Awake()
     {        
@@ -24,7 +25,12 @@ public class PlayerShoot : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
     }
 
-    void OnFire1()
+    void Update()
+    {
+        if (playerInput.actions["Fire1"].WasReleasedThisFrame()) Fire(); //this ugly thing is back because we want to fire upon button release
+    }
+
+    void Fire()
     {
         Projectile bulletScript = bulletPrefab.GetComponent<Projectile>();
         if (bulletScript == null)
@@ -35,7 +41,16 @@ public class PlayerShoot : MonoBehaviour
 
         if (!canShoot) return;
 
-        Vector3 direction = Vector3.right; //todo actually get direction
+        Vector3 direction;
+        if (currentMove == Vector2.zero)
+        {
+            if (GetComponent<PlayerMovement>().IsFacingRight)
+                direction = Vector3.right;
+            else
+                direction = Vector3.left;
+        }
+        else direction = new Vector3(currentMove.x, currentMove.y, 0);
+
         Vector3 dirParallel = new Vector3(-direction.y, direction.x);
 
         for (int i = 0; i < projectileMultishot; i++)
@@ -57,5 +72,10 @@ public class PlayerShoot : MonoBehaviour
     {
         yield return new WaitForSeconds(reloadTime); // Wait for the specified reload time
         canShoot = true; // Set canShoot to true after the reload time
+    }
+
+    void OnMove(InputValue value)
+    {
+        currentMove = value.Get<Vector2>();
     }
 }
