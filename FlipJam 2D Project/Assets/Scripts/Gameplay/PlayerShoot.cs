@@ -4,26 +4,17 @@ using System.Collections;
 
 public class PlayerShoot : MonoBehaviour
 {
-    private Animator animator;
-    PlayerInput playerInput;
+    public PlayerUpgrade playerUpgrade;
+    public PlayerInfo playerInfo;
+    public PlayerInput playerInput;
 
     public GameObject bulletPrefab;
 
     public float projectileSpawnOffset = 0.0f;
-    public float projectileSize = 1.0f;
     public float projectileMultiDistance = 0.1f;
-    public int projectileMultishot = 1;
-    public float projectileLifetime = 1.0f;
-    public float rateOfFire = 0.5f;
 
     private bool canShoot = true; // Variable to track if the player can shoot
     private Vector2 currentMove = Vector2.zero;
-
-    void Awake()
-    {        
-        animator = GetComponent<Animator>();
-        playerInput = GetComponent<PlayerInput>();
-    }
 
     void Update()
     {
@@ -53,19 +44,25 @@ public class PlayerShoot : MonoBehaviour
 
         Vector3 dirParallel = new Vector3(-direction.y, direction.x);
 
-        for (int i = 0; i < projectileMultishot; i++)
+        int multishotCount = playerUpgrade.GetMultishotCount();
+        for (int i = 0; i < multishotCount; i++)
         {
             Vector3 spawnPosition = this.transform.position
                 + direction * projectileSpawnOffset
-                + dirParallel * ( projectileMultiDistance * (i - (projectileMultishot-1)/2));
+                + dirParallel * ( projectileMultiDistance * (i - (multishotCount-1)/2));
             
             GameObject projectileInstance = Instantiate(bulletPrefab, spawnPosition, Quaternion.identity);
             Projectile projectileComp = projectileInstance.GetComponent<Projectile>();
-            projectileComp.SetProjectile(direction);
+            projectileComp.SetProjectile(
+                direction,
+                playerUpgrade.GetProjectileSpeed(),
+                playerUpgrade.GetProjectileLifetime(),
+                playerInfo.playerNumber
+                );
         }
 
         canShoot = false;
-        StartCoroutine(Reload(rateOfFire));
+        StartCoroutine(Reload(playerUpgrade.GetCooldown()));
     }
 
     IEnumerator Reload(float reloadTime)
