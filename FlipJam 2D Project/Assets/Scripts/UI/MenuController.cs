@@ -41,7 +41,10 @@ public class MenuController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (EventSystem.current.currentSelectedGameObject == null)
+        {
+            EventSystem.current.SetSelectedGameObject(startFirst);
+        }
     }
 
     public void OnSceneChange(String sceneName)
