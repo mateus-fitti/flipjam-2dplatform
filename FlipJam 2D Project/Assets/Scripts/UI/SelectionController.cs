@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -8,13 +9,14 @@ using UnityEngine.InputSystem.UI;
 
 public class SelectionController : MonoBehaviour
 {
-    [SerializeField] private GameObject startButton;
     [SerializeField] private GameObject[] characters;
     private PlayerInputManager playerIManager;
     public GameObject playerUIPrefab;
     public GameObject[] p1Icon;
     public GameObject[] p2Icon;
-    public GameObject[] charsIcons;
+    public GameObject[] p1charsIcons;
+    public GameObject[] p2charsIcons;
+    public GameObject player2Canvas;
 
     void Awake()
     {
@@ -24,10 +26,10 @@ public class SelectionController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (GameController.instance.multiplayer)
+        /*if (GameController.instance.multiplayer)
         {
             gameObject.SetActive(false);
-        }
+        }*/
         /*if (GameController.instance.multiplayer)
         {
             GameObject p2UI = Instantiate(playerUIPrefab);
@@ -38,43 +40,42 @@ public class SelectionController : MonoBehaviour
             p2UI.GetComponent<PlayerInput>().enabled = true;
             p2UI.GetComponent<PlayerInput>().SwitchCurrentActionMap("UI2");
         }*/
+
+        MusicManager.Instance.StopAndContinueMusic("MenuMusic");
+        GameController.instance.UnPauseGame();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    public void SelectCharacter(int character_id)
+    public void OnSceneChange(String sceneName)
     {
-        if (GameController.instance.multiplayer)
+        SoundManager.Instance.PlaySound2D("Button", false);
+        GameController.instance.OnSceneChange(sceneName);
+    }
+
+    public void PlayerReady()
+    {
+        player2Canvas.SetActive(true);
+    }
+
+    public void SetCharacter(int player, int character_id)
+    {
+        if (player == 1)
         {
-            charsIcons[0].SetActive(true);
-            charsIcons[1].SetActive(true);
-
-            if (character_id == 0)
-            {
-                GameController.instance.player1 = 0;
-                GameController.instance.player2 = 1;
-
-                p1Icon[0].SetActive(true);
-                p2Icon[0].SetActive(false);
-                p1Icon[1].SetActive(false);
-                p2Icon[1].SetActive(true);
-            } else {
-                GameController.instance.player1 = 1;
-                GameController.instance.player2 = 0;
-
-                p1Icon[0].SetActive(false);
-                p2Icon[0].SetActive(true);
-                p1Icon[1].SetActive(true);
-                p2Icon[1].SetActive(false);
-            }
-            if (GameController.instance.player1 > 0 && GameController.instance.player2 > 0)
-            {
-                // HABILITAR START
-            }
+            GameController.instance.player1 = character_id;
         }
+        else
+        {
+            GameController.instance.player2 = character_id;
+        }
+    }
+
+    public void CancelAction()
+    {
+        player2Canvas.SetActive(false);
     }
 }

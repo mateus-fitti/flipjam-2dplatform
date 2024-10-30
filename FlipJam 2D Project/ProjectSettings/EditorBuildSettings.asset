@@ -32,4 +32,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LogoScene.unity
     guid: 54e6367e8c5db0749b74d26afe7414ef
+  - enabled: 1
+    path: Assets/Scenes/CharMultiplayerSelection.unity
+    guid: 2f3bb3fc801862e4ba4a467dcb4c4480
   m_configObjects: {}
