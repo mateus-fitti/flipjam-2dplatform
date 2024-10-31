@@ -525,6 +525,8 @@ GameObject:
   - component: {fileID: 7379752998875089661}
   - component: {fileID: 5205342582541557887}
   - component: {fileID: 6620246324990193250}
+  - component: {fileID: 1342171294690494886}
+  - component: {fileID: 9076270864223393497}
   m_Layer: 3
   m_Name: NgoroPrefab
   m_TagString: Player
@@ -687,8 +689,8 @@ MonoBehaviour:
   fastFallGravityMult: 0
   maxFastFallSpeed: 0
   runMaxSpeed: 0
-  runAcceleration: 0.01
-  runDecceleration: 0.01
+  runAcceleration: 0
+  runDecceleration: 0
   accelInAir: 0
   deccelInAir: 0
   doConserveMomentum: 1
@@ -873,6 +875,45 @@ MonoBehaviour:
   crosshairUI: {fileID: 6268389871928671785}
   aimSpeed: 5
   projectileSpeed: 10
+  playerUpgrade: {fileID: 9076270864223393497}
+  playerInfo: {fileID: 1342171294690494886}
+  playerInput: {fileID: 5205342582541557887}
+  bulletPrefab: {fileID: 3566104151071024795, guid: 9649e348dd8235f1ab8d135f4c9830ba, type: 3}
+  projectileSpawnOffset: 0
+  projectileMultiDistance: 1
+--- !u!114 &1342171294690494886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3704641008782404539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: babd2199d669d3f088ef244b164edd21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerNumber: 1
+--- !u!114 &9076270864223393497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3704641008782404539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 822044caf3d7c09f5919108b19d833e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectileScaleInit: 1
+  projectileScaleStep: 1
+  projectileLifetimeInit: 1
+  projectileLifetimeStep: 1
+  projectileSpeedInit: 100
+  projectileSpeedStep: 10
+  firerateInit: 2
+  firerateStep: 0.5
 --- !u!1 &3904293013271306322
 GameObject:
   m_ObjectHideFlags: 0

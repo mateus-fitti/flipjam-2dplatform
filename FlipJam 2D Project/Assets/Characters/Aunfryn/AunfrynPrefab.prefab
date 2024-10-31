@@ -491,6 +491,8 @@ GameObject:
   - component: {fileID: 5540270395369257971}
   - component: {fileID: 6182919631248809125}
   - component: {fileID: 4595130914386375164}
+  - component: {fileID: 1740156022885821511}
+  - component: {fileID: 3531957794276674554}
   m_Layer: 3
   m_Name: AunfrynPrefab
   m_TagString: Player
@@ -656,8 +658,8 @@ MonoBehaviour:
   fastFallGravityMult: 0
   maxFastFallSpeed: 0
   runMaxSpeed: 0
-  runAcceleration: 0.01
-  runDecceleration: 0.01
+  runAcceleration: 0
+  runDecceleration: 0
   accelInAir: 0
   deccelInAir: 0
   doConserveMomentum: 1
@@ -837,11 +839,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebce5914a97196b4cbaf9e3c2701d60a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerUpgrade: {fileID: 3531957794276674554}
+  playerInfo: {fileID: 1740156022885821511}
+  playerInput: {fileID: 6182919631248809125}
   bulletPrefab: {fileID: 3566104151071024795, guid: 7394314b965af9c419ee17b3e8847b80, type: 3}
   aimDirections: {fileID: 9213426651933892820}
   crosshairUI: {fileID: 2570524241984237036}
   aimSpeed: 5
   projectileSpeed: 10
+  projectileSpawnOffset: 0
+  projectileMultiDistance: 1
+--- !u!114 &1740156022885821511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3704641008782404539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: babd2199d669d3f088ef244b164edd21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerNumber: 2
+--- !u!114 &3531957794276674554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3704641008782404539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 822044caf3d7c09f5919108b19d833e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectileScaleInit: 1
+  projectileScaleStep: 1
+  projectileLifetimeInit: 1
+  projectileLifetimeStep: 1
+  projectileSpeedInit: 20
+  projectileSpeedStep: 10
+  firerateInit: 2
+  firerateStep: 0.5
 --- !u!1 &3902352116942170347
 GameObject:
   m_ObjectHideFlags: 0
