@@ -681,12 +681,11 @@ MonoBehaviour:
   weightModifier: 0.01
   gravityStrength: NaN
   gravityScale: NaN
-  runAccelAmount: NaN
-  runDeccelAmount: NaN
+  runAccelAmount: Infinity
+  runDeccelAmount: Infinity
   dashForce: 30
   dashCooldown: 2
   isCrouching: 0
-  isAiming: 0
   isHeavy: 0
   isLight: 0
   canMove: 1
@@ -839,14 +838,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebce5914a97196b4cbaf9e3c2701d60a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerUpgrade: {fileID: 3531957794276674554}
-  playerInfo: {fileID: 1740156022885821511}
-  playerInput: {fileID: 6182919631248809125}
-  bulletPrefab: {fileID: 3566104151071024795, guid: 7394314b965af9c419ee17b3e8847b80, type: 3}
+  bulletPrefab: {fileID: 3566104151071024795, guid: 9649e348dd8235f1ab8d135f4c9830ba, type: 3}
   aimDirections: {fileID: 9213426651933892820}
   crosshairUI: {fileID: 2570524241984237036}
   aimSpeed: 5
   projectileSpeed: 10
+  isAiming: 0
+  playerUpgrade: {fileID: 3531957794276674554}
+  playerInfo: {fileID: 1740156022885821511}
+  playerInput: {fileID: 6182919631248809125}
   projectileSpawnOffset: 0
   projectileMultiDistance: 1
 --- !u!114 &1740156022885821511

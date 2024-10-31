@@ -9,6 +9,10 @@ public class Projectile : MonoBehaviour
     public int owner = 0;
     Vector2 direction;
 
+    public enum FireSoundType { Magic, Dagger }
+    public FireSoundType fireSound; // Enum for selecting the fire sound
+
+
     public void SetProjectile(Vector2 direction, float speed, float lifetime, int owner)
     {
         this.direction = direction;
@@ -18,6 +22,11 @@ public class Projectile : MonoBehaviour
         this.owner = owner;
     }
 
+    void Awake()
+    {
+        string fireSoundName = fireSound.ToString();
+        SoundManager.Instance.PlaySound2D(fireSoundName, false);
+    }
     void Start()
     {
         Destroy(gameObject, lifetime);

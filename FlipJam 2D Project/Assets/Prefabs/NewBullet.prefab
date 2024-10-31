@@ -163,3 +163,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 4
   lifetime: 1
+  owner: 0
+  fireSound: 0

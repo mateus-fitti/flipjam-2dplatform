@@ -13,15 +13,13 @@ public class Bullet : MonoBehaviour
 
     public float reloadTime = 0.5f;
   
-    public string fireSound; // Reference to the audio clip for the fire sound
+   public enum FireSoundType { Magic, Dagger }
+    public FireSoundType fireSound; // Enum for selecting the fire sound
 
     void Awake()
     {
-        
-        if (fireSound != null)
-        {
-           SoundManager.Instance.PlaySound2D(fireSound, false);
-        }
+        string fireSoundName = fireSound.ToString();
+        SoundManager.Instance.PlaySound2D(fireSoundName, false);
     }
     // Update is called once per frame
     void Update()
