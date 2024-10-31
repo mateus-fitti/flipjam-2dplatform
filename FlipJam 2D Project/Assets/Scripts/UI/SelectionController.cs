@@ -78,4 +78,9 @@ public class SelectionController : MonoBehaviour
     {
         player2Canvas.SetActive(false);
     }
+
+    public void ButtonSound()
+    {
+        SoundManager.Instance.PlaySound2D("Button", false);
+    }
 }
