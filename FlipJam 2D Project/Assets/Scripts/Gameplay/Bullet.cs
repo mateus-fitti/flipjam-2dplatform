@@ -12,10 +12,17 @@ public class Bullet : MonoBehaviour
     public float fireRange = 1.2f;
 
     public float reloadTime = 0.5f;
-    void Start()
-    {
-    }
+  
+    public string fireSound; // Reference to the audio clip for the fire sound
 
+    void Awake()
+    {
+        
+        if (fireSound != null)
+        {
+           SoundManager.Instance.PlaySound2D(fireSound, false);
+        }
+    }
     // Update is called once per frame
     void Update()
     {

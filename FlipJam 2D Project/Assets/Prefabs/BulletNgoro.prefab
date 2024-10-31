@@ -102,7 +102,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -113,7 +113,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 6
+  m_Constraints: 4
 --- !u!70 &9013933073535175587
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -167,3 +167,4 @@ MonoBehaviour:
   fireCount: 1
   fireRange: 1.2
   reloadTime: 0.5
+  fireSound: Dagger

@@ -25,6 +25,8 @@ public class LevelController : MonoBehaviour
     private GameObject player;
     private GameObject playerTwo;
 
+    public enum GameMode { Normal, Arena }
+    public GameMode gameMode = GameMode.Normal; // Variable to define the game mode
 
     void Start()
     {
@@ -41,11 +43,15 @@ public class LevelController : MonoBehaviour
         highScoreText.transform.parent.gameObject.SetActive(false);
         startTime = Time.time;
 
-        HeatMeasurementSystem heatSystem = FindObjectOfType<HeatMeasurementSystem>();
-        if (heatSystem != null)
+        if (gameMode == GameMode.Normal)
         {
-            heatSystem.ResetHeatSystem();
+            HeatMeasurementSystem heatSystem = FindObjectOfType<HeatMeasurementSystem>();
+            if (heatSystem != null)
+            {
+                heatSystem.ResetHeatSystem();
+            }
         }
+
         gameStarted = true;
         timer = 0; // Reset timer at the start of the game
 
@@ -80,7 +86,15 @@ public class LevelController : MonoBehaviour
                 Debug.Log("Player Two Spawned");
             }
         }
-        MusicManager.Instance.StopAndPlayMusic("LevelMusic");
+
+        if (gameMode == GameMode.Arena)
+        {
+            MusicManager.Instance.StopAndPlayMusic("ArenaMusic");
+        }
+        else
+        {
+            MusicManager.Instance.StopAndPlayMusic("LevelMusic");
+        }
     }
 
     private void Update()
@@ -164,7 +178,6 @@ public class LevelController : MonoBehaviour
         highScoreText.text = "High Score: " + highScore.ToString();
 
         SoundManager.Instance.PlaySound2D("Victory", false);
-
     }
 
     private int CalculateScore()
@@ -230,5 +243,4 @@ public class LevelController : MonoBehaviour
         SoundManager.Instance.PlaySound2D("Button", false);
         GameController.instance.ExitGame();
     }
-
 }

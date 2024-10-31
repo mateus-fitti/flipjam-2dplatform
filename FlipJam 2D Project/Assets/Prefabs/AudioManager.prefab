@@ -212,6 +212,12 @@ MonoBehaviour:
   - groupID: Freeze
     clips:
     - {fileID: 8300000, guid: 8f6d5a9973542ed41973020d6a565c0b, type: 3}
+  - groupID: Dagger
+    clips:
+    - {fileID: 8300000, guid: 29e109f0415ac27459ff8275050d1ba9, type: 3}
+  - groupID: Magic
+    clips:
+    - {fileID: 8300000, guid: 216d81be803373a4c90fa7dd759f8760, type: 3}
 --- !u!114 &1767409494685478868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -243,6 +249,8 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 8787b91fb7ee8e946a52efe7f54b588f, type: 3}
   - trackName: MenuMusic
     clip: {fileID: 8300000, guid: 231486046f2fc94449d731e18fc5f0e6, type: 3}
+  - trackName: ArenaMusic
+    clip: {fileID: 8300000, guid: dd2346d59f1c4764586fc72f90eec98c, type: 3}
 --- !u!114 &7523510908162705460
 MonoBehaviour:
   m_ObjectHideFlags: 0

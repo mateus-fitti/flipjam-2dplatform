@@ -124539,6 +124539,10 @@ PrefabInstance:
       value: LevelController
       objectReference: {fileID: 0}
     - target: {fileID: 7501199992108938898, guid: 6d7cb282d7c1fc94d88c9d4411aa88a9, type: 3}
+      propertyPath: gameMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7501199992108938898, guid: 6d7cb282d7c1fc94d88c9d4411aa88a9, type: 3}
       propertyPath: scoreText
       value: 
       objectReference: {fileID: 766023311}

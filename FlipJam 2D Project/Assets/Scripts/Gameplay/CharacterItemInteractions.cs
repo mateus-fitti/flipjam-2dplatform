@@ -18,7 +18,7 @@ public class CharacterItemInteractions : MonoBehaviour
     Vector2 startPosition, currentPosition;
     [SerializeField] private Vector2 velocity;
     private bool isThrowingItem = false; // Variable to track if the item is being thrown
-    private bool isStunned = false; // Variable to track if the player is stunned
+    // private bool isStunned = false; // Variable to track if the player is stunned
     private Rigidbody2D rb; // Reference to the Rigidbody2D component
     private SpriteRenderer spriteRenderer; // Reference to the SpriteRenderer component
     private Collider2D playerCollider; // Reference to the Collider2D component
@@ -40,7 +40,7 @@ public class CharacterItemInteractions : MonoBehaviour
 
     void Update()
     {
-        if (isStunned) return; // If the player is stunned, do nothing
+        // if (isStunned) return; // If the player is stunned, do nothing
 
         if (playerInput.actions["Fire2"].WasPressedThisFrame())
         {
@@ -50,7 +50,15 @@ public class CharacterItemInteractions : MonoBehaviour
             }
             else
             {
-                ReleaseItem(Vector2.zero);
+                Vector2 moveInput = playerInput.actions["Move"].ReadValue<Vector2>();
+                if (Mathf.Abs(moveInput.x) > 0)
+                {
+                    FireProjectile();
+                }
+                else
+                {
+                    DropItem();
+                }
             }
         }
 
@@ -62,11 +70,6 @@ public class CharacterItemInteractions : MonoBehaviour
             }
             item.transform.position = transform.position;
             item.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-
-            if (playerInput.actions["Fire1"].WasPressedThisFrame())
-            {
-                FireProjectile();
-            }
         }
         else if (characterType == CharacterType.Aunfryn)
         {
@@ -90,6 +93,11 @@ public class CharacterItemInteractions : MonoBehaviour
                 SoundManager.Instance.PlaySound2D("PickItem");
             }
         }
+    }
+
+    void DropItem()
+    {
+        ReleaseItem(Vector2.zero);
     }
 
     void ReleaseItem(Vector2 itemVelocity)
@@ -157,7 +165,7 @@ public class CharacterItemInteractions : MonoBehaviour
         ReleaseItem(rg.velocity);
 
         // Change layer to "NoCollision" to temporarily disable collision with the player
-        item.layer = LayerMask.NameToLayer("NoCollision");
+        //item.layer = LayerMask.NameToLayer("NoCollision");
 
         // Start monitoring the item's velocity
         StartCoroutine(MonitorItemVelocity(rg));
@@ -179,12 +187,13 @@ public class CharacterItemInteractions : MonoBehaviour
             {
                 // Stun the character if hit by a thrown item with a different character type
                 Vector2 impactDirection = (transform.position - collision.transform.position).normalized;
-                StartCoroutine(StunCharacter(impactDirection));
+                // StartCoroutine(StunCharacter(impactDirection));
                 isThrowingItem = false; // Reset the throwing state
             }
         }
     }
 
+    /*
     IEnumerator StunCharacter(Vector2 impactDirection)
     {
         isStunned = true;
@@ -235,6 +244,7 @@ public class CharacterItemInteractions : MonoBehaviour
 
         Debug.Log("Character is no longer stunned!");
     }
+    */
 
     IEnumerator MonitorItemVelocity(Rigidbody2D itemRb)
     {
@@ -252,13 +262,16 @@ public class CharacterItemInteractions : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
         // Change layer back to "Environment" or "Pickup" based on the item's velocity
-        if (item.GetComponent<Rigidbody2D>().velocity.y != 0)
-        {
-            item.layer = LayerMask.NameToLayer("Environment");
+        if(item){
+            if (item.GetComponent<Rigidbody2D>().velocity.y != 0)
+            {
+                item.layer = LayerMask.NameToLayer("Environment");
+            }
+            else
+            {
+                item.layer = LayerMask.NameToLayer("Pickup");
+            }
         }
-        else
-        {
-            item.layer = LayerMask.NameToLayer("Pickup");
-        }
+       
     }
 }

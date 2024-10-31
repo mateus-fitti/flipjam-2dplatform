@@ -161,7 +161,7 @@ public class HeatMeasurementSystem : MonoBehaviour
     public void ResetHeatSystem()
     {
         temperature = 100f; // Reset to initial temperature
-        heatSystemActive = true; // Reactivate the heat system
+        //heatSystemActive = true; // Reactivate the heat system
 
         // Reset egg color and Image fill color
         UpdateEggColor();

@@ -14,6 +14,8 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
 	PlayerInput playerInput;
+	private PlayerShoot playerShoot; // Reference to PlayerShoot script
+
 
 	[Header("Data")]
 	public CharacterScriptableObject characterScriptableObject;
@@ -89,6 +91,10 @@ public class PlayerMovement : MonoBehaviour
 	[HideInInspector] public float runDeccelAmount; //Actual force (multiplied with speedDiff) applied to the player .
 
 
+	[Header("Dash")]
+	public float dashForce = 30f; // The force applied for the dash
+	public float dashCooldown = 2f; // Cooldown time for the dash
+	private bool canDash = true; // Variable to track if the player can dash
 	#region Variables
 	//Components
 	public Rigidbody2D RB { get; private set; }
@@ -96,6 +102,7 @@ public class PlayerMovement : MonoBehaviour
 	private Animator animator;
 	private CharacterItemInteractions itemInteractions;
 	public bool isCrouching = false;
+
 	public bool isHeavy = false;
 	public bool isLight = false;
 	//Variables control the various actions the player can perform at any time.
@@ -172,6 +179,8 @@ public class PlayerMovement : MonoBehaviour
 		GetScriptables();
 
 		playerInput = GetComponent<PlayerInput>();
+		playerShoot = GetComponent<PlayerShoot>(); // Get reference to PlayerShoot script
+
 	}
 
 	private void Start()
@@ -223,6 +232,10 @@ public class PlayerMovement : MonoBehaviour
 					HeavyMovement();
 				}
 				isCrouching = true;
+			}
+			if (playerInput.actions["Jump"].WasPressedThisFrame() && !IsGrounded && canDash)
+			{
+				Dash();
 			}
 			else
 			{
@@ -542,6 +555,23 @@ public class PlayerMovement : MonoBehaviour
 		#endregion
 	}
 
+	private void Dash()
+	{
+		// Apply dash force in the direction the player is facing
+		Vector2 dashDirection = IsFacingRight ? Vector2.right : Vector2.left;
+		RB.AddForce(dashDirection * dashForce, ForceMode2D.Impulse);
+
+		// Set canDash to false and start the cooldown coroutine
+		canDash = false;
+		StartCoroutine(DashCooldown());
+	}
+
+	private IEnumerator DashCooldown()
+	{
+		yield return new WaitForSeconds(dashCooldown);
+		canDash = true;
+	}
+
 	#endregion
 
 	#region OTHER MOVEMENT METHODS
@@ -664,6 +694,8 @@ public class PlayerMovement : MonoBehaviour
 	//=====================================================
 	void ChangeAnimationState(string newAnimation)
 	{
+		// Check if the player is aiming
+
 		if (currentAnimaton == newAnimation) return;
 
 		foreach (var animation in characterScriptableObject.animations)
@@ -680,6 +712,9 @@ public class PlayerMovement : MonoBehaviour
 
 	void PlayEggIdleJumpAnimation()
 	{
+		// Check if the player is aiming
+		if (playerShoot != null && playerShoot.isAiming) return;
+
 		Vector2 moveCheck = playerInput.actions["Move"].ReadValue<Vector2>();
 		if (!itemInteractions.holdingItem)
 		{
