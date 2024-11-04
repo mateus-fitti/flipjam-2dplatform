@@ -214,10 +214,10 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 8f6d5a9973542ed41973020d6a565c0b, type: 3}
   - groupID: Dagger
     clips:
-    - {fileID: 8300000, guid: 29e109f0415ac27459ff8275050d1ba9, type: 3}
+    - {fileID: 8300000, guid: e810707ffd1192748833b83abeb342c1, type: 3}
   - groupID: Magic
     clips:
-    - {fileID: 8300000, guid: 216d81be803373a4c90fa7dd759f8760, type: 3}
+    - {fileID: 8300000, guid: 43fbc95a4a2d3aa429b5142dd5ddbbfa, type: 3}
   - groupID: Hit
     clips:
     - {fileID: 8300000, guid: 22f4ef2ff7749944385e17b027436b3c, type: 3}
