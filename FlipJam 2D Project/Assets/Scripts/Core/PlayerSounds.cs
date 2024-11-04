@@ -22,7 +22,7 @@ public class PlayerSounds : MonoBehaviour
 }
     public void PlayStepSound()
 {
-    SoundManager.Instance.PlaySound2D("Step");
+    //SoundManager.Instance.PlaySound2D("Step");
 }
 
 public void PlayWallJumpSound()

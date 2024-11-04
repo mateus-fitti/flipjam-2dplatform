@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq; // Adiciona a diretiva para usar LINQ
+using System.Linq;
 
 public class CharacterItemInteractions : MonoBehaviour
 {
@@ -18,7 +18,9 @@ public class CharacterItemInteractions : MonoBehaviour
     Vector2 startPosition, currentPosition;
     [SerializeField] private Vector2 velocity;
     private bool isThrowingItem = false; // Variable to track if the item is being thrown
-    // private bool isStunned = false; // Variable to track if the player is stunned
+    public bool isStunned = false;
+    public bool isInvulnerable = false;
+    private Coroutine blinkCoroutine;
     private Rigidbody2D rb; // Reference to the Rigidbody2D component
     private SpriteRenderer spriteRenderer; // Reference to the SpriteRenderer component
     private Collider2D playerCollider; // Reference to the Collider2D component
@@ -35,13 +37,14 @@ public class CharacterItemInteractions : MonoBehaviour
 
     void Start()
     {
-        heatSystem = FindObjectOfType<HeatMeasurementSystem>().gameObject.GetComponent<HeatMeasurementSystem>();
+        if (FindObjectOfType<HeatMeasurementSystem>())
+        {
+            heatSystem = FindObjectOfType<HeatMeasurementSystem>().gameObject.GetComponent<HeatMeasurementSystem>();
+        }
     }
 
     void Update()
     {
-        // if (isStunned) return; // If the player is stunned, do nothing
-
         if (playerInput.actions["Fire2"].WasPressedThisFrame())
         {
             if (!holdingItem)
@@ -124,6 +127,14 @@ public class CharacterItemInteractions : MonoBehaviour
 
             // Start monitoring the item's velocity
             StartCoroutine(MonitorItemVelocity(item.GetComponent<Rigidbody2D>()));
+
+            // Ignore collision between the item and the player throwing it
+            Collider2D itemCollider = item.GetComponent<Collider2D>();
+            if (itemCollider != null && playerCollider != null)
+            {
+                Physics2D.IgnoreCollision(itemCollider, playerCollider, true);
+                StartCoroutine(ReenableCollision(itemCollider, playerCollider));
+            }
         }
         charMovement.DefaultMovement();
         item = null;
@@ -164,14 +175,8 @@ public class CharacterItemInteractions : MonoBehaviour
         rg.AddForce(velocity, ForceMode2D.Impulse);
         ReleaseItem(rg.velocity);
 
-        // Change layer to "NoCollision" to temporarily disable collision with the player
-        //item.layer = LayerMask.NameToLayer("NoCollision");
-
         // Start monitoring the item's velocity
         StartCoroutine(MonitorItemVelocity(rg));
-
-        // Re-enable collision with the player after 1 second
-        StartCoroutine(ReenableCollisionAfterDelay(item, 1f));
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -181,70 +186,80 @@ public class CharacterItemInteractions : MonoBehaviour
             Rigidbody2D itemRb = collision.gameObject.GetComponent<Rigidbody2D>();
             Debug.Log("Item collided with " + collision.gameObject.name);
 
-            // Check the character type of the Bullet script
-            Bullet bullet = collision.gameObject.GetComponent<Bullet>();
-            if (bullet != null && bullet.characterType != characterType)
-            {
-                // Stun the character if hit by a thrown item with a different character type
-                Vector2 impactDirection = (transform.position - collision.transform.position).normalized;
-                // StartCoroutine(StunCharacter(impactDirection));
-                isThrowingItem = false; // Reset the throwing state
-            }
+            // Stun the character if hit by a thrown item with a different character type
+            Vector2 impactDirection = (transform.position - collision.transform.position).normalized;
+            ApplyStun(impactDirection, 2, 5);
+            isThrowingItem = false; // Reset the throwing state
         }
     }
 
-    /*
-    IEnumerator StunCharacter(Vector2 impactDirection)
+    public void ApplyStun(Vector2 impactDirection, float stunDuration, float pushForce)
+    {
+        if (!isStunned)
+        {
+            Vector2 pushDirection = -impactDirection.normalized;
+            StartCoroutine(StunCharacter(impactDirection, stunDuration, pushForce));
+        }
+    }
+
+    public void ApplyInvulnerability(float invulnerabilityDuration)
+    {
+        if (!isInvulnerable)
+        {
+            StartCoroutine(Invulnerability(invulnerabilityDuration));
+        }
+    }
+
+    private IEnumerator StunCharacter(Vector2 impactDirection, float stunDuration, float pushForce)
     {
         isStunned = true;
         charMovement.canMove = false;
-        rb.AddForce(impactDirection * characterScriptableObject.launchForce, ForceMode2D.Impulse); // Apply push force
+        rb.AddForce(impactDirection * pushForce, ForceMode2D.Impulse); // Apply push force
         Debug.Log("Character is stunned!");
 
-        // Ignore collisions with "Throwable" objects
-        Collider2D[] throwableColliders = GameObject.FindGameObjectsWithTag("Throwable")
-            .Select(go => go.GetComponent<Collider2D>())
-            .Where(col => col != null)
-            .ToArray();
-
-        foreach (var col in throwableColliders)
+        // Start blink effect
+        if (blinkCoroutine != null)
         {
-            if (col != null)
-            {
-                Physics2D.IgnoreCollision(playerCollider, col, true);
-                ignoredColliders.Add(col);
-            }
+            StopCoroutine(blinkCoroutine);
         }
+        blinkCoroutine = StartCoroutine(Blink(stunDuration));
 
-        // Blink effect
-        float blinkDuration = 0.1f;
-        float stunDuration = 2f;
-        float elapsedTime = 0f;
+        yield return new WaitForSeconds(stunDuration);
 
-        while (elapsedTime < stunDuration)
-        {
-            spriteRenderer.enabled = !spriteRenderer.enabled;
-            yield return new WaitForSeconds(blinkDuration);
-            elapsedTime += blinkDuration;
-        }
-
-        spriteRenderer.enabled = true; // Ensure the sprite is visible at the end
         isStunned = false;
         charMovement.canMove = true;
-
-        // Restore collisions with "Throwable" objects
-        foreach (var col in ignoredColliders)
-        {
-            if (col != null)
-            {
-                Physics2D.IgnoreCollision(playerCollider, col, false);
-            }
-        }
-        ignoredColliders.Clear();
-
-        Debug.Log("Character is no longer stunned!");
     }
-    */
+
+    private IEnumerator Invulnerability(float invulnerabilityDuration)
+    {
+        isInvulnerable = true;
+
+        // Start blink effect
+        if (blinkCoroutine != null)
+        {
+            StopCoroutine(blinkCoroutine);
+        }
+        blinkCoroutine = StartCoroutine(Blink(invulnerabilityDuration));
+
+        yield return new WaitForSeconds(invulnerabilityDuration);
+
+        isInvulnerable = false;
+    }
+
+    private IEnumerator Blink(float duration)
+    {
+        float blinkInterval = 0.1f;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            spriteRenderer.enabled = !spriteRenderer.enabled;
+            yield return new WaitForSeconds(blinkInterval);
+            elapsedTime += blinkInterval;
+        }
+
+        spriteRenderer.enabled = true; // Ensure the sprite is enabled at the end
+    }
 
     IEnumerator MonitorItemVelocity(Rigidbody2D itemRb)
     {
@@ -257,21 +272,9 @@ public class CharacterItemInteractions : MonoBehaviour
         itemRb.gameObject.layer = LayerMask.NameToLayer("Pickup");
     }
 
-    IEnumerator ReenableCollisionAfterDelay(GameObject item, float delay)
+    private IEnumerator ReenableCollision(Collider2D itemCollider, Collider2D playerCollider)
     {
-        yield return new WaitForSeconds(delay);
-
-        // Change layer back to "Environment" or "Pickup" based on the item's velocity
-        if(item){
-            if (item.GetComponent<Rigidbody2D>().velocity.y != 0)
-            {
-                item.layer = LayerMask.NameToLayer("Environment");
-            }
-            else
-            {
-                item.layer = LayerMask.NameToLayer("Pickup");
-            }
-        }
-       
+        yield return new WaitForSeconds(1f); // Wait for a short delay
+        Physics2D.IgnoreCollision(itemCollider, playerCollider, false); // Re-enable collision
     }
 }

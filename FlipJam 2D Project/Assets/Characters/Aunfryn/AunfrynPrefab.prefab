@@ -717,6 +717,8 @@ MonoBehaviour:
     m_Bits: 128
   holdingItem: 0
   velocity: {x: 5, y: 0}
+  isStunned: 0
+  isInvulnerable: 0
 --- !u!95 &1103845216507161463
 Animator:
   serializedVersion: 5
@@ -842,7 +844,7 @@ MonoBehaviour:
   aimDirections: {fileID: 9213426651933892820}
   crosshairUI: {fileID: 2570524241984237036}
   aimSpeed: 5
-  projectileSpeed: 10
+  projectileSpeed: 3
   isAiming: 0
   playerUpgrade: {fileID: 3531957794276674554}
   playerInfo: {fileID: 1740156022885821511}
@@ -862,6 +864,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNumber: 2
+  maxHealth: 3
+  currentHealth: 0
+  limitHearts: 5
 --- !u!114 &3531957794276674554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -878,7 +883,7 @@ MonoBehaviour:
   projectileScaleStep: 1
   projectileLifetimeInit: 1
   projectileLifetimeStep: 1
-  projectileSpeedInit: 20
+  projectileSpeedInit: 10
   projectileSpeedStep: 10
   firerateInit: 2
   firerateStep: 0.5

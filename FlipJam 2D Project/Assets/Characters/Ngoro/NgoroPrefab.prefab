@@ -748,6 +748,8 @@ MonoBehaviour:
     m_Bits: 128
   holdingItem: 0
   velocity: {x: 5, y: 0}
+  isStunned: 0
+  isInvulnerable: 0
 --- !u!95 &1103845216507161463
 Animator:
   serializedVersion: 5
@@ -869,11 +871,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebce5914a97196b4cbaf9e3c2701d60a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 3566104151071024795, guid: 9649e348dd8235f1ab8d135f4c9830ba, type: 3}
+  bulletPrefab: {fileID: 3566104151071024795, guid: 6d811a937fe2e9e42a396780583fdcda, type: 3}
   aimDirections: {fileID: 9035578986901110102}
   crosshairUI: {fileID: 6268389871928671785}
   aimSpeed: 5
-  projectileSpeed: 10
+  projectileSpeed: 5
   isAiming: 0
   playerUpgrade: {fileID: 9076270864223393497}
   playerInfo: {fileID: 1342171294690494886}
@@ -893,6 +895,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNumber: 1
+  maxHealth: 3
+  currentHealth: 0
+  limitHearts: 5
 --- !u!114 &9076270864223393497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -909,7 +914,7 @@ MonoBehaviour:
   projectileScaleStep: 1
   projectileLifetimeInit: 1
   projectileLifetimeStep: 1
-  projectileSpeedInit: 100
+  projectileSpeedInit: 12
   projectileSpeedStep: 10
   firerateInit: 2
   firerateStep: 0.5

@@ -218,6 +218,9 @@ MonoBehaviour:
   - groupID: Magic
     clips:
     - {fileID: 8300000, guid: 216d81be803373a4c90fa7dd759f8760, type: 3}
+  - groupID: Hit
+    clips:
+    - {fileID: 8300000, guid: 22f4ef2ff7749944385e17b027436b3c, type: 3}
 --- !u!114 &1767409494685478868
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,11 +7,11 @@ public class Projectile : MonoBehaviour
     public float speed = 100.0f;
     public float lifetime = 1.0f;
     public int owner = 0;
+    public int damage = 1; // Damage dealt by the projectile
     Vector2 direction;
 
     public enum FireSoundType { Magic, Dagger }
     public FireSoundType fireSound; // Enum for selecting the fire sound
-
 
     public void SetProjectile(Vector2 direction, float speed, float lifetime, int owner)
     {
@@ -27,6 +27,7 @@ public class Projectile : MonoBehaviour
         string fireSoundName = fireSound.ToString();
         SoundManager.Instance.PlaySound2D(fireSoundName, false);
     }
+
     void Start()
     {
         Destroy(gameObject, lifetime);
@@ -34,8 +35,9 @@ public class Projectile : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector2 displace = direction * speed * Time.fixedDeltaTime;
-        transform.Translate(new Vector3(displace.x, displace.y, 0));
+        // Use the rotation of the projectile to determine the direction
+        Vector2 displace = transform.right * speed * Time.fixedDeltaTime;
+        transform.Translate(displace, Space.World);
     }
 
     void OnTriggerEnter2D(Collider2D collider)
@@ -43,9 +45,10 @@ public class Projectile : MonoBehaviour
         if (collider.gameObject.tag == "Player")
         {
             PlayerInfo info = collider.GetComponent<PlayerInfo>();
-            if (info.playerNumber != owner)
+            if (info != null && info.playerNumber != owner)
             {
-                Debug.Log("bullet collided with " + collider.gameObject.name + ", todo damage here");
+                Vector2 impactDirection = (collider.transform.position - transform.position).normalized;
+                info.ApplyDamage(damage, impactDirection); Destroy(gameObject); // Destroy the projectile after hitting the player
             }
         }
     }

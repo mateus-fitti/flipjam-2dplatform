@@ -45,11 +45,22 @@ public class LevelController : MonoBehaviour
 
         if (gameMode == GameMode.Normal)
         {
-            HeatMeasurementSystem heatSystem = FindObjectOfType<HeatMeasurementSystem>();
-            if (heatSystem != null)
+            GameObject thermometer = GameObject.Find("Temperature");
+            if (thermometer != null)
             {
-                heatSystem.ResetHeatSystem();
+                HeatMeasurementSystem heatSystem = thermometer.GetComponent<HeatMeasurementSystem>();
+                if (heatSystem != null)
+                {
+                    heatSystem.ResetHeatSystem();
+                }
             }
+        }
+
+        // Find and disable the thermometer if the game mode is Arena
+        GameObject thermometerArena = GameObject.Find("Temperature");
+        if (gameMode == GameMode.Arena && thermometerArena != null)
+        {
+            thermometerArena.SetActive(false);
         }
 
         gameStarted = true;
@@ -190,31 +201,18 @@ public class LevelController : MonoBehaviour
 
     public void GameOver()
     {
-        StartCoroutine(PlayDeadAnimationOnAllCharacters());
+        StartCoroutine(HandleGameOver());
     }
 
-    IEnumerator PlayDeadAnimationOnAllCharacters()
+    private IEnumerator HandleGameOver()
     {
-        GameObject[] characters = GameObject.FindGameObjectsWithTag("Player");
-        foreach (GameObject character in characters)
-        {
-            PlayerMovement characterMovement = character.GetComponent<PlayerMovement>();
-            if (characterMovement != null)
-            {
-                Animator characterAnimator = character.GetComponent<Animator>();
-                characterMovement.PlayDeadAnimation();  // Trigger the "Dead" animation
+        SoundManager.Instance.PlaySound2D("Victory", false);
 
-                // yield return new WaitUntil(() => characterAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1.0f && !characterAnimator.IsInTransition(0));
-                yield return new WaitForSeconds(0.6f); // Wait for 1 second before moving to the next character
+        // Wait for 1 second after the death animation finishes
+        yield return new WaitForSeconds(1f);
 
-            }
-        }
-
-        // After all characters' animations have finished, execute the following
-        Debug.Log("Game Over! The egg is frozen!");
-        gameOverObj.SetActive(true); // Show the Game Over screen
-        EventSystem.current.SetSelectedGameObject(restartButton);
-        GameController.instance.PauseGame(); // Pause the game
+        // Change to the CharacterSelection scene
+        GameController.instance.OnSceneChange("MenuScene");
     }
 
     public void Victory()

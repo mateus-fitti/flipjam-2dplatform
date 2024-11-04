@@ -1816,7 +1816,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &244088403
 Transform:
   m_ObjectHideFlags: 0
@@ -2171,7 +2171,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 989898748}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BulletUpgradeManager, Assembly-CSharp
         m_MethodName: UpgradeReloadTime
         m_Mode: 4
@@ -3370,7 +3370,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 989898748}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BulletUpgradeManager, Assembly-CSharp
         m_MethodName: UpgradeFireSpeed
         m_Mode: 4
@@ -4508,7 +4508,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 989898748}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BulletUpgradeManager, Assembly-CSharp
         m_MethodName: UpgradeFireRange
         m_Mode: 4
@@ -7073,7 +7073,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 989898748}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BulletUpgradeManager, Assembly-CSharp
         m_MethodName: UpgradeFireCount
         m_Mode: 1
@@ -7998,6 +7998,22 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
       value: Campus_Party
       objectReference: {fileID: 0}
+    - target: {fileID: 6581853169872315427, guid: b49f4f142e0552442bd27ff301f71e81, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581853169872315427, guid: b49f4f142e0552442bd27ff301f71e81, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581853169872315427, guid: b49f4f142e0552442bd27ff301f71e81, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -300
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581853169872315427, guid: b49f4f142e0552442bd27ff301f71e81, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 8155892225601530868, guid: b49f4f142e0552442bd27ff301f71e81, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -8017,6 +8033,9 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 1983262359825330114, guid: b49f4f142e0552442bd27ff301f71e81, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1436605126}
     - targetCorrespondingSourceObject: {fileID: 1983262359825330114, guid: b49f4f142e0552442bd27ff301f71e81, type: 3}
       insertIndex: -1
       addedObject: {fileID: 244088403}
@@ -117191,7 +117210,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 989898749}
-  - component: {fileID: 989898748}
   m_Layer: 0
   m_Name: UpgradeManager
   m_TagString: Untagged
@@ -117199,19 +117217,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &989898748
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 989898747}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c23fb89e8256a341b5bbbaaabb1da4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletObject: {fileID: 3566104151071024795, guid: 321c0e944200ed344b2088cbcaca0b35, type: 3}
 --- !u!4 &989898749
 Transform:
   m_ObjectHideFlags: 0
@@ -117735,7 +117740,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 989898748}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BulletUpgradeManager, Assembly-CSharp
         m_MethodName: UpgradeFireSpeed
         m_Mode: 4
@@ -117951,6 +117956,66 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2383187347791360304, guid: b49f4f142e0552442bd27ff301f71e81, type: 3}
   m_PrefabInstance: {fileID: 848249433}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1079935044
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1079935045}
+  - component: {fileID: 1079935046}
+  m_Layer: 5
+  m_Name: Player1Grid
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1079935045
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1079935044}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1436605126}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: -700, y: 350}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1079935046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1079935044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_StartCorner: 0
+  m_StartAxis: 1
+  m_CellSize: {x: 70, y: 70}
+  m_Spacing: {x: 0, y: 0}
+  m_Constraint: 1
+  m_ConstraintCount: 5
 --- !u!1 &1082876449
 GameObject:
   m_ObjectHideFlags: 0
@@ -119600,7 +119665,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 989898748}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BulletUpgradeManager, Assembly-CSharp
         m_MethodName: UpgradeFireSize
         m_Mode: 3
@@ -120959,7 +121024,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 989898748}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BulletUpgradeManager, Assembly-CSharp
         m_MethodName: UpgradeReloadTime
         m_Mode: 4
@@ -121236,6 +121301,60 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9c38a30f387e354190f7c1c6aa2ffc0, type: 3}
+--- !u!1 &1436605125
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1436605126}
+  - component: {fileID: 1436605127}
+  m_Layer: 5
+  m_Name: HealthUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1436605126
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1436605125}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1079935045}
+  - {fileID: 2057780777}
+  m_Father: {fileID: 2126815832}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1436605127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1436605125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eea0b7db1dec48242a1e9417a1a80d71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  heartSprite: {fileID: 21300000, guid: e5bad8f66dd387e49bd2069eb971a568, type: 3}
+  emptyHeartSprite: {fileID: 21300000, guid: 266a245f5c6fd4c418a01e6ba212855e, type: 3}
+  player1HealthContainer: {fileID: 1079935045}
+  player2HealthContainer: {fileID: 2057780777}
 --- !u!43 &1437043234
 Mesh:
   m_ObjectHideFlags: 0
@@ -122689,7 +122808,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 989898748}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BulletUpgradeManager, Assembly-CSharp
         m_MethodName: UpgradeFireRange
         m_Mode: 4
@@ -122754,19 +122873,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1530405584268360983, guid: 6c0cfe8899495004faa3f486369c8f39, type: 3}
       propertyPath: runAccelAmount
-      value: Infinity
+      value: NaN
       objectReference: {fileID: 0}
     - target: {fileID: 1530405584268360983, guid: 6c0cfe8899495004faa3f486369c8f39, type: 3}
       propertyPath: runAcceleration
-      value: 0
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 1530405584268360983, guid: 6c0cfe8899495004faa3f486369c8f39, type: 3}
       propertyPath: runDeccelAmount
-      value: Infinity
+      value: NaN
       objectReference: {fileID: 0}
     - target: {fileID: 1530405584268360983, guid: 6c0cfe8899495004faa3f486369c8f39, type: 3}
       propertyPath: runDecceleration
-      value: 0
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 3137958253193204829, guid: 6c0cfe8899495004faa3f486369c8f39, type: 3}
       propertyPath: m_LocalPosition.x
@@ -124271,7 +124390,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 989898748}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BulletUpgradeManager, Assembly-CSharp
         m_MethodName: UpgradeFireSize
         m_Mode: 3
@@ -124964,7 +125083,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 989898748}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BulletUpgradeManager, Assembly-CSharp
         m_MethodName: ResetUpgrades
         m_Mode: 1
@@ -125804,6 +125923,66 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 80f4c09370e9ce34f8618397336830c2, type: 3}
+--- !u!1 &2057780776
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2057780777}
+  - component: {fileID: 2057780778}
+  m_Layer: 5
+  m_Name: Player2Grid
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2057780777
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2057780776}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1436605126}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 700, y: 350}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2057780778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2057780776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 2
+  m_StartCorner: 0
+  m_StartAxis: 1
+  m_CellSize: {x: 70, y: 70}
+  m_Spacing: {x: 0, y: 0}
+  m_Constraint: 1
+  m_ConstraintCount: 5
 --- !u!43 &2064271497
 Mesh:
   m_ObjectHideFlags: 0
@@ -126052,7 +126231,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 989898748}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BulletUpgradeManager, Assembly-CSharp
         m_MethodName: UpgradeFireCount
         m_Mode: 3

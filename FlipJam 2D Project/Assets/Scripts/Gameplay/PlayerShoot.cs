@@ -75,17 +75,15 @@ public class PlayerShoot : MonoBehaviour
     private void StartAiming()
     {
         isAiming = true;
-        playerMovement.canMove = false; // Prevent player movement while aiming
-        StopMovement(); // Stop any ongoing movement immediately
+        //playerMovement.enabled = false; // Disable player movement while aiming
         aimDirection = GetPlayerFacingDirection(); // Initially, the crosshair points to the direction the player is facing
         UpdateAimDirection(Vector2.zero); // Set initial aim direction
     }
 
     private void StopAimingAndFire()
     {
-       
         isAiming = false;
-        playerMovement.canMove = true; // Allow player movement after aiming
+        //playerMovement.enabled = true; // Enable player movement after aiming
 
         // Disable all aim directions
         DisableAllAimDirections();
@@ -178,7 +176,11 @@ public class PlayerShoot : MonoBehaviour
                 + direction * projectileSpawnOffset
                 + dirParallel * (projectileMultiDistance * (i - (multishotCount - 1) / 2));
 
-            GameObject projectileInstance = Instantiate(bulletPrefab, spawnPosition, Quaternion.identity);
+            // Calculate the rotation angle based on the direction
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+
+            GameObject projectileInstance = Instantiate(bulletPrefab, spawnPosition, rotation);
             Projectile projectileComp = projectileInstance.GetComponent<Projectile>();
             projectileComp.SetProjectile(
                 direction,
@@ -207,8 +209,8 @@ public class PlayerShoot : MonoBehaviour
     void OnMove(InputValue value)
     {
         currentMove = value.Get<Vector2>();
-
     }
+
     private void StopMovement()
     {
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
@@ -218,6 +220,5 @@ public class PlayerShoot : MonoBehaviour
         }
 
         GetComponent<Animator>().Play("Idle");
-
     }
 }

@@ -8,7 +8,7 @@ public class PlayerUpgrade : MonoBehaviour
     public float projectileScaleStep = 1.0f;
     public float projectileLifetimeInit = 1.0f;
     public float projectileLifetimeStep = 1.0f;
-    public float projectileSpeedInit = 100.0f;
+    public float projectileSpeedInit = 10.0f;
     public float projectileSpeedStep = 10.0f;
     public float firerateInit = 2.0f;
     public float firerateStep = 0.5f;
