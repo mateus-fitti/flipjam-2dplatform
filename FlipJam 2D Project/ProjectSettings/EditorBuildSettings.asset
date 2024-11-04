@@ -35,4 +35,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CharMultiplayerSelection.unity
     guid: 2f3bb3fc801862e4ba4a467dcb4c4480
+  - enabled: 1
+    path: Assets/Scenes/Arena.unity
+    guid: 6ceef3340a0520e489b3c1f4ec7fc77e
   m_configObjects: {}
