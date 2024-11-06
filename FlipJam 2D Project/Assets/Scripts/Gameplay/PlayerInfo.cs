@@ -113,7 +113,7 @@ public class PlayerInfo : MonoBehaviour
                 }
                 else if (playerNumber == 2)
                 {
-                    indicatorSprite.color = new Color(0, 0, 0.5f); // Dark blue
+                    indicatorSprite.color = Color.cyan; // Dark blue
                     indicatorText.text = "2";
                 }
             }
