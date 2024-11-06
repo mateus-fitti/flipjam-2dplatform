@@ -7,6 +7,9 @@ using TMPro;
 using Cinemachine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XInput;
+using UnityEngine.InputSystem.UI;
+using UnityEditor;
 
 public class LevelController : MonoBehaviour
 {
@@ -22,8 +25,11 @@ public class LevelController : MonoBehaviour
     public TextMeshProUGUI timerText; // Changed to TextMeshProUGUI
     public GameObject[] characters;
     public Transform spawnPosition;
+    public Transform spawnPosition2;
     private GameObject player;
     private GameObject playerTwo;
+    private PlayerInput p1;
+    private PlayerInput p2;
 
     public enum GameMode { Normal, Arena }
     public GameMode gameMode = GameMode.Normal; // Variable to define the game mode
@@ -80,10 +86,8 @@ public class LevelController : MonoBehaviour
             }
             player = characters[GameController.instance.player1];
             player = Instantiate(player, spawnPosition.position, Quaternion.identity);
-            player.GetComponent<PlayerInput>().SwitchCurrentActionMap("Player");
-
-            GameObject virtualCam = GameObject.FindGameObjectWithTag("VirtualCamera");
-            virtualCam.GetComponent<CinemachineVirtualCamera>().Follow = player.transform;
+            p1 = player.GetComponent<PlayerInput>();
+            Debug.Log("Player One Spawned");
 
             if (GameController.instance.multiplayer)
             {
@@ -93,9 +97,13 @@ public class LevelController : MonoBehaviour
                 }
                 playerTwo = characters[GameController.instance.player2];
                 playerTwo = Instantiate(playerTwo, spawnPosition.position + new Vector3(-1f, 1f, 0f), Quaternion.identity);
-                playerTwo.GetComponent<PlayerInput>().SwitchCurrentActionMap("Player2");
+                p2 = playerTwo.GetComponent<PlayerInput>();
                 Debug.Log("Player Two Spawned");
             }
+            ConnectControllers();
+
+            // Register callback for when a device is added or removed
+            InputSystem.onDeviceChange += OnDeviceChange;
         }
 
         if (gameMode == GameMode.Arena)
@@ -212,7 +220,19 @@ public class LevelController : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         // Change to the CharacterSelection scene
-        GameController.instance.OnSceneChange("MenuScene");
+        //GameController.instance.OnSceneChange("MenuScene");
+        if (gameMode == GameMode.Arena)
+        {
+            // Tela de final de jogo do modo arena com o vencedor + botões de rematch, seleção de personagem e menu
+            RestartGame();
+        }
+        else
+        {
+            Debug.Log("Game Over! The egg is frozen!");
+            gameOverObj.SetActive(true); // Show the Game Over screen
+            EventSystem.current.SetSelectedGameObject(restartButton);
+            GameController.instance.PauseGame();
+        }
     }
 
     public void Victory()
@@ -240,5 +260,69 @@ public class LevelController : MonoBehaviour
     {
         SoundManager.Instance.PlaySound2D("Button", false);
         GameController.instance.ExitGame();
+    }
+
+    void ConnectControllers()
+    {
+        p1.SwitchCurrentControlScheme("Keyboard&Mouse", Keyboard.current, Mouse.current);
+        p1.SwitchCurrentActionMap("Player");
+        if (GameController.instance.multiplayer)
+        {
+            p2.SwitchCurrentControlScheme("Keyboard&Mouse", Keyboard.current);
+            p2.SwitchCurrentActionMap("Player2");
+        }
+
+        int c = 0;
+        int d = 0;
+
+        foreach (InputDevice controller in InputSystem.devices)
+        {
+            Debug.Log("DEVICE: " + controller.name);
+            if (controller is XInputController)
+            {
+                if (c > 0 && GameController.instance.multiplayer)
+                {
+                    p2.SwitchCurrentControlScheme("Xbox Controller", controller);
+                    p2.SwitchCurrentActionMap("Player2");
+                }
+                else
+                {
+                    p1.SwitchCurrentControlScheme("Xbox Controller", controller);
+                    p1.SwitchCurrentActionMap("Player");
+                    c++;
+                }
+            }
+            else if (controller is Gamepad)
+            {
+                if (d > 0 && GameController.instance.multiplayer)
+                {
+                    if (p2.currentControlScheme != "Xbox Controller")
+                    {
+                        p2.SwitchCurrentControlScheme("Gamepad", controller);
+                        p2.SwitchCurrentActionMap("PlayerNotFlipJam2");
+                    }
+                }
+                else
+                {
+                    if (p1.currentControlScheme != "Xbox Controller")
+                    {
+                        p1.SwitchCurrentControlScheme("Gamepad", controller);
+                        p1.SwitchCurrentActionMap("PlayerNotFlipJam");
+                    }
+                    d++;
+                }
+            }
+        }
+    }
+
+    private void OnDeviceChange(InputDevice device, InputDeviceChange change)
+    {
+        ConnectControllers();
+    }
+
+    // Unregister callback when the object is destroyed to avoid memory leaks
+    private void OnDestroy()
+    {
+        InputSystem.onDeviceChange -= OnDeviceChange;
     }
 }

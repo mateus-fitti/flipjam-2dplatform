@@ -122933,7 +122933,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3704641008782404539, guid: 6c0cfe8899495004faa3f486369c8f39, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4693325089612122748, guid: 6c0cfe8899495004faa3f486369c8f39, type: 3}
       propertyPath: dashSpeed
@@ -122974,7 +122974,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NotificationBehavior: 0
-  m_MaxPlayerCount: -1
+  m_MaxPlayerCount: 2
   m_AllowJoining: 1
   m_JoinBehavior: 2
   m_PlayerJoinedEvent:
@@ -125855,7 +125855,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3704641008782404539, guid: de507479644eff245ba0dd32045f1663, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4595130914386375164, guid: de507479644eff245ba0dd32045f1663, type: 3}
       propertyPath: bulletPrefab
