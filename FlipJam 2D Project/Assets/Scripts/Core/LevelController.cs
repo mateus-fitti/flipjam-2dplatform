@@ -30,6 +30,7 @@ public class LevelController : MonoBehaviour
     private GameObject playerTwo;
     private PlayerInput p1;
     private PlayerInput p2;
+    public VictoryScreenController victoryScreenController; // Reference to the VictoryScreenController
 
     public enum GameMode { Normal, Arena }
     public GameMode gameMode = GameMode.Normal; // Variable to define the game mode
@@ -225,8 +226,9 @@ public class LevelController : MonoBehaviour
         //GameController.instance.OnSceneChange("MenuScene");
         if (gameMode == GameMode.Arena)
         {
-            // Tela de final de jogo do modo arena com o vencedor + botões de rematch, seleção de personagem e menu
-            RestartGame();
+            // Determine the winner based on which player is still alive
+            (string winner, int playerNumber) = DetermineWinner();
+            victoryScreenController.ShowVictoryScreen(winner, playerNumber);
         }
         else
         {
@@ -235,6 +237,37 @@ public class LevelController : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(restartButton);
             GameController.instance.PauseGame();
         }
+    }
+
+    private (string, int) DetermineWinner()
+    {
+        if (player != null)
+        {
+            PlayerInfo playerInfo = player.GetComponent<PlayerInfo>();
+            if (playerInfo != null && playerInfo.currentHealth > 0)
+            {
+                CharacterItemInteractions characterItemInteractions = player.GetComponent<CharacterItemInteractions>();
+                if (characterItemInteractions != null)
+                {
+                    return (characterItemInteractions.characterType.ToString(), playerInfo.playerNumber);
+                }
+            }
+        }
+
+        if (playerTwo != null)
+        {
+            PlayerInfo playerInfoTwo = playerTwo.GetComponent<PlayerInfo>();
+            if (playerInfoTwo != null && playerInfoTwo.currentHealth > 0)
+            {
+                CharacterItemInteractions characterItemInteractions = playerTwo.GetComponent<CharacterItemInteractions>();
+                if (characterItemInteractions != null)
+                {
+                    return (characterItemInteractions.characterType.ToString(), playerInfoTwo.playerNumber);
+                }
+            }
+        }
+
+        return ("Unknown", 0);
     }
 
     public void Victory()

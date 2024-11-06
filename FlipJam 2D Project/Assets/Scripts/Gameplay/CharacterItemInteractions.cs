@@ -214,7 +214,7 @@ public class CharacterItemInteractions : MonoBehaviour
     {
         isStunned = true;
         charMovement.canMove = false;
-        rb.AddForce(impactDirection * pushForce, ForceMode2D.Impulse); // Apply push force
+        //rb.AddForce(impactDirection * pushForce, ForceMode2D.Force); // Apply push force
         Debug.Log("Character is stunned!");
 
         // Start blink effect

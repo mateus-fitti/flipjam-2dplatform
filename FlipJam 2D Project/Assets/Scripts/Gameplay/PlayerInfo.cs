@@ -18,6 +18,7 @@ public class PlayerInfo : MonoBehaviour
         healthUI = FindObjectOfType<HealthUI>();
         itemInteractions = GetComponent<CharacterItemInteractions>();
         UpdateHealthUI();
+        UpdateIndicator();
     }
 
     public void ApplyDamage(int damage, Vector2 impactDirection)
@@ -91,6 +92,31 @@ public class PlayerInfo : MonoBehaviour
         if (healthUI != null)
         {
             healthUI.UpdateHealthUI(playerNumber, currentHealth, maxHealth);
+        }
+    }
+
+    private void UpdateIndicator()
+    {
+        // Find the Indicator component
+        Transform indicatorTransform = transform.Find("Indicator");
+        if (indicatorTransform != null)
+        {
+            SpriteRenderer indicatorSprite = indicatorTransform.GetComponent<SpriteRenderer>();
+            TextMesh indicatorText = indicatorTransform.GetComponentInChildren<TextMesh>();
+
+            if (indicatorSprite != null && indicatorText != null)
+            {
+                if (playerNumber == 1)
+                {
+                    indicatorSprite.color = Color.red;
+                    indicatorText.text = "1";
+                }
+                else if (playerNumber == 2)
+                {
+                    indicatorSprite.color = new Color(0, 0, 0.5f); // Dark blue
+                    indicatorText.text = "2";
+                }
+            }
         }
     }
 }

@@ -3502,8 +3502,8 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1925211955}
         m_TargetAssemblyTypeName: SelectionController, Assembly-CSharp
-        m_MethodName: OnSceneChange
-        m_Mode: 5
+        m_MethodName: LoadArenaMap
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

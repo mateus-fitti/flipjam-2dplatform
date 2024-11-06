@@ -4,12 +4,16 @@ using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
-
     public static GameController instance;
     public int player1 = -1;
     public int player2 = -1;
     public bool multiplayer;
 
+    public enum ArenaMaps
+    {
+        ArenaMap1,
+        ArenaMap2
+    }
 
     void Awake()
     {
@@ -31,7 +35,7 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
-        
+
     }
 
     public void OnSceneChange(string sceneName)
@@ -59,4 +63,9 @@ public class GameController : MonoBehaviour
         Application.Quit();
     }
 
+    public void LoadRandomArenaMap()
+    {
+        ArenaMaps randomMap = (ArenaMaps)Random.Range(0, System.Enum.GetValues(typeof(ArenaMaps)).Length);
+        SceneManager.LoadScene(randomMap.ToString());
+    }
 }

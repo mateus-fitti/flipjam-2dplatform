@@ -61,10 +61,10 @@ public class SelectionController : MonoBehaviour
 
     }
 
-    public void OnSceneChange(String sceneName)
+    public void LoadArenaMap()
     {
         SoundManager.Instance.PlaySound2D("Button", false);
-        GameController.instance.OnSceneChange(sceneName);
+        GameController.instance.LoadRandomArenaMap();
     }
 
     public void PlayerReady()
