@@ -112,6 +112,8 @@ public class LevelController : MonoBehaviour
         }
         else
         {
+            GameObject virtualCam = GameObject.FindGameObjectWithTag("VirtualCamera");
+            virtualCam.GetComponent<CinemachineVirtualCamera>().Follow = player.transform;
             MusicManager.Instance.StopAndPlayMusic("LevelMusic");
         }
     }
