@@ -11,17 +11,20 @@ public class MovingPlatform : MonoBehaviour
     private PlayerMovement player;
     public bool snowstorm = false; // Variável snowstorm, falsa por padrão
     private new ParticleSystem particleSystem; // Use 'new' keyword to hide inherited member
-    private Coroutine restoreCoroutine;
+    private Coroutine freezeCoroutine;
+    private Coroutine resetFreezeCoroutine;
+    private float freezeTime = 0f;
 
     // Start is called before the first frame update
     void Start()
     {
         transform.position = points[startingPoint].position;
-        particleSystem = GetComponentInChildren<ParticleSystem>();
+        particleSystem = GetComponent<ParticleSystem>();
 
         // Verifique se o sistema de partículas está configurado corretamente
         if (particleSystem != null)
         {
+            Debug.Log("Particle system found on the moving platform."); // Adicionado para depuração
             var collision = particleSystem.collision;
             collision.enabled = true;
             collision.type = ParticleSystemCollisionType.World;
@@ -84,25 +87,62 @@ public class MovingPlatform : MonoBehaviour
             Debug.Log("Snowstorm active and player detected"); // Adicionado para depuração
 
             player = other.GetComponent<PlayerMovement>();
-            if (player != null)
+            if (player != null && !IsInHeatLayer(player))
             {
-                player.HeavyMovement();
-                player.GetComponent<SpriteRenderer>().color = Color.blue; // Muda a cor do jogador para azul
-
-                // Reinicia o Coroutine para restaurar o estado do jogador
-                if (restoreCoroutine != null)
+                if (freezeCoroutine != null)
                 {
-                    StopCoroutine(restoreCoroutine);
+                    StopCoroutine(freezeCoroutine);
                 }
-                restoreCoroutine = StartCoroutine(RestorePlayerStateAfterDelay(player));
+                freezeCoroutine = StartCoroutine(FreezePlayer(player));
+
+                // Reinicia o temporizador de reset de congelamento
+                if (resetFreezeCoroutine != null)
+                {
+                    StopCoroutine(resetFreezeCoroutine);
+                }
+                resetFreezeCoroutine = StartCoroutine(ResetFreezeTime(player));
             }
         }
     }
 
-    private IEnumerator RestorePlayerStateAfterDelay(PlayerMovement player)
+    private bool IsInHeatLayer(PlayerMovement player)
     {
-        yield return new WaitForSeconds(1f); // Tempo de espera antes de restaurar o estado do jogador
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(player.transform.position, 0.1f);
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.gameObject.layer == LayerMask.NameToLayer("HeatLayer"))
+            {
+                freezeTime = 0f;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private IEnumerator FreezePlayer(PlayerMovement player)
+    {
+        player.HeavyMovement();
+        player.GetComponent<SpriteRenderer>().color = Color.cyan; // Muda a cor do jogador para ciano
+
+        freezeTime += 1f;
+        yield return new WaitForSeconds(1f);
+
+        if (freezeTime >= 5f)
+        {
+            SoundManager.Instance.PlaySound2D("Freeze");
+            player.GetComponent<CharacterItemInteractions>().ApplyStun(Vector2.zero, 2f, 0f); // Atordoa o jogador por 2 segundos
+            freezeTime = 0f; // Reseta o tempo de congelamento
+        }
+
+        freezeCoroutine = null;
+    }
+
+    private IEnumerator ResetFreezeTime(PlayerMovement player)
+    {
+        yield return new WaitForSeconds(1f);
+        freezeTime = 0f;
         player.DefaultMovement();
         player.GetComponent<SpriteRenderer>().color = Color.white; // Restaura a cor original do jogador
     }
+
 }

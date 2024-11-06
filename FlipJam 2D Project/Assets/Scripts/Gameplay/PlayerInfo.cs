@@ -33,7 +33,7 @@ public class PlayerInfo : MonoBehaviour
             SoundManager.Instance.PlaySound2D("Hit", false);
 
             itemInteractions.ApplyStun(impactDirection, 1f, 50f); // Stun for 1 second with a push force of 5
-            itemInteractions.ApplyInvulnerability(2f); // Invulnerable for 2 seconds
+            itemInteractions.ApplyInvulnerability(3f); // Invulnerable for 2 seconds
 
             if (currentHealth <= 0)
             {

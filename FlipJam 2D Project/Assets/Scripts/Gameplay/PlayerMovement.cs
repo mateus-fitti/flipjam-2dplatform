@@ -167,6 +167,8 @@ public class PlayerMovement : MonoBehaviour
 	const string PLAYER_EGGCROUCH = "EggCrouch";
 	const string PLAYER_EGGCLIMB = "EggClimb";
 	const string PLAYER_DEAD = "Dead";
+	const string PLAYER_STUN = "Stun";
+
 
 	#endregion
 
@@ -737,6 +739,11 @@ public class PlayerMovement : MonoBehaviour
 	public void PlayDeadAnimation()
 	{
 		animator.Play("Dead");
+	}
+
+	public void PlayStunAnimation()
+	{
+    	animator.Play("Stun");
 	}
 	#endregion
 

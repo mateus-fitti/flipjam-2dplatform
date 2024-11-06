@@ -211,24 +211,27 @@ public class CharacterItemInteractions : MonoBehaviour
     }
 
     private IEnumerator StunCharacter(Vector2 impactDirection, float stunDuration, float pushForce)
-    {
-        isStunned = true;
-        charMovement.canMove = false;
-        //rb.AddForce(impactDirection * pushForce, ForceMode2D.Force); // Apply push force
-        Debug.Log("Character is stunned!");
+{
+    isStunned = true;
+    charMovement.canMove = false;
+    //rb.AddForce(impactDirection * pushForce, ForceMode2D.Force); // Apply push force
+    Debug.Log("Character is stunned!");
 
-        // Start blink effect
-        if (blinkCoroutine != null)
-        {
-            StopCoroutine(blinkCoroutine);
-        }
-        blinkCoroutine = StartCoroutine(Blink(stunDuration));
+    // Play the stun animation through PlayerMovement
+    charMovement.PlayStunAnimation();
 
-        yield return new WaitForSeconds(stunDuration);
+    // // Start blink effect
+    // if (blinkCoroutine != null)
+    // {
+    //     StopCoroutine(blinkCoroutine);
+    // }
+    // blinkCoroutine = StartCoroutine(Blink(stunDuration));
 
-        isStunned = false;
-        charMovement.canMove = true;
-    }
+    yield return new WaitForSeconds(stunDuration);
+
+    isStunned = false;
+    charMovement.canMove = true;
+}
 
     private IEnumerator Invulnerability(float invulnerabilityDuration)
     {
