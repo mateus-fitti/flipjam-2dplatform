@@ -1126,11 +1126,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!198 &324381876 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 3993559426227787578, guid: 45e8cd8bd083b8449b8bee9d35c147d4, type: 3}
-  m_PrefabInstance: {fileID: 375991097}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &329967540
 GameObject:
   m_ObjectHideFlags: 3
@@ -1231,9 +1226,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: SnowStorm
       objectReference: {fileID: 0}
+    - target: {fileID: 1294672277086318048, guid: 45e8cd8bd083b8449b8bee9d35c147d4, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1294672277086318048, guid: 45e8cd8bd083b8449b8bee9d35c147d4, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1487107971501873541, guid: 45e8cd8bd083b8449b8bee9d35c147d4, type: 3}
+      propertyPath: m_Name
+      value: SnowCollider
+      objectReference: {fileID: 0}
     - target: {fileID: 1487107971501873541, guid: 45e8cd8bd083b8449b8bee9d35c147d4, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2686967124531201264, guid: 45e8cd8bd083b8449b8bee9d35c147d4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1241,7 +1248,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2686967124531201264, guid: 45e8cd8bd083b8449b8bee9d35c147d4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 14
+      value: 12.45
       objectReference: {fileID: 0}
     - target: {fileID: 2686967124531201264, guid: 45e8cd8bd083b8449b8bee9d35c147d4, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1334,7 +1341,7 @@ PrefabInstance:
     - target: {fileID: 5367828073628223027, guid: 45e8cd8bd083b8449b8bee9d35c147d4, type: 3}
       propertyPath: particleSystem
       value: 
-      objectReference: {fileID: 324381876}
+      objectReference: {fileID: 0}
     - target: {fileID: 5367828073628223027, guid: 45e8cd8bd083b8449b8bee9d35c147d4, type: 3}
       propertyPath: snowSpawnInterval
       value: 0.1
@@ -1356,11 +1363,19 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8583302560554292803, guid: 45e8cd8bd083b8449b8bee9d35c147d4, type: 3}
+      propertyPath: m_Size.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8583302560554292803, guid: 45e8cd8bd083b8449b8bee9d35c147d4, type: 3}
       propertyPath: m_IsTrigger
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedComponents:
+    - {fileID: 3993559426227787578, guid: 45e8cd8bd083b8449b8bee9d35c147d4, type: 3}
+    - {fileID: 8403876307150369027, guid: 45e8cd8bd083b8449b8bee9d35c147d4, type: 3}
+    - {fileID: 8583302560554292803, guid: 45e8cd8bd083b8449b8bee9d35c147d4, type: 3}
+    m_RemovedGameObjects:
+    - {fileID: 1487107971501873541, guid: 45e8cd8bd083b8449b8bee9d35c147d4, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3208704513138440421, guid: 45e8cd8bd083b8449b8bee9d35c147d4, type: 3}
@@ -1369,6 +1384,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3208704513138440421, guid: 45e8cd8bd083b8449b8bee9d35c147d4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 781910303}
+    - targetCorrespondingSourceObject: {fileID: 3208704513138440421, guid: 45e8cd8bd083b8449b8bee9d35c147d4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 781910308}
   m_SourcePrefab: {fileID: 100100000, guid: 45e8cd8bd083b8449b8bee9d35c147d4, type: 3}
 --- !u!4 &375991098 stripped
 Transform:
@@ -3218,8 +3236,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.25
-      minScalar: 0.05
+      scalar: 0.5
+      minScalar: 0.25
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -3670,7 +3688,7 @@ ParticleSystem:
     m_SpriteRenderer: {fileID: 0}
     m_UseMeshMaterialIndex: 0
     m_UseMeshColors: 1
-    alignToDirection: 0
+    alignToDirection: 1
     m_Texture: {fileID: 0}
     m_TextureClipChannel: 3
     m_TextureClipThreshold: 0
@@ -6550,7 +6568,7 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 1
+    enabled: 0
     serializedVersion: 4
     type: 1
     collisionMode: 1
@@ -7762,6 +7780,51 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!61 &781910308
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781910299}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -25}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 16, y: 12}
+    newSize: {x: 16, y: 12}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 15, y: 50}
+  m_EdgeRadius: 0
 --- !u!1 &788841576
 GameObject:
   m_ObjectHideFlags: 0
@@ -18326,19 +18389,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1530405584268360983, guid: 6c0cfe8899495004faa3f486369c8f39, type: 3}
       propertyPath: runAccelAmount
-      value: NaN
+      value: Infinity
       objectReference: {fileID: 0}
     - target: {fileID: 1530405584268360983, guid: 6c0cfe8899495004faa3f486369c8f39, type: 3}
       propertyPath: runAcceleration
-      value: 0.01
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1530405584268360983, guid: 6c0cfe8899495004faa3f486369c8f39, type: 3}
       propertyPath: runDeccelAmount
-      value: NaN
+      value: Infinity
       objectReference: {fileID: 0}
     - target: {fileID: 1530405584268360983, guid: 6c0cfe8899495004faa3f486369c8f39, type: 3}
       propertyPath: runDecceleration
-      value: 0.01
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3137958253193204829, guid: 6c0cfe8899495004faa3f486369c8f39, type: 3}
       propertyPath: m_LocalPosition.x
@@ -19784,19 +19847,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1530405584268360983, guid: de507479644eff245ba0dd32045f1663, type: 3}
       propertyPath: runAccelAmount
-      value: Infinity
+      value: NaN
       objectReference: {fileID: 0}
     - target: {fileID: 1530405584268360983, guid: de507479644eff245ba0dd32045f1663, type: 3}
       propertyPath: runAcceleration
-      value: 0
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 1530405584268360983, guid: de507479644eff245ba0dd32045f1663, type: 3}
       propertyPath: runDeccelAmount
-      value: Infinity
+      value: NaN
       objectReference: {fileID: 0}
     - target: {fileID: 1530405584268360983, guid: de507479644eff245ba0dd32045f1663, type: 3}
       propertyPath: runDecceleration
-      value: 0
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 3137958253193204829, guid: de507479644eff245ba0dd32045f1663, type: 3}
       propertyPath: m_LocalPosition.x

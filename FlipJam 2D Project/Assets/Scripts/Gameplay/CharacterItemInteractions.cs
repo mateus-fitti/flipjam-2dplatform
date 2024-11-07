@@ -21,10 +21,13 @@ public class CharacterItemInteractions : MonoBehaviour
     public bool isStunned = false;
     public bool isInvulnerable = false;
     private Coroutine blinkCoroutine;
+    private Coroutine freezeCoroutine;
+    private float freezeTime = 0f;
     private Rigidbody2D rb; // Reference to the Rigidbody2D component
     private SpriteRenderer spriteRenderer; // Reference to the SpriteRenderer component
     private Collider2D playerCollider; // Reference to the Collider2D component
     private List<Collider2D> ignoredColliders = new List<Collider2D>(); // List to store ignored colliders
+    private GameObject debuffObject; // Reference to the Debuff object
 
     void Awake()
     {
@@ -33,6 +36,7 @@ public class CharacterItemInteractions : MonoBehaviour
         rb = GetComponent<Rigidbody2D>(); // Initialize the Rigidbody2D component
         spriteRenderer = GetComponent<SpriteRenderer>(); // Initialize the SpriteRenderer component
         playerCollider = GetComponent<Collider2D>(); // Initialize the Collider2D component
+        debuffObject = transform.Find("Debuff").gameObject; // Initialize the Debuff object
     }
 
     void Start()
@@ -78,6 +82,9 @@ public class CharacterItemInteractions : MonoBehaviour
         {
             heatSystem.decreaseRate = heatSystem.defaultDecreasedRate;
         }
+
+        // Verifica o estado de congelamento
+        CheckFreezeState();
     }
 
     void PickItem()
@@ -211,27 +218,27 @@ public class CharacterItemInteractions : MonoBehaviour
     }
 
     private IEnumerator StunCharacter(Vector2 impactDirection, float stunDuration, float pushForce)
-{
-    isStunned = true;
-    charMovement.canMove = false;
-    //rb.AddForce(impactDirection * pushForce, ForceMode2D.Force); // Apply push force
-    Debug.Log("Character is stunned!");
+    {
+        isStunned = true;
+        charMovement.canMove = false;
+        //rb.AddForce(impactDirection * pushForce, ForceMode2D.Force); // Apply push force
+        Debug.Log("Character is stunned!");
 
-    // Play the stun animation through PlayerMovement
-    charMovement.PlayStunAnimation();
+        // Play the stun animation through PlayerMovement
+        charMovement.PlayStunAnimation();
 
-    // // Start blink effect
-    // if (blinkCoroutine != null)
-    // {
-    //     StopCoroutine(blinkCoroutine);
-    // }
-    // blinkCoroutine = StartCoroutine(Blink(stunDuration));
+        // Start blink effect
+        if (blinkCoroutine != null)
+        {
+            StopCoroutine(blinkCoroutine);
+        }
+        blinkCoroutine = StartCoroutine(Blink(stunDuration));
 
-    yield return new WaitForSeconds(stunDuration);
+        yield return new WaitForSeconds(stunDuration);
 
-    isStunned = false;
-    charMovement.canMove = true;
-}
+        isStunned = false;
+        charMovement.canMove = true;
+    }
 
     private IEnumerator Invulnerability(float invulnerabilityDuration)
     {
@@ -262,6 +269,60 @@ public class CharacterItemInteractions : MonoBehaviour
         }
 
         spriteRenderer.enabled = true; // Ensure the sprite is enabled at the end
+    }
+
+    private void CheckFreezeState()
+    {
+        Debug.Log("Checking freeze state..."); // Adicionado para depuração
+
+        if (IsInColdLayer() && !IsInHeatLayer())
+        {
+            freezeTime += Time.deltaTime;
+            debuffObject.SetActive(true); // Ativa o objeto Debuff
+            charMovement.HeavyMovement(); // Define o movimento pesado
+
+            Debug.Log("Player is in ColdLayer. Freeze time: " + freezeTime); // Adicionado para depuração
+
+            if (freezeTime >= 3f)
+            {
+                ApplyStun(Vector2.zero, 2f, 0f); // Atordoa o jogador por 2 segundos
+                freezeTime = 0f; // Reseta o tempo de congelamento
+            }
+        }
+        else
+        {
+            freezeTime = 0f;
+            debuffObject.SetActive(false); // Desativa o objeto Debuff
+            charMovement.DefaultMovement(); // Restaura o movimento normal
+
+            Debug.Log("Player is not in ColdLayer or is in HeatLayer."); // Adicionado para depuração
+        }
+    }
+
+    private bool IsInColdLayer()
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 0.1f);
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.gameObject.layer == LayerMask.NameToLayer("ColdLayer"))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private bool IsInHeatLayer()
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 0.1f);
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.gameObject.layer == LayerMask.NameToLayer("HeatLayer"))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     IEnumerator MonitorItemVelocity(Rigidbody2D itemRb)
