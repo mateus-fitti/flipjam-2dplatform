@@ -743,7 +743,12 @@ public class PlayerMovement : MonoBehaviour
 
 	public void PlayStunAnimation()
 	{
-    	animator.Play("Stun");
+		animator.Play("Stun");
+	}
+
+	public void StopStunAnimation()
+	{
+		animator.Play("Idle"); // Ou qualquer outra animação padrão que você queira
 	}
 	#endregion
 

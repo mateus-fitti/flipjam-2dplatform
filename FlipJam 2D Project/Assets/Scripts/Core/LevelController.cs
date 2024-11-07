@@ -73,7 +73,6 @@ public class LevelController : MonoBehaviour
         gameStarted = true;
         timer = 0; // Reset timer at the start of the game
 
-        player = GameObject.FindGameObjectWithTag("Player");
         if (spawnPosition != null)
         {
             if (player != null)
@@ -85,8 +84,8 @@ public class LevelController : MonoBehaviour
             {
                 GameController.instance.player1 = 0;
             }
-            player = characters[GameController.instance.player1];
-            player = Instantiate(player, spawnPosition.position, Quaternion.identity);
+            player = Instantiate(characters[GameController.instance.player1], spawnPosition.position, Quaternion.identity);
+            AssignPlayerInfo(player, 1);
             p1 = player.GetComponent<PlayerInput>();
             Debug.Log("Player One Spawned");
 
@@ -96,8 +95,8 @@ public class LevelController : MonoBehaviour
                 {
                     GameController.instance.player2 = 0;
                 }
-                playerTwo = characters[GameController.instance.player2];
-                playerTwo = Instantiate(playerTwo, spawnPosition.position + new Vector3(-1f, 1f, 0f), Quaternion.identity);
+                playerTwo = Instantiate(characters[GameController.instance.player2], spawnPosition2.position, Quaternion.identity);
+                AssignPlayerInfo(playerTwo, 2);
                 p2 = playerTwo.GetComponent<PlayerInput>();
                 Debug.Log("Player Two Spawned");
             }
@@ -229,6 +228,7 @@ public class LevelController : MonoBehaviour
             // Determine the winner based on which player is still alive
             (string winner, int playerNumber) = DetermineWinner();
             victoryScreenController.ShowVictoryScreen(winner, playerNumber);
+            GameController.instance.PauseGame();
         }
         else
         {
@@ -359,5 +359,14 @@ public class LevelController : MonoBehaviour
     private void OnDestroy()
     {
         InputSystem.onDeviceChange -= OnDeviceChange;
+    }
+
+    private void AssignPlayerInfo(GameObject player, int playerNumber)
+    {
+        PlayerInfo playerInfo = player.GetComponent<PlayerInfo>();
+        if (playerInfo != null)
+        {
+            playerInfo.SetPlayerNumber(playerNumber);
+        }
     }
 }

@@ -47,9 +47,15 @@ public class Projectile : MonoBehaviour
             PlayerInfo info = collider.GetComponent<PlayerInfo>();
             if (info != null && info.playerNumber != owner)
             {
+                Debug.Log("Projectile hit player!");
                 Vector2 impactDirection = (collider.transform.position - transform.position).normalized;
-                info.ApplyDamage(damage, impactDirection); Destroy(gameObject); // Destroy the projectile after hitting the player
+                info.ApplyDamage(damage, impactDirection);
+                Destroy(gameObject); // Destroy the projectile after hitting the player
             }
+        }
+        else if (collider.gameObject.layer == LayerMask.NameToLayer("Environment") || collider.gameObject.layer == LayerMask.NameToLayer("Pickup"))
+        {
+            Destroy(gameObject); // Destroy the projectile after hitting the environment or pickup layer
         }
     }
 }

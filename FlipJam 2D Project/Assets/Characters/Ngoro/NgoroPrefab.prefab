@@ -900,6 +900,7 @@ MonoBehaviour:
   maxHealth: 3
   currentHealth: 0
   limitHearts: 5
+  indicator: {fileID: 5369580005356066046}
 --- !u!114 &9076270864223393497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -938,7 +939,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4596823653938545613
 RectTransform:
   m_ObjectHideFlags: 0

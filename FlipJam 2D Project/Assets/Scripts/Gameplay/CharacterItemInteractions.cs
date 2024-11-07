@@ -78,7 +78,7 @@ public class CharacterItemInteractions : MonoBehaviour
             item.transform.position = transform.position;
             item.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         }
-        else if (characterType == CharacterType.Aunfryn)
+        else if (heatSystem && characterType == CharacterType.Aunfryn)
         {
             heatSystem.decreaseRate = heatSystem.defaultDecreasedRate;
         }
@@ -195,7 +195,7 @@ public class CharacterItemInteractions : MonoBehaviour
 
             // Stun the character if hit by a thrown item with a different character type
             Vector2 impactDirection = (transform.position - collision.transform.position).normalized;
-            ApplyStun(impactDirection, 2, 5);
+            ApplyStun(impactDirection, 2, 1);
             isThrowingItem = false; // Reset the throwing state
         }
     }
@@ -238,6 +238,9 @@ public class CharacterItemInteractions : MonoBehaviour
 
         isStunned = false;
         charMovement.canMove = true;
+
+        // Stop the stun animation through PlayerMovement
+        charMovement.StopStunAnimation();
     }
 
     private IEnumerator Invulnerability(float invulnerabilityDuration)
@@ -273,7 +276,7 @@ public class CharacterItemInteractions : MonoBehaviour
 
     private void CheckFreezeState()
     {
-        Debug.Log("Checking freeze state..."); // Adicionado para depuração
+        //Debug.Log("Checking freeze state..."); // Adicionado para depuração
 
         if (IsInColdLayer() && !IsInHeatLayer())
         {
@@ -281,7 +284,7 @@ public class CharacterItemInteractions : MonoBehaviour
             debuffObject.SetActive(true); // Ativa o objeto Debuff
             charMovement.HeavyMovement(); // Define o movimento pesado
 
-            Debug.Log("Player is in ColdLayer. Freeze time: " + freezeTime); // Adicionado para depuração
+            //Debug.Log("Player is in ColdLayer. Freeze time: " + freezeTime); // Adicionado para depuração
 
             if (freezeTime >= 3f)
             {
@@ -295,7 +298,7 @@ public class CharacterItemInteractions : MonoBehaviour
             debuffObject.SetActive(false); // Desativa o objeto Debuff
             charMovement.DefaultMovement(); // Restaura o movimento normal
 
-            Debug.Log("Player is not in ColdLayer or is in HeatLayer."); // Adicionado para depuração
+            //Debug.Log("Player is not in ColdLayer or is in HeatLayer."); // Adicionado para depuração
         }
     }
 

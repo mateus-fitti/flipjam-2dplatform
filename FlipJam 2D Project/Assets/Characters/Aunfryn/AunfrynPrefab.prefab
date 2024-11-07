@@ -963,10 +963,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: babd2199d669d3f088ef244b164edd21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerNumber: 2
+  playerNumber: 1
   maxHealth: 3
   currentHealth: 0
   limitHearts: 5
+  indicator: {fileID: 3090121055495905223}
 --- !u!114 &3531957794276674554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1319,7 +1320,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1469029846666181811
 RectTransform:
   m_ObjectHideFlags: 0
