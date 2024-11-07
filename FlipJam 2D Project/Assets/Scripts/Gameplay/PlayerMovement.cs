@@ -234,6 +234,9 @@ public class PlayerMovement : MonoBehaviour
 					HeavyMovement();
 				}
 				isCrouching = true;
+			} else
+			{
+				isCrouching = false;
 			}
 			if (playerInput.actions["Jump"].WasPressedThisFrame() && !IsGrounded && canDash)
 			{
@@ -245,7 +248,7 @@ public class PlayerMovement : MonoBehaviour
 				{
 					DefaultMovement();
 				}
-				isCrouching = false;
+				//isCrouching = false;
 			}
 
 			// Adjust collision ignoring based on crouching and pressing space
@@ -253,6 +256,7 @@ public class PlayerMovement : MonoBehaviour
 			int playerLayer = gameObject.layer;
 			if (isCrouching && playerInput.actions["Jump"].WasPressedThisFrame())
 			{
+				isCrouching = false;
 				Physics2D.IgnoreLayerCollision(playerLayer, platformLayer, true);
 				StartCoroutine(ReactivateCollisionAfterDelay(0.3f));
 			}

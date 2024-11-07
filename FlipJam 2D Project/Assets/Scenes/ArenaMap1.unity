@@ -418,7 +418,7 @@ GameObject:
   - component: {fileID: 86678817}
   - component: {fileID: 86678816}
   m_Layer: 5
-  m_Name: MenuButton
+  m_Name: ArenaMenuButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1175,7 +1175,7 @@ GameObject:
   - component: {fileID: 280861594}
   - component: {fileID: 280861593}
   m_Layer: 5
-  m_Name: RematchButton (1)
+  m_Name: ArenaRematchButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -198,6 +198,7 @@ public class LevelController : MonoBehaviour
         highScoreText.transform.parent.gameObject.SetActive(true);
         highScoreText.text = "High Score: " + highScore.ToString();
 
+        MusicManager.Instance.StopAllMusic();
         SoundManager.Instance.PlaySound2D("Victory", false);
     }
 
@@ -216,7 +217,8 @@ public class LevelController : MonoBehaviour
 
     private IEnumerator HandleGameOver()
     {
-        SoundManager.Instance.PlaySound2D("Victory", false);
+        MusicManager.Instance.StopAllMusic();
+        SoundManager.Instance.PlaySound2D("Victory", true);
 
         // Wait for 1 second after the death animation finishes
         yield return new WaitForSeconds(1f);
@@ -228,7 +230,7 @@ public class LevelController : MonoBehaviour
             // Determine the winner based on which player is still alive
             (string winner, int playerNumber) = DetermineWinner();
             victoryScreenController.ShowVictoryScreen(winner, playerNumber);
-            GameController.instance.PauseGame();
+    
         }
         else
         {
