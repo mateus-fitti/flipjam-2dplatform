@@ -167,23 +167,25 @@ public class PlayerShoot : MonoBehaviour
             direction = new Vector3(currentMove.x, currentMove.y, 0);
         }
 
-        Vector3 dirParallel = new Vector3(-direction.y, direction.x);
-
         int multishotCount = playerUpgrade.GetMultishotCount();
+        float spreadAngle = 15f; // Adjust the spread angle as needed
+
         for (int i = 0; i < multishotCount; i++)
         {
-            Vector3 spawnPosition = this.transform.position
-                + direction * projectileSpawnOffset
-                + dirParallel * (projectileMultiDistance * (i - (multishotCount - 1) / 2));
+            float angleOffset = (i - (multishotCount - 1) / 2f) * spreadAngle;
+            Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, angleOffset));
+            Vector3 spreadDirection = rotation * direction;
 
-            // Calculate the rotation angle based on the direction
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+            Vector3 spawnPosition = this.transform.position + direction * projectileSpawnOffset;
 
-            GameObject projectileInstance = Instantiate(bulletPrefab, spawnPosition, rotation);
+            // Calculate the rotation angle based on the spread direction
+            float angle = Mathf.Atan2(spreadDirection.y, spreadDirection.x) * Mathf.Rad2Deg;
+            Quaternion projectileRotation = Quaternion.Euler(new Vector3(0, 0, angle));
+
+            GameObject projectileInstance = Instantiate(bulletPrefab, spawnPosition, projectileRotation);
             Projectile projectileComp = projectileInstance.GetComponent<Projectile>();
             projectileComp.SetProjectile(
-                direction,
+                spreadDirection,
                 playerUpgrade.GetProjectileSpeed(),
                 playerUpgrade.GetProjectileLifetime(),
                 playerInfo.playerNumber
