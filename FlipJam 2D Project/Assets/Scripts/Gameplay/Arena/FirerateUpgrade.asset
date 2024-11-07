@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgradeName: Firerate
   upgradeSprite: {fileID: 1177781764, guid: 89f9d66873fa3fc4482cdac228506147, type: 3}
-  animationClip: {fileID: 0}
+  animation: FirerateAnimation
   type: 4
   healthIncreaseAmount: 0
   speedIncreaseAmount: 0

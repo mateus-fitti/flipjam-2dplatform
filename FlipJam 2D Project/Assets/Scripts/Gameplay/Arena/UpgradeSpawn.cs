@@ -32,7 +32,7 @@ public class UpgradeSpawn : MonoBehaviour
             if (pos >= 0)
             {
                 GameObject up = Instantiate(upgradePrefab, spawnPoints[pos].position, Quaternion.identity);
-                upgrade = up.GetComponent<UpgradePickup>();
+                upgrade = up.transform.GetChild(0).GetComponent<UpgradePickup>();
                 int rng = Random.Range(0, upgradeScriptableObjects.Length);
                 upgrade.SetUpgrade(upgradeScriptableObjects[rng]);
             }

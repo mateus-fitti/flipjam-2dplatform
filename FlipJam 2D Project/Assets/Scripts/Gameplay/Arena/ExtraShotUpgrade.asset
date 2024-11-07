@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgradeName: ExtraShot
   upgradeSprite: {fileID: -1033887491, guid: cbe9dd8c21f5b92489346433ff9f68a6, type: 3}
-  animationClip: {fileID: 0}
+  animation: ExtraBulletAnimation
   type: 3
   healthIncreaseAmount: 0
   speedIncreaseAmount: 0

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgradeName: ProjectileScale
   upgradeSprite: {fileID: 613696628, guid: 68c30d6dd6c6fd046a43d31629008774, type: 3}
-  animationClip: {fileID: 0}
+  animation: ProjectileScaleAnimation
   type: 0
   healthIncreaseAmount: 0
   speedIncreaseAmount: 0

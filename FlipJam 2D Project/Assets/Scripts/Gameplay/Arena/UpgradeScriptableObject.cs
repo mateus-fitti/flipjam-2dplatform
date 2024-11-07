@@ -7,7 +7,7 @@ public class UpgradeScriptableObject : ScriptableObject
 {
     public string upgradeName;  // Nome do upgrade, caso precise
     public Sprite upgradeSprite; // O sprite que será mostrado
-    public AnimationClip animationClip; // Animação (se tiver)
+    public string animation; // Animação (se tiver)
     public UpgradeType type; // Enum para definir qual tipo de upgrade é
 
      // Parâmetros que podem ser usados dependendo do tipo de upgrade

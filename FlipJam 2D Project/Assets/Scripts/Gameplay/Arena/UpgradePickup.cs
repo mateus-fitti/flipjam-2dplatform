@@ -10,7 +10,9 @@ public class UpgradePickup : MonoBehaviour
     public void SetUpgrade(UpgradeScriptableObject upgrade)
     {
         currentUpgrade = upgrade;
-        GetComponent<SpriteRenderer>().sprite = upgrade.upgradeSprite;
+        transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = upgrade.upgradeSprite;
+        if (upgrade.animation != null && upgrade.animation != "")
+            transform.GetChild(0).GetComponent<Animator>().Play(upgrade.animation);
     }
 
     // Detecta colisão com o jogador
@@ -24,7 +26,7 @@ public class UpgradePickup : MonoBehaviour
             // Som de coleta?
 
             // Destroi o upgrade após aplicação
-            Destroy(gameObject);
+            Destroy(transform.parent.gameObject);
         }
     }
 }
