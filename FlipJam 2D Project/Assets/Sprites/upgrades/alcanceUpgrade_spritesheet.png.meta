@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 89f9d66873fa3fc4482cdac228506147
+guid: 97099c141823c32489c0004b49a77133
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,7 +123,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: cooldownUpgrade_spritesheet_0
+      name: alcanceUpgrade_spritesheet_0
       rect:
         serializedVersion: 2
         x: 14
@@ -137,14 +137,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b7f9c1d0cb37e874297de5c8531a997f
-      internalID: 1177781764
+      spriteID: 6b9e5e88112f2e04f9bf3d651042578b
+      internalID: 1196201549
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cooldownUpgrade_spritesheet_1
+      name: alcanceUpgrade_spritesheet_1
       rect:
         serializedVersion: 2
         x: 78
@@ -158,14 +158,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bb9a180e869001c4d8dbfca8aa65d8e5
-      internalID: 230356932
+      spriteID: 53f515c83fa178e45ad0e8e5d5bcf934
+      internalID: 539895214
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cooldownUpgrade_spritesheet_2
+      name: alcanceUpgrade_spritesheet_2
       rect:
         serializedVersion: 2
         x: 142
@@ -179,14 +179,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: acd03f1175e16894e87d2490fdda91c8
-      internalID: -1038384436
+      spriteID: a55ed26d25244184e8f89cb645af66b3
+      internalID: 1969132194
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cooldownUpgrade_spritesheet_3
+      name: alcanceUpgrade_spritesheet_3
       rect:
         serializedVersion: 2
         x: 206
@@ -200,14 +200,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 149f8f8acc120fb43b79363c47d8c883
-      internalID: 904096594
+      spriteID: 4a594945c2ad46544bc665a8f6b124fa
+      internalID: 2055462611
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cooldownUpgrade_spritesheet_4
+      name: alcanceUpgrade_spritesheet_4
       rect:
         serializedVersion: 2
         x: 14
@@ -221,14 +221,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 747b8a58b2c3e1d46a8e5dfdb5eb7553
-      internalID: 1972628613
+      spriteID: e3c2995f1d92a464eb9296e004bdc24d
+      internalID: 1757611761
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cooldownUpgrade_spritesheet_5
+      name: alcanceUpgrade_spritesheet_5
       rect:
         serializedVersion: 2
         x: 78
@@ -242,14 +242,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6270fbd4e407db046b2817e1564f3614
-      internalID: -675793925
+      spriteID: ed951e96bffb218428c1f36b43e481d8
+      internalID: 2057984363
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cooldownUpgrade_spritesheet_6
+      name: alcanceUpgrade_spritesheet_6
       rect:
         serializedVersion: 2
         x: 142
@@ -263,14 +263,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9bea414467294c842963fc8cd19a79d0
-      internalID: 164675260
+      spriteID: b00aa9a25ebc1e14cb887fb4ddec4f16
+      internalID: 599382811
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cooldownUpgrade_spritesheet_7
+      name: alcanceUpgrade_spritesheet_7
       rect:
         serializedVersion: 2
         x: 206
@@ -284,14 +284,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 01dccec1f80847c4ca2992f1524b4b9f
-      internalID: 281977174
+      spriteID: 5ab8f6e20686e9c4d85c6159e1d076b9
+      internalID: 1031884958
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cooldownUpgrade_spritesheet_8
+      name: alcanceUpgrade_spritesheet_8
       rect:
         serializedVersion: 2
         x: 14
@@ -305,14 +305,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 957317007b8678a4b87d0b0d40f2111b
-      internalID: -951167735
+      spriteID: 8556051df7a139647a9e66e94dc763be
+      internalID: -1935960936
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cooldownUpgrade_spritesheet_9
+      name: alcanceUpgrade_spritesheet_9
       rect:
         serializedVersion: 2
         x: 78
@@ -326,8 +326,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 86cbfa8e3143696438efb40f0f2c85d3
-      internalID: -279548132
+      spriteID: bd5ff79e216f2a64d833f1824b87ef90
+      internalID: -335226272
       vertices: []
       indices: 
       edges: []
@@ -343,16 +343,16 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      cooldownUpgrade_spritesheet_0: 1177781764
-      cooldownUpgrade_spritesheet_1: 230356932
-      cooldownUpgrade_spritesheet_2: -1038384436
-      cooldownUpgrade_spritesheet_3: 904096594
-      cooldownUpgrade_spritesheet_4: 1972628613
-      cooldownUpgrade_spritesheet_5: -675793925
-      cooldownUpgrade_spritesheet_6: 164675260
-      cooldownUpgrade_spritesheet_7: 281977174
-      cooldownUpgrade_spritesheet_8: -951167735
-      cooldownUpgrade_spritesheet_9: -279548132
+      alcanceUpgrade_spritesheet_0: 1196201549
+      alcanceUpgrade_spritesheet_1: 539895214
+      alcanceUpgrade_spritesheet_2: 1969132194
+      alcanceUpgrade_spritesheet_3: 2055462611
+      alcanceUpgrade_spritesheet_4: 1757611761
+      alcanceUpgrade_spritesheet_5: 2057984363
+      alcanceUpgrade_spritesheet_6: 599382811
+      alcanceUpgrade_spritesheet_7: 1031884958
+      alcanceUpgrade_spritesheet_8: -1935960936
+      alcanceUpgrade_spritesheet_9: -335226272
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

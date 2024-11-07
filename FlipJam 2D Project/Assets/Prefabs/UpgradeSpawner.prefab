@@ -216,7 +216,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8317aacd0c2d0f45a477cea8191d308, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeBoxPrefab: {fileID: 4028218080628721901, guid: 52607e654cb0a674c8dded5424740f37, type: 3}
+  upgradePrefab: {fileID: 3189941932543862809, guid: 1826bcb3877be1a4c8883072c501c9be, type: 3}
+  upgradeLayer:
+    serializedVersion: 2
+    m_Bits: 131072
+  upgradeScriptableObjects:
+  - {fileID: 11400000, guid: 262216536d7796d4898e6b9057a72166, type: 2}
+  - {fileID: 11400000, guid: 190cf9c4593d4b645ad004eceeb59bc2, type: 2}
+  - {fileID: 11400000, guid: a22e2303119bc0342bd45c97cd7fb211, type: 2}
+  - {fileID: 11400000, guid: 68a6d71f7607abc4ca2dba925f4da8c0, type: 2}
   waitTime: 5
 --- !u!1 &7600860537667537508
 GameObject:

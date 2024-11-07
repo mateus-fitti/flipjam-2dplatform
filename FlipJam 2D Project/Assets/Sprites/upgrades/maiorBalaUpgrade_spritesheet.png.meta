@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 89f9d66873fa3fc4482cdac228506147
+guid: 68c30d6dd6c6fd046a43d31629008774
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,7 +123,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: cooldownUpgrade_spritesheet_0
+      name: maiorBalaUpgrade_spritesheet_0
       rect:
         serializedVersion: 2
         x: 14
@@ -137,14 +137,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b7f9c1d0cb37e874297de5c8531a997f
-      internalID: 1177781764
+      spriteID: 13200ec3c9f87d4439e26c08293af206
+      internalID: 613696628
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cooldownUpgrade_spritesheet_1
+      name: maiorBalaUpgrade_spritesheet_1
       rect:
         serializedVersion: 2
         x: 78
@@ -158,14 +158,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bb9a180e869001c4d8dbfca8aa65d8e5
-      internalID: 230356932
+      spriteID: 75adca6d977ae5c46b7e75917e8dcc4c
+      internalID: -706754613
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cooldownUpgrade_spritesheet_2
+      name: maiorBalaUpgrade_spritesheet_2
       rect:
         serializedVersion: 2
         x: 142
@@ -179,35 +179,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: acd03f1175e16894e87d2490fdda91c8
-      internalID: -1038384436
+      spriteID: 8abbb17ccfddd8843b5402d87f7577fa
+      internalID: -1143716580
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cooldownUpgrade_spritesheet_3
-      rect:
-        serializedVersion: 2
-        x: 206
-        y: 142
-        width: 36
-        height: 36
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 149f8f8acc120fb43b79363c47d8c883
-      internalID: 904096594
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: cooldownUpgrade_spritesheet_4
+      name: maiorBalaUpgrade_spritesheet_3
       rect:
         serializedVersion: 2
         x: 14
@@ -221,14 +200,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 747b8a58b2c3e1d46a8e5dfdb5eb7553
-      internalID: 1972628613
+      spriteID: d286a7b563e55c5479e5291d63903b8e
+      internalID: -1998306142
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cooldownUpgrade_spritesheet_5
+      name: maiorBalaUpgrade_spritesheet_4
       rect:
         serializedVersion: 2
         x: 78
@@ -242,14 +221,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6270fbd4e407db046b2817e1564f3614
-      internalID: -675793925
+      spriteID: 920ec4a7eca52994eab4d4f3bc6f75be
+      internalID: -1285167690
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cooldownUpgrade_spritesheet_6
+      name: maiorBalaUpgrade_spritesheet_5
       rect:
         serializedVersion: 2
         x: 142
@@ -263,35 +242,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9bea414467294c842963fc8cd19a79d0
-      internalID: 164675260
+      spriteID: 43253cde558b95547be5f99ea1f6ca7a
+      internalID: -72612968
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cooldownUpgrade_spritesheet_7
-      rect:
-        serializedVersion: 2
-        x: 206
-        y: 78
-        width: 36
-        height: 36
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 01dccec1f80847c4ca2992f1524b4b9f
-      internalID: 281977174
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: cooldownUpgrade_spritesheet_8
+      name: maiorBalaUpgrade_spritesheet_6
       rect:
         serializedVersion: 2
         x: 14
@@ -305,14 +263,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 957317007b8678a4b87d0b0d40f2111b
-      internalID: -951167735
+      spriteID: 8abdf90d51fcbb24b83385bff91b9185
+      internalID: -634023211
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cooldownUpgrade_spritesheet_9
+      name: maiorBalaUpgrade_spritesheet_7
       rect:
         serializedVersion: 2
         x: 78
@@ -326,8 +284,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 86cbfa8e3143696438efb40f0f2c85d3
-      internalID: -279548132
+      spriteID: bcb80bd538319d54cb3ace864587c213
+      internalID: 389222580
       vertices: []
       indices: 
       edges: []
@@ -343,16 +301,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      cooldownUpgrade_spritesheet_0: 1177781764
-      cooldownUpgrade_spritesheet_1: 230356932
-      cooldownUpgrade_spritesheet_2: -1038384436
-      cooldownUpgrade_spritesheet_3: 904096594
-      cooldownUpgrade_spritesheet_4: 1972628613
-      cooldownUpgrade_spritesheet_5: -675793925
-      cooldownUpgrade_spritesheet_6: 164675260
-      cooldownUpgrade_spritesheet_7: 281977174
-      cooldownUpgrade_spritesheet_8: -951167735
-      cooldownUpgrade_spritesheet_9: -279548132
+      maiorBalaUpgrade_spritesheet_0: 613696628
+      maiorBalaUpgrade_spritesheet_1: -706754613
+      maiorBalaUpgrade_spritesheet_2: -1143716580
+      maiorBalaUpgrade_spritesheet_3: -1998306142
+      maiorBalaUpgrade_spritesheet_4: -1285167690
+      maiorBalaUpgrade_spritesheet_5: -72612968
+      maiorBalaUpgrade_spritesheet_6: -634023211
+      maiorBalaUpgrade_spritesheet_7: 389222580
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

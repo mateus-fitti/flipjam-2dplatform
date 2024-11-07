@@ -5,9 +5,13 @@ using UnityEngine;
 public class UpgradeSpawn : MonoBehaviour
 {
     [SerializeField]
-    private GameObject upgradeBoxPrefab;
+    private GameObject upgradePrefab;
+    private UpgradePickup upgrade;
+    [SerializeField]
+    private LayerMask upgradeLayer;
+    [SerializeField]
+    private UpgradeScriptableObject[] upgradeScriptableObjects;
     private Transform[] spawnPoints;
-    private bool[] upgradeSpawned;
     [SerializeField]
     private float waitTime = 5.0f;
     private float currentTime = 0.0f;
@@ -16,11 +20,6 @@ public class UpgradeSpawn : MonoBehaviour
     void Start()
     {
         spawnPoints = GetComponentsInChildren<Transform>();
-        upgradeSpawned = new bool[spawnPoints.Length];
-        for (int i = 0; i < spawnPoints.Length; i++)
-        {
-            upgradeSpawned[i] = false;
-        }
     }
 
     // Update is called once per frame
@@ -32,8 +31,10 @@ public class UpgradeSpawn : MonoBehaviour
             int pos = GetFreePosition();
             if (pos >= 0)
             {
-                Instantiate(upgradeBoxPrefab, spawnPoints[pos].position, Quaternion.identity);
-                upgradeSpawned[pos] = true; // Remover essa linha para stackar múltiplas caixas no mesmo ponto. Falta checar se a caixa for destruída para poder spawnar outra
+                GameObject up = Instantiate(upgradePrefab, spawnPoints[pos].position, Quaternion.identity);
+                upgrade = up.GetComponent<UpgradePickup>();
+                int rng = Random.Range(0, upgradeScriptableObjects.Length);
+                upgrade.SetUpgrade(upgradeScriptableObjects[rng]);
             }
         } else {
             currentTime += Time.deltaTime;
@@ -45,12 +46,12 @@ public class UpgradeSpawn : MonoBehaviour
         int x = Random.Range(0, spawnPoints.Length);
 
         // Alterar para checar uma Sphere no ponto de spawn para detectar se já existe uma caixa spawnada nesse ponto
-        if (upgradeSpawned[x])
+        if (Physics2D.OverlapCircle(spawnPoints[x].position, 5.0f, upgradeLayer))
         {
             x = -1;
             for(int i = 0; i < spawnPoints.Length; i++)
             {
-                if (!upgradeSpawned[i])
+                if (!Physics2D.OverlapCircle(spawnPoints[i].position, 5.0f, upgradeLayer))
                 {
                     x = i;
                     break;

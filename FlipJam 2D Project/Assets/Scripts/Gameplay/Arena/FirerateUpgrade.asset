@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 542e2bd7b0d43784ba955e3d8380d5a1, type: 3}
+  m_Name: FirerateUpgrade
+  m_EditorClassIdentifier: 
+  upgradeName: Firerate
+  upgradeSprite: {fileID: 1177781764, guid: 89f9d66873fa3fc4482cdac228506147, type: 3}
+  animationClip: {fileID: 0}
+  type: 4
+  healthIncreaseAmount: 0
+  speedIncreaseAmount: 0
+  shieldDuration: 0
