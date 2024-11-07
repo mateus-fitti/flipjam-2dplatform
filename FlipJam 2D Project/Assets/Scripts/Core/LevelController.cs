@@ -30,6 +30,7 @@ public class LevelController : MonoBehaviour
     private GameObject playerTwo;
     private PlayerInput p1;
     private PlayerInput p2;
+    public VictoryScreenController victoryScreenController; // Reference to the VictoryScreenController
 
     public enum GameMode { Normal, Arena }
     public GameMode gameMode = GameMode.Normal; // Variable to define the game mode
@@ -72,7 +73,6 @@ public class LevelController : MonoBehaviour
         gameStarted = true;
         timer = 0; // Reset timer at the start of the game
 
-        player = GameObject.FindGameObjectWithTag("Player");
         if (spawnPosition != null)
         {
             if (player != null)
@@ -84,8 +84,8 @@ public class LevelController : MonoBehaviour
             {
                 GameController.instance.player1 = 0;
             }
-            player = characters[GameController.instance.player1];
-            player = Instantiate(player, spawnPosition.position, Quaternion.identity);
+            player = Instantiate(characters[GameController.instance.player1], spawnPosition.position, Quaternion.identity);
+            AssignPlayerInfo(player, 1);
             p1 = player.GetComponent<PlayerInput>();
             Debug.Log("Player One Spawned");
 
@@ -95,8 +95,8 @@ public class LevelController : MonoBehaviour
                 {
                     GameController.instance.player2 = 0;
                 }
-                playerTwo = characters[GameController.instance.player2];
-                playerTwo = Instantiate(playerTwo, spawnPosition.position + new Vector3(-1f, 1f, 0f), Quaternion.identity);
+                playerTwo = Instantiate(characters[GameController.instance.player2], spawnPosition2.position, Quaternion.identity);
+                AssignPlayerInfo(playerTwo, 2);
                 p2 = playerTwo.GetComponent<PlayerInput>();
                 Debug.Log("Player Two Spawned");
             }
@@ -198,6 +198,7 @@ public class LevelController : MonoBehaviour
         highScoreText.transform.parent.gameObject.SetActive(true);
         highScoreText.text = "High Score: " + highScore.ToString();
 
+        MusicManager.Instance.StopAllMusic();
         SoundManager.Instance.PlaySound2D("Victory", false);
     }
 
@@ -216,7 +217,8 @@ public class LevelController : MonoBehaviour
 
     private IEnumerator HandleGameOver()
     {
-        SoundManager.Instance.PlaySound2D("Victory", false);
+        MusicManager.Instance.StopAllMusic();
+        SoundManager.Instance.PlaySound2D("Victory", true);
 
         // Wait for 1 second after the death animation finishes
         yield return new WaitForSeconds(1f);
@@ -225,8 +227,10 @@ public class LevelController : MonoBehaviour
         //GameController.instance.OnSceneChange("MenuScene");
         if (gameMode == GameMode.Arena)
         {
-            // Tela de final de jogo do modo arena com o vencedor + botões de rematch, seleção de personagem e menu
-            RestartGame();
+            // Determine the winner based on which player is still alive
+            (string winner, int playerNumber) = DetermineWinner();
+            victoryScreenController.ShowVictoryScreen(winner, playerNumber);
+    
         }
         else
         {
@@ -235,6 +239,37 @@ public class LevelController : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(restartButton);
             GameController.instance.PauseGame();
         }
+    }
+
+    private (string, int) DetermineWinner()
+    {
+        if (player != null)
+        {
+            PlayerInfo playerInfo = player.GetComponent<PlayerInfo>();
+            if (playerInfo != null && playerInfo.currentHealth > 0)
+            {
+                CharacterItemInteractions characterItemInteractions = player.GetComponent<CharacterItemInteractions>();
+                if (characterItemInteractions != null)
+                {
+                    return (characterItemInteractions.characterType.ToString(), playerInfo.playerNumber);
+                }
+            }
+        }
+
+        if (playerTwo != null)
+        {
+            PlayerInfo playerInfoTwo = playerTwo.GetComponent<PlayerInfo>();
+            if (playerInfoTwo != null && playerInfoTwo.currentHealth > 0)
+            {
+                CharacterItemInteractions characterItemInteractions = playerTwo.GetComponent<CharacterItemInteractions>();
+                if (characterItemInteractions != null)
+                {
+                    return (characterItemInteractions.characterType.ToString(), playerInfoTwo.playerNumber);
+                }
+            }
+        }
+
+        return ("Unknown", 0);
     }
 
     public void Victory()
@@ -326,5 +361,14 @@ public class LevelController : MonoBehaviour
     private void OnDestroy()
     {
         InputSystem.onDeviceChange -= OnDeviceChange;
+    }
+
+    private void AssignPlayerInfo(GameObject player, int playerNumber)
+    {
+        PlayerInfo playerInfo = player.GetComponent<PlayerInfo>();
+        if (playerInfo != null)
+        {
+            playerInfo.SetPlayerNumber(playerNumber);
+        }
     }
 }

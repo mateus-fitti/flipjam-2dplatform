@@ -167,6 +167,8 @@ public class PlayerMovement : MonoBehaviour
 	const string PLAYER_EGGCROUCH = "EggCrouch";
 	const string PLAYER_EGGCLIMB = "EggClimb";
 	const string PLAYER_DEAD = "Dead";
+	const string PLAYER_STUN = "Stun";
+
 
 	#endregion
 
@@ -232,6 +234,9 @@ public class PlayerMovement : MonoBehaviour
 					HeavyMovement();
 				}
 				isCrouching = true;
+			} else
+			{
+				isCrouching = false;
 			}
 			if (playerInput.actions["Jump"].WasPressedThisFrame() && !IsGrounded && canDash)
 			{
@@ -243,7 +248,7 @@ public class PlayerMovement : MonoBehaviour
 				{
 					DefaultMovement();
 				}
-				isCrouching = false;
+				//isCrouching = false;
 			}
 
 			// Adjust collision ignoring based on crouching and pressing space
@@ -251,6 +256,7 @@ public class PlayerMovement : MonoBehaviour
 			int playerLayer = gameObject.layer;
 			if (isCrouching && playerInput.actions["Jump"].WasPressedThisFrame())
 			{
+				isCrouching = false;
 				Physics2D.IgnoreLayerCollision(playerLayer, platformLayer, true);
 				StartCoroutine(ReactivateCollisionAfterDelay(0.3f));
 			}
@@ -737,6 +743,16 @@ public class PlayerMovement : MonoBehaviour
 	public void PlayDeadAnimation()
 	{
 		animator.Play("Dead");
+	}
+
+	public void PlayStunAnimation()
+	{
+		animator.Play("Stun");
+	}
+
+	public void StopStunAnimation()
+	{
+		animator.Play("Idle"); // Ou qualquer outra animação padrão que você queira
 	}
 	#endregion
 

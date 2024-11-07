@@ -10,7 +10,7 @@ using UnityEngine.InputSystem.XInput;
 
 public class SelectionController : MonoBehaviour
 {
-    [SerializeField] private GameObject[] characters;
+    [SerializeField] private GameObject[] characterPrefabs;
     private PlayerInputManager playerIManager;
     public GameObject playerUIPrefab;
     public GameObject[] p1Icon;
@@ -20,6 +20,7 @@ public class SelectionController : MonoBehaviour
     public GameObject player2Canvas;
     private PlayerInput p1;
     private PlayerInput p2;
+    private bool player1Selected = false;
 
     void Awake()
     {
@@ -29,21 +30,6 @@ public class SelectionController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        /*if (GameController.instance.multiplayer)
-        {
-            gameObject.SetActive(false);
-        }*/
-        /*if (GameController.instance.multiplayer)
-        {
-            GameObject p2UI = Instantiate(playerUIPrefab);
-            
-            p2UI.GetComponent<MultiplayerEventSystem>().SetSelectedGameObject(GameObject.Find("Card2Button"));
-            p2UI.GetComponent<MultiplayerEventSystem>().playerRoot = GameObject.Find("Canvas");
-
-            p2UI.GetComponent<PlayerInput>().enabled = true;
-            p2UI.GetComponent<PlayerInput>().SwitchCurrentActionMap("UI2");
-        }*/
-
         MusicManager.Instance.StopAndContinueMusic("MenuMusic");
         GameController.instance.UnPauseGame();
 
@@ -61,10 +47,10 @@ public class SelectionController : MonoBehaviour
 
     }
 
-    public void OnSceneChange(String sceneName)
+    public void LoadArenaMap()
     {
         SoundManager.Instance.PlaySound2D("Button", false);
-        GameController.instance.OnSceneChange(sceneName);
+        GameController.instance.LoadRandomArenaMap();
     }
 
     public void PlayerReady()
@@ -74,19 +60,48 @@ public class SelectionController : MonoBehaviour
 
     public void SetCharacter(int player, int character_id)
     {
-        if (player == 1)
+        if (GameController.instance.multiplayer)
         {
-            GameController.instance.player1 = character_id;
+            if (!player1Selected)
+            {
+                GameController.instance.player1 = character_id;
+                player1Selected = true;
+                AssignPlayerInfo(character_id, 1);
+            }
+            else
+            {
+                GameController.instance.player2 = character_id;
+                AssignPlayerInfo(character_id, 2);
+            }
         }
         else
         {
-            GameController.instance.player2 = character_id;
+            if (player == 1)
+            {
+                GameController.instance.player1 = character_id;
+            }
+            else
+            {
+                GameController.instance.player2 = character_id;
+            }
+        }
+    }
+
+    private void AssignPlayerInfo(int character_id, int playerNumber)
+    {
+        GameObject characterPrefab = characterPrefabs[character_id];
+        GameObject characterInstance = Instantiate(characterPrefab);
+        PlayerInfo playerInfo = characterInstance.GetComponent<PlayerInfo>();
+        if (playerInfo != null)
+        {
+            playerInfo.SetPlayerNumber(playerNumber);
         }
     }
 
     public void CancelAction()
     {
         player2Canvas.SetActive(false);
+        player1Selected = false;
     }
 
     public void ButtonSound()

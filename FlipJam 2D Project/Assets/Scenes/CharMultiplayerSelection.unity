@@ -3502,14 +3502,38 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1925211955}
         m_TargetAssemblyTypeName: SelectionController, Assembly-CSharp
-        m_MethodName: OnSceneChange
-        m_Mode: 5
+        m_MethodName: LoadArenaMap
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: Arena
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2130279245}
+        m_TargetAssemblyTypeName: PlayerUIController, Assembly-CSharp
+        m_MethodName: CharacterSelected
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1925211955}
+        m_TargetAssemblyTypeName: SelectionController, Assembly-CSharp
+        m_MethodName: PlayerReady
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1061401674
@@ -4009,6 +4033,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5679984700107395201, guid: 5f1a52aea667f8744987162ceecbcf8f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8463972974037058766, guid: 5f1a52aea667f8744987162ceecbcf8f, type: 3}
+      propertyPath: player2
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8463972974037058766, guid: 5f1a52aea667f8744987162ceecbcf8f, type: 3}
+      propertyPath: multiplayer
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -5126,9 +5158,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1f3c7f94a98d114da889318b2b613d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characters:
-  - {fileID: 0}
-  - {fileID: 0}
+  characterPrefabs:
+  - {fileID: 3704641008782404539, guid: de507479644eff245ba0dd32045f1663, type: 3}
+  - {fileID: 3704641008782404539, guid: 6c0cfe8899495004faa3f486369c8f39, type: 3}
   playerUIPrefab: {fileID: 5241120976127503032, guid: f433d41eb1fd47d46bc3ad26be9fa094, type: 3}
   p1Icon:
   - {fileID: 880366514}

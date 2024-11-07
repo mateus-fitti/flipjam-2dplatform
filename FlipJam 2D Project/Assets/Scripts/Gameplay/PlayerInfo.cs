@@ -9,6 +9,8 @@ public class PlayerInfo : MonoBehaviour
     public int currentHealth;
     public int limitHearts = 5; // Máximo de vida: 5 corações
 
+    public GameObject indicator;
+
     private HealthUI healthUI;
     private CharacterItemInteractions itemInteractions;
 
@@ -18,6 +20,7 @@ public class PlayerInfo : MonoBehaviour
         healthUI = FindObjectOfType<HealthUI>();
         itemInteractions = GetComponent<CharacterItemInteractions>();
         UpdateHealthUI();
+        UpdateIndicator(playerNumber);
     }
 
     public void ApplyDamage(int damage, Vector2 impactDirection)
@@ -25,19 +28,18 @@ public class PlayerInfo : MonoBehaviour
         if (itemInteractions != null && !itemInteractions.isInvulnerable)
         {
             currentHealth -= damage;
-            if (currentHealth < 0) currentHealth = 0;
             Debug.Log($"{gameObject.name} took {damage} damage. Current health: {currentHealth}");
             UpdateHealthUI();
-
             SoundManager.Instance.PlaySound2D("Hit", false);
-
-            itemInteractions.ApplyStun(impactDirection, 1f, 50f); // Stun for 1 second with a push force of 5
-            itemInteractions.ApplyInvulnerability(2f); // Invulnerable for 2 seconds
-
             if (currentHealth <= 0)
             {
-                Debug.Log($"{gameObject.name} has been defeated!");
-                StartCoroutine(HandleDeath()); // Start the death handling coroutine
+                currentHealth = 0;
+                StartCoroutine(HandleDeath());
+            }
+            else
+            {
+                itemInteractions.ApplyStun(impactDirection, 1f, 1f); // Stun for 1 second with a push force of 5
+                itemInteractions.ApplyInvulnerability(3f); // Invulnerable for 2 seconds
             }
         }
     }
@@ -92,5 +94,36 @@ public class PlayerInfo : MonoBehaviour
         {
             healthUI.UpdateHealthUI(playerNumber, currentHealth, maxHealth);
         }
+    }
+
+    private void UpdateIndicator(int playerNumber)
+    {
+        this.playerNumber = playerNumber;
+        if (indicator != null)
+        {
+            SpriteRenderer indicatorSprite = indicator.GetComponent<SpriteRenderer>();
+            TextMesh indicatorText = indicator.GetComponentInChildren<TextMesh>();
+            if (indicatorText) indicatorText.text = playerNumber.ToString();
+
+            if (indicatorSprite)
+            {
+
+                if (playerNumber == 1)
+                {
+                    indicatorSprite.color = Color.red;
+                }
+                else if (playerNumber == 2)
+                {
+                    indicatorSprite.color = Color.cyan; // Dark blue
+                }
+
+            }
+        }
+    }
+
+    public void SetPlayerNumber(int playerNumber)
+    {
+        UpdateIndicator(playerNumber);
+        UpdateHealthUI();
     }
 }
