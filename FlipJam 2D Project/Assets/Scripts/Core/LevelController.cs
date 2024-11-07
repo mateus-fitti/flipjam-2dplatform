@@ -220,6 +220,8 @@ public class LevelController : MonoBehaviour
         MusicManager.Instance.StopAllMusic();
         SoundManager.Instance.PlaySound2D("Victory", true);
 
+        gameStarted = false;
+
         // Wait for 1 second after the death animation finishes
         yield return new WaitForSeconds(1f);
 
@@ -230,7 +232,13 @@ public class LevelController : MonoBehaviour
             // Determine the winner based on which player is still alive
             (string winner, int playerNumber) = DetermineWinner();
             victoryScreenController.ShowVictoryScreen(winner, playerNumber);
-    
+            ConnectUIControllers(playerNumber);
+            if (playerNumber == 1)
+            {
+                p1.GetComponent<MultiplayerEventSystem>().SetSelectedGameObject(GameObject.Find("ArenaRematchButton"));
+            } else {
+                p2.GetComponent<MultiplayerEventSystem>().SetSelectedGameObject(GameObject.Find("ArenaRematchButton"));
+            }
         }
         else
         {
@@ -238,6 +246,8 @@ public class LevelController : MonoBehaviour
             gameOverObj.SetActive(true); // Show the Game Over screen
             EventSystem.current.SetSelectedGameObject(restartButton);
             GameController.instance.PauseGame();
+            ConnectUIControllers(1);
+            p1.GetComponent<MultiplayerEventSystem>().SetSelectedGameObject(restartButton);
         }
     }
 
@@ -279,6 +289,8 @@ public class LevelController : MonoBehaviour
         victoryObj.SetActive(true); // Show the Game Over screen
         EventSystem.current.SetSelectedGameObject(menuButton);
         GameController.instance.PauseGame(); // Pause the game
+        ConnectUIControllers(1);
+        p1.GetComponent<MultiplayerEventSystem>().SetSelectedGameObject(menuButton);
     }
 
     public void OnSceneChange(string sceneName)
@@ -354,6 +366,7 @@ public class LevelController : MonoBehaviour
 
     private void OnDeviceChange(InputDevice device, InputDeviceChange change)
     {
+        if (!gameStarted) return;
         ConnectControllers();
     }
 
@@ -361,6 +374,80 @@ public class LevelController : MonoBehaviour
     private void OnDestroy()
     {
         InputSystem.onDeviceChange -= OnDeviceChange;
+    }
+
+    void ConnectUIControllers(int mainPlayer)
+    {
+        p1 = GameObject.Find("PlayerUI").GetComponent<PlayerInput>();
+        p1.SwitchCurrentControlScheme("Keyboard&Mouse", Keyboard.current, Mouse.current);
+        p1.SwitchCurrentActionMap("UI");
+
+        if (GameController.instance.multiplayer)
+        {
+            p2 = GameObject.Find("PlayerUI2").GetComponent<PlayerInput>();
+            p2.SwitchCurrentControlScheme("Keyboard&Mouse", Keyboard.current, Mouse.current);
+            p2.SwitchCurrentActionMap("UI2");
+        }
+
+        int c = 0;
+        int d = 0;
+
+        foreach (InputDevice controller in InputSystem.devices)
+        {
+            Debug.Log("DEVICE: " + controller.name);
+            if (controller is XInputController)
+            {
+                if (c > 0 && GameController.instance.multiplayer)
+                {
+                    p2.SwitchCurrentControlScheme("Xbox Controller", controller);
+                    p2.SwitchCurrentActionMap("UI2");
+                }
+                else
+                {
+                    p1.SwitchCurrentControlScheme("Xbox Controller", controller);
+                    p1.SwitchCurrentActionMap("UI");
+                    c++;
+                }
+            }
+            else if (controller is Gamepad)
+            {
+                if (d > 0 && GameController.instance.multiplayer)
+                {
+                    if (p2.currentControlScheme != "Xbox Controller")
+                    {
+                        p2.SwitchCurrentControlScheme("Gamepad", controller);
+                        p2.SwitchCurrentActionMap("UINotFlipJam2");
+                    }
+                }
+                else
+                {
+                    if (p1.currentControlScheme != "Xbox Controller")
+                    {
+                        p1.SwitchCurrentControlScheme("Gamepad", controller);
+                        p1.SwitchCurrentActionMap("UINotFlipJam");
+                    }
+                    d++;
+                }
+            }
+        }
+
+        SetUIActions(p1.GetComponent<InputSystemUIInputModule>(), p1.currentActionMap);
+        if (GameController.instance.multiplayer)
+            SetUIActions(p2.GetComponent<InputSystemUIInputModule>(), p2.currentActionMap);
+
+        if (mainPlayer == 1 && p2 != null)
+        {
+            p2.enabled = false;
+        } else {
+            p1.enabled = false;
+        }
+    }
+
+    void SetUIActions(InputSystemUIInputModule uiInputModule, InputActionMap actionMap)
+    {
+        uiInputModule.move = InputActionReference.Create(actionMap.FindAction("Navigate"));
+        uiInputModule.submit = InputActionReference.Create(actionMap.FindAction("Submit"));
+        uiInputModule.cancel = InputActionReference.Create(actionMap.FindAction("Cancel"));
     }
 
     private void AssignPlayerInfo(GameObject player, int playerNumber)

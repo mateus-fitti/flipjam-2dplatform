@@ -1751,7 +1751,7 @@
                 {
                     "name": "",
                     "id": "fb8277d4-c5cd-4663-9dc7-ee3f0b506d90",
-                    "path": "<XInputController>/dpad",
+                    "path": "<XInputController>/leftStick",
                     "interactions": "",
                     "processors": "",
                     "groups": "Xbox Controller",
@@ -2267,7 +2267,7 @@
                 {
                     "name": "",
                     "id": "a0dafda4-3831-45e6-a979-0e6c5289d82c",
-                    "path": "<XInputController>/dpad",
+                    "path": "<XInputController>/leftStick",
                     "interactions": "",
                     "processors": "",
                     "groups": "Xbox Controller",

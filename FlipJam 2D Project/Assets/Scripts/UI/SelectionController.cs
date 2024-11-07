@@ -53,6 +53,12 @@ public class SelectionController : MonoBehaviour
         GameController.instance.LoadRandomArenaMap();
     }
 
+    public void OnSceneChange(String sceneName)
+    {
+        SoundManager.Instance.PlaySound2D("Button", false);
+        GameController.instance.OnSceneChange(sceneName);
+    }
+
     public void PlayerReady()
     {
         player2Canvas.SetActive(true);
@@ -96,6 +102,7 @@ public class SelectionController : MonoBehaviour
         {
             playerInfo.SetPlayerNumber(playerNumber);
         }
+        Destroy(characterInstance);
     }
 
     public void CancelAction()

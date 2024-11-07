@@ -1139,6 +1139,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8459298421011080097, guid: f433d41eb1fd47d46bc3ad26be9fa094, type: 3}
+      propertyPath: m_PlayerRoot
+      value: 
+      objectReference: {fileID: 848249434}
+    - target: {fileID: 8670394401632071709, guid: f433d41eb1fd47d46bc3ad26be9fa094, type: 3}
+      propertyPath: m_DefaultControlScheme
+      value: Keyboard&Mouse
+      objectReference: {fileID: 0}
+    - target: {fileID: 8670394401632071709, guid: f433d41eb1fd47d46bc3ad26be9fa094, type: 3}
+      propertyPath: m_NeverAutoSwitchControlSchemes
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6905,6 +6917,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b49f4f142e0552442bd27ff301f71e81, type: 3}
+--- !u!1 &848249434 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3178014598417581063, guid: b49f4f142e0552442bd27ff301f71e81, type: 3}
+  m_PrefabInstance: {fileID: 848249433}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &850138818
 PrefabInstance:
   m_ObjectHideFlags: 0
