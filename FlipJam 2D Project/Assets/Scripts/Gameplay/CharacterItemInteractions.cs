@@ -288,6 +288,7 @@ public class CharacterItemInteractions : MonoBehaviour
 
             if (freezeTime >= 3f)
             {
+                SoundManager.Instance.PlaySound2D("Freeze");
                 ApplyStun(Vector2.zero, 2f, 0f); // Atordoa o jogador por 2 segundos
                 freezeTime = 0f; // Reseta o tempo de congelamento
             }
