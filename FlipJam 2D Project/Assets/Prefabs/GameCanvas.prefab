@@ -490,6 +490,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8930773202236453537}
   - component: {fileID: 8764877511543602961}
+  - component: {fileID: 5718707323912243527}
   m_Layer: 0
   m_Name: ZonaDeSeguranca_Flipe
   m_TagString: Untagged
@@ -564,6 +565,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5718707323912243527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2340526026951872956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9be58823cd0edb45b35a51e8559f5ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2383187347791360304
 GameObject:
   m_ObjectHideFlags: 0

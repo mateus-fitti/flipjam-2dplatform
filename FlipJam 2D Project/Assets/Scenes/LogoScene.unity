@@ -403,7 +403,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   logoAnimator: {fileID: 1697709536}
-  transitionTime: 1
 --- !u!4 &485894024
 Transform:
   m_ObjectHideFlags: 0
@@ -430,6 +429,7 @@ GameObject:
   - component: {fileID: 1086446348}
   - component: {fileID: 1086446350}
   - component: {fileID: 1086446349}
+  - component: {fileID: 1086446351}
   m_Layer: 5
   m_Name: SafeZone
   m_TagString: Untagged
@@ -494,6 +494,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1086446347}
   m_CullTransparentMesh: 1
+--- !u!114 &1086446351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1086446347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9be58823cd0edb45b35a51e8559f5ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1196842750
 GameObject:
   m_ObjectHideFlags: 0
