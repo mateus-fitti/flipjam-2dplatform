@@ -72,7 +72,8 @@ public class PlayerInfo : MonoBehaviour
         {
             maxHealth = limitHearts;
         }
-        currentHealth = maxHealth; // Optionally, set current health to new max health
+        //currentHealth = maxHealth; // Optionally, set current health to new max health
+        Heal(amount);
         Debug.Log($"{gameObject.name} increased max health. Current max health: {maxHealth}");
         UpdateHealthUI();
     }

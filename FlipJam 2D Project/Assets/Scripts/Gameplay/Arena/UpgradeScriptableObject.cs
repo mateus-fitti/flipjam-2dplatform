@@ -39,7 +39,7 @@ public class UpgradeScriptableObject : ScriptableObject
                 player.GetComponent<PlayerInfo>().Heal(healthIncreaseAmount);
                 break;
             case UpgradeType.HealthMax:
-                player.GetComponent<PlayerInfo>().IncreaseMaxHealth(1);
+                player.GetComponent<PlayerInfo>().IncreaseMaxHealth(healthIncreaseAmount);
                 break;
             default:
                 Debug.LogWarning("Tipo de upgrade não implementado.");

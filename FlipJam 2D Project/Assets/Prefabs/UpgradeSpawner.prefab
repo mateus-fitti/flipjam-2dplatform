@@ -224,7 +224,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 262216536d7796d4898e6b9057a72166, type: 2}
   - {fileID: 11400000, guid: 190cf9c4593d4b645ad004eceeb59bc2, type: 2}
   - {fileID: 11400000, guid: a22e2303119bc0342bd45c97cd7fb211, type: 2}
-  - {fileID: 11400000, guid: 68a6d71f7607abc4ca2dba925f4da8c0, type: 2}
+  - {fileID: 11400000, guid: 04ead54342242fe4ebfb9c91af03748a, type: 2}
+  - {fileID: 11400000, guid: c24d34331f48b524386e4289b70e5f4d, type: 2}
   waitTime: 5
 --- !u!1 &7600860537667537508
 GameObject:
